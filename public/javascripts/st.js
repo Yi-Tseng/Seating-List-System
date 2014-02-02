@@ -84,7 +84,7 @@ function loadSits() {
 function initSocketIO() {
 	console.log('init socket.io');
 
-	socket = io.connect('http://takeshi:8181');
+	socket = io.connect('http://takeshi.tw:8181');
 	socket.on('sit_md', function (data) {
 		var sn = data.sitno;
 		var nick = data.nickname;
