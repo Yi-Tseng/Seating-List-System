@@ -9,6 +9,7 @@ var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var irc = require('irc');
+var xss = require('xss');
 
 var app = express();
 
@@ -65,6 +66,8 @@ client.join('#sitcon takeshi0807');
 
 client.addListener('message', function (from, to, message) {
 	console.log("SITCON IRC : " + from + ' => ' + to + ': ' + message);
+	message = xss(message);
+
 	io.sockets.emit('irc_msg', {'from':from, 'msg':message});
 });
 

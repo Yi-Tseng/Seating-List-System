@@ -84,7 +84,7 @@ function loadSits() {
 function initSocketIO() {
 	console.log('init socket.io');
 
-	socket = io.connect('http://localhost:8181');
+	socket = io.connect('http://takeshi:8181');
 	socket.on('sit_md', function (data) {
 		var sn = data.sitno;
 		var nick = data.nickname;
@@ -106,8 +106,8 @@ function initSocketIO() {
 		html =  "<div class='msg-bubble'>" + data.msg + "</div>";
 		$("a[title='" + data.from + "']").prepend(html);
 		setTimeout(function() {
-			$("a[title='Takeshi_tw'] .msg-bubble").fadeOut();
-			$("a[title='Takeshi_tw'] .msg-bubble").remove();
+			$("a[title='" + data.from + "'] .msg-bubble").fadeOut();
+			$("a[title='" + data.from + "'] .msg-bubble").remove();
 		}, 1000);
 		
 
