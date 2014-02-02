@@ -1,0 +1,97 @@
+<%
+	// sit for R0
+	var sits = new Array(
+	new Array(6, 8, 6), 
+	new Array(6, 8, 6), 
+	new Array(6, 8, 6), 
+	new Array(7, 9, 7), 
+	new Array(7, 9, 7), 
+	new Array(7, 9, 7), 
+	new Array(7, 9, 7), 
+	new Array(8, 10, 8), 
+	new Array(8, 10, 8), 
+	new Array(8, 11, 8), 
+	new Array(9, 11, 9), 
+	new Array(9, 11, 9), 
+	new Array(6, 3, 6)
+	);
+	var numRows = sits.length;
+	var counter = 0;
+%>
+
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/reset.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	</head>
+
+
+	<body onLoad="loadSits()">
+
+		<!-- header -->
+		<div class="row">
+			<h1 class="header">SITCON 座位表！（R0）</h1>
+		</div>
+
+		<div class="meeting-room" align="center">
+			<div class="row">
+				<div class="stage">講台</div>
+			</div>
+			<% for(var i = 0; i < numRows; i++) { %>
+
+			<div class="row">
+				<div class="block-area left-block">
+
+					<% for(j=0; j<sits[i][0]; j++) { %>
+						<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+					<% 
+						counter++;
+					} %>
+
+				</div>
+
+				<div class="block-area center-block">
+					
+					<% for(j=0; j<sits[i][1]; j++) { %>
+					<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+					<% 
+						counter++;
+					} %>
+					
+				</div>
+
+				<div class="block-area right-block">
+					
+					<% for(j=0; j<sits[i][2]; j++) { %>
+					<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+					<%
+						counter++;
+					} %>
+					
+				</div>
+			</div><!-- row -->
+
+			<% } %>
+
+		</div><!-- center -->
+		
+		<div class="footer">
+			<div class="input-area">
+				座位編號：<input type="text" id="sitno" name="sitno" value="" disabled />
+			</div>
+			<div class="input-area">
+				IRC 暱 稱：<input type="text" id="nickname" name="nickname" value="" />
+			</div>
+			<button id="btn_modify" class="btn btn-modify-sit" onClick="modifySit()">修改</button>
+			<button id="btn_clear" class="btn btn-clear-sit" onClick="clearSit()">清空本位</button>
+
+		</div>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="/javascripts/st.js"></script>
+		
+	</body>
+
+
+</html>
