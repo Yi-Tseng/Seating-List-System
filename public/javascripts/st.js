@@ -79,6 +79,8 @@ function loadSits() {
 		}
 	});
 	initSocketIO();
+
+	$(".dark-cover").remove();
 }
 
 function initSocketIO() {
