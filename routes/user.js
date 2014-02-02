@@ -5,6 +5,7 @@
 
 var redis = require('redis');
 var client  = redis.createClient('6379', '127.0.0.1');
+var xss = require('xss');
 
 client.on("error", function(error) {
     console.log(error);
@@ -45,6 +46,7 @@ exports.modify = function(req, res) {
 			}
 			reply = JSON.parse(reply);
 			if(nickname !== '') {
+				nickname = xss(nickname);
 				reply[sitno] = nickname;
 			} else {
 				delete reply[sitno];
