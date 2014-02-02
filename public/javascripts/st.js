@@ -31,6 +31,7 @@ function modifySit () {
 		function(data){
 		
 			if(data.msg === 'success') {
+				$("a[title='" + nick + "']").removeClass("sitted");
 				$(".selected").removeClass("selected");
 				$("#"+sn).addClass('sitted');
 				$("#"+sn).attr('title', nick);
@@ -105,7 +106,7 @@ function initSocketIO() {
 	
 	socket.on('irc_msg', function (data) {
 		console.log("IRC Message : " + data.from + " : " + data.msg);
-		html =  "<div class='msg-bubble'>Test</div>";
+		html =  "<div class='msg-bubble'>" + data.msg + "</div>";
 		$("a[title='" + data.from + "']").prepend(html);
 
 		setTimeout(function() {
