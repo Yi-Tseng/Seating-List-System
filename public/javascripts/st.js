@@ -32,6 +32,7 @@ function modifySit () {
 		
 			if(data.msg === 'success') {
 				$("a[title='" + nick + "']").removeClass("sitted");
+				$("a[title='" + nick + "']").attr('title', '空');
 				$(".selected").removeClass("selected");
 				$("#"+sn).addClass('sitted');
 				$("#"+sn).attr('title', nick);
