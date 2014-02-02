@@ -106,10 +106,10 @@ function initSocketIO() {
 	socket.on('irc_msg', function (data) {
 		console.log("IRC Message : " + data.from + " : " + data.msg);
 		html =  "<div class='msg-bubble'>Test</div>";
-		$("a[title='Takeshi_tw']").prepend(html);
+		$("a[title='" + data.from + "']").prepend(html);
 
 		setTimeout(function() {
-			$("a[title='Takeshi_tw'] .msg-bubble").remove();
+			$("a[title='" + data.from + "'] .msg-bubble").remove();
 		}, 2000);
 	});
 }
