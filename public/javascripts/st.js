@@ -31,8 +31,15 @@ function modifySit () {
 		function(data){
 		
 			if(data.msg === 'success') {
-				$("a[title='" + nick + "']").removeClass("sitted");
-				$("a[title='" + nick + "']").attr('title', '空');
+				if($("a[title='" + nick + "']").length != 0) {
+					
+					var _id = $("a[title='" + nick + "']").attr('id');
+					clearSitWithSitno(_id);
+
+					$("a[title='" + nick + "']").removeClass("sitted");
+					$("a[title='" + nick + "']").attr('title', '空');
+				}
+				
 				$(".selected").removeClass("selected");
 				$("#"+sn).addClass('sitted');
 				$("#"+sn).attr('title', nick);
@@ -43,6 +50,24 @@ function modifySit () {
 		}, 
 		'json');
 	socket.emit('modify_sit', {sitno:sn, nickname:nick, room:'r0'});
+}
+
+function clearSitWithSitno(sn){
+	$.post('/modify', 
+		{sitno:sn, nickname:null, room:'r0'}, 
+		function(data){
+		
+			if(data.msg === 'success') {
+				$(".selected").removeClass("selected");
+				$("#"+sn).removeClass('sitted');
+				$("#"+sn).attr('title', '空');	
+			} else {
+
+			}
+		}, 
+		'json');
+
+	socket.emit('clear_sit', {sitno:sn, nickname:null, room:'r0'});
 }
 
 function clearSit(){
