@@ -125,29 +125,6 @@
 	margin: 12px 30px;
 }
 
-.msg-bubble {
-	white-space:normal;
-	position:absolute;
-	bottom:0px;
-	left:0%;
-	width: 80px;
-	
-	z-index: 1;
-	opacity: 1;
-	color: #FFF;
-	background-color: #2d7500;
-	border-radius: 7px;
-	padding: 5px;
-
-	transform:translate(0px,-40px);
-	-webkit-transform:translate(0px,-40px);
-
-	white-space:nowrap;
-	text-overflow:ellipsis;
-	-o-text-overflow:ellipsis;
-	overflow:hidden;
-}
-
 .btn {
 	display: inline-block;
 	margin-bottom: 0;
