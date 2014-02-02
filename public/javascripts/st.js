@@ -21,6 +21,10 @@ $(".sit").click(function(){
 function modifySit () {
 	var sn = $("#sitno").val();
 	var nick = $("#nickname").val();
+	if(nick === '') {
+		$(".selected").removeClass("selected");
+		return;
+	}
 
 	$.post('/modify', 
 		{sitno:sn, nickname:nick, room:'r0'}, 
@@ -43,8 +47,6 @@ function clearSit(){
 	var sn = $("#sitno").val();
 
 	console.log(sitno);
-
-	
 
 	$.post('/modify', 
 		{sitno:sn, nickname:null, room:'r0'}, 
@@ -82,7 +84,7 @@ function loadSits() {
 function initSocketIO() {
 	console.log('init socket.io');
 
-	socket = io.connect('http://localhost:3000');
+	socket = io.connect('http://localhost:8181');
 	socket.on('sit_md', function (data) {
 		var sn = data.sitno;
 		var nick = data.nickname;
