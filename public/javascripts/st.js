@@ -1,18 +1,21 @@
 var socket;
 
+
+
 $(".sit").click(function(){
 	if(this.className.indexOf('selected') != -1){
 		$(".selected").removeClass("selected");
+		$("#sitno").val('');
+		$("#nickname").val('');
 	} else {
 		$(".selected").removeClass("selected");
 		this.className = "selected " + this.className;
-	}
-	
-	$("#sitno").val(this.id);
-	if(this.title === '空') {
-		$("#nickname").val('');
-	} else {
-		$("#nickname").val(this.title);
+		$("#sitno").val(this.id);
+		if(this.title === '空') {
+			$("#nickname").val('');
+		} else {
+			$("#nickname").val(this.title);
+		}
 	}
 	
 });

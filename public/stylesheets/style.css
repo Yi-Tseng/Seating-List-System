@@ -54,6 +54,7 @@
 	position: relative;
 	z-index: 3;
 	padding-top: 5px;
+	margin: 2px;
 	text-decoration: none;
 }
 
@@ -168,4 +169,9 @@
 	-moz-opacity: 0.8;
 	opacity:.80;
 	filter: alpha(opacity=80);
+}
+
+.row-title {
+	transform: translate(0px,45px);
+	-webkit-transform: translate(0px,45px);
 }

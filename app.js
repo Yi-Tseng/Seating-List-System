@@ -33,6 +33,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/list', user.list);
 app.post('/modify', user.modify);
+app.get('/black-list', user.blackList);
 
 
 
