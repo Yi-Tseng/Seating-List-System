@@ -1,6 +1,6 @@
 var socket;
 
-
+var room_num;
 
 $(".sit").click(function(){
 	if(this.className.indexOf('selected') != -1){
@@ -30,7 +30,7 @@ function modifySit () {
 	}
 
 	$.post('/modify', 
-		{sitno:sn, nickname:nick, room:'r0'}, 
+		{sitno:sn, nickname:nick, room:room_num}, 
 		function(data){
 		
 			if(data.msg === 'success') {
@@ -52,12 +52,12 @@ function modifySit () {
 			}
 		}, 
 		'json');
-	socket.emit('modify_sit', {sitno:sn, nickname:nick, room:'r0'});
+	socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
 }
 
 function clearSitWithSitno(sn){
 	$.post('/modify', 
-		{sitno:sn, nickname:null, room:'r0'}, 
+		{sitno:sn, nickname:null, room:room_num}, 
 		function(data){
 		
 			if(data.msg === 'success') {
@@ -70,7 +70,7 @@ function clearSitWithSitno(sn){
 		}, 
 		'json');
 
-	socket.emit('clear_sit', {sitno:sn, nickname:null, room:'r0'});
+	socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
 }
 
 function clearSit(){
@@ -79,7 +79,7 @@ function clearSit(){
 	console.log(sitno);
 
 	$.post('/modify', 
-		{sitno:sn, nickname:null, room:'r0'}, 
+		{sitno:sn, nickname:null, room:room_num}, 
 		function(data){
 		
 			if(data.msg === 'success') {
@@ -92,24 +92,14 @@ function clearSit(){
 		}, 
 		'json');
 
-	socket.emit('clear_sit', {sitno:sn, nickname:null, room:'r0'});
+	socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
 	
 }
 
 function loadSits() {
-	$.get('/list?room=r0', function(data) {
-		if(data.msg === 'success') {
-			var sits = JSON.parse(data.sits);
-			for(var k in sits) {
-				$("#"+k).addClass("sitted");
-				$("#"+k).attr("title", sits[k]);
-			}
-		} else {
-
-		}
-	});
+	room_num = $('#room').val();
+	console.log("get room : " + room_num);
 	initSocketIO();
-
 	$(".dark-cover").remove();
 }
 

@@ -17,6 +17,8 @@
 	);
 	var numRows = sits.length;
 	var counter = 0;
+
+	sitList = JSON.parse(sitList);
 %>
 
 <html>
@@ -29,6 +31,7 @@
 
 
 	<body onLoad="loadSits()">
+		<input id="room" type="hidden" value="<%= room %>" />
 		<div class="dark-cover">
 			
 			<div id="floatingCirclesG" class="center-pos">
@@ -45,7 +48,7 @@
 		</div>
 		<!-- header -->
 		<div class="row">
-			<h1 class="header">SITCON 座位表！（R0）</h1>
+			<h1 class="header">SITCON 座位表！（<%= room %>）</h1>
 		</div>
 
 		<div class="meeting-room" align="center">
@@ -59,7 +62,11 @@
 				<div class="block-area left-block">
 
 					<% for(j=0; j<sits[i][0]; j++) { %>
-						<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+						<% if(sitList["r0sit"+counter] == null){ %>
+							<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+						<% } else { %>
+							<a class="sit sitted" title="<%= sitList["r0sit"+counter] %>" id="r0sit<%= counter %>"></a>
+						<% } %>
 					<% 
 						counter++;
 					} %>
@@ -68,8 +75,12 @@
 
 				<div class="block-area center-block">
 					
-					<% for(j=0; j<sits[i][1]; j++) { %>
-					<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+					<% for(j=0; j<sits[i][0]; j++) { %>
+						<% if(sitList["r0sit"+counter] == null){ %>
+							<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+						<% } else { %>
+							<a class="sit sitted" title="<%= sitList["r0sit"+counter] %>" id="r0sit<%= counter %>"></a>
+						<% } %>
 					<% 
 						counter++;
 					} %>
@@ -78,9 +89,13 @@
 
 				<div class="block-area right-block">
 					
-					<% for(j=0; j<sits[i][2]; j++) { %>
-					<a class="sit" title="空" id="r0sit<%= counter %>"></a>
-					<%
+					<% for(j=0; j<sits[i][0]; j++) { %>
+						<% if(sitList["r0sit"+counter] == null){ %>
+							<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+						<% } else { %>
+							<a class="sit sitted" title="<%= sitList["r0sit"+counter] %>" id="r0sit<%= counter %>"></a>
+						<% } %>
+					<% 
 						counter++;
 					} %>
 					
