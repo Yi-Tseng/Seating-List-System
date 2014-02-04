@@ -30,11 +30,11 @@ if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
 }
 
-app.get('/:room', routes.index);
+
 app.get('/list', user.list);
 app.post('/modify', user.modify);
 app.get('/black-list', user.blackList);
-
+app.get('/:room', routes.index);
 
 
 var server = http.createServer(app).listen(app.get('port'), function(){

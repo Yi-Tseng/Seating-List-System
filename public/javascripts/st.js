@@ -91,8 +91,19 @@ function clearSit(){
 function loadSits() {
 	room_num = $('#room').val();
 	console.log("get room : " + room_num);
+	loadBlackList();
 	initSocketIO();
 	$(".dark-cover").remove();
+}
+
+function loadBlackList() {
+	$.get('/black-list', function(data) {
+		var list = data.list;
+		for(k in list) {
+			console.log(name);
+			$('a[title='+list[k]+']').addClass('black-sit');
+		}
+	}, 'json')
 }
 
 function initSocketIO() {

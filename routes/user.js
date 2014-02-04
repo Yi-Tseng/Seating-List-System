@@ -58,7 +58,7 @@ exports.modify = function(req, res) {
 };
 
 exports.blackList = function(req, res) {
-	var bl = ['Orange', 'Inndy', 'DennyHaung', 'HRJ', 'MouseMs'];
+	var bl = ['Or4nge', 'Orange', 'Inndy', 'DennyHaung', 'HRJ', 'MouseMs'];
 	res.send({'msg':'success', 'list': bl});
 	res.end();
 }

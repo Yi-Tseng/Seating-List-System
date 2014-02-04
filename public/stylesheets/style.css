@@ -175,3 +175,8 @@
 	transform: translate(0px,45px);
 	-webkit-transform: translate(0px,45px);
 }
+
+.black-sit {
+	color: #FFF;
+	background-color: #000;
+}
