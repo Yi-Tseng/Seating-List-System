@@ -58,9 +58,36 @@ exports.modify = function(req, res) {
 };
 
 exports.blackList = function(req, res) {
-	var bl = ['Or4nge', 'Orange', 'Inndy', 'DennyHaung', 'HRJ', 'MouseMs'];
-	res.send({'msg':'success', 'list': bl});
-	res.end();
+
+	client.get('blackList', function(err, reply) {
+		if(reply == null) {
+			reply = "[]";
+		}
+		var bl = JSON.parse(reply);
+		res.send({'msg':'success', 'list': bl});
+		res.end();
+	});
+	
+}
+
+exports.addBlack = function(req, res) {
+	var name = req.body.name;
+	if(name !== ''){
+		client.get('blackList', function(err, data) {
+			if(reply == null) {
+				reply = "[]";
+			}
+			var bl = JSON.parse(reply);
+			bl.push(name);
+			client.set('blackList', JSON.stringify(bl));
+
+			res.send({'msg':'success', 'list': bl});
+			res.end();
+		});
+	} else {
+		res.send({'msg':'empty name'});
+		res.end();
+	}
 }
 
 

@@ -35,7 +35,6 @@ function modifySit () {
 		
 			if(data.msg === 'success') {
 				if($("a[title='" + nick + "']").length != 0) {
-					
 					var _id = $("a[title='" + nick + "']").attr('id');
 					clearSitWithSitno(_id);
 				} else {
@@ -43,6 +42,7 @@ function modifySit () {
 					$("#"+sn).addClass('sitted');
 					$("#"+sn).attr('title', nick);
 					socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
+					loadBlackList();
 				}
 			} else {
 

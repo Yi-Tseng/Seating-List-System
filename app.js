@@ -34,6 +34,7 @@ if ('development' == app.get('env')) {
 app.get('/list', user.list);
 app.post('/modify', user.modify);
 app.get('/black-list', user.blackList);
+app.post('/black-list', user.addBlack);
 app.get('/:room', routes.index);
 
 
