@@ -1,23 +1,35 @@
 <%
 	// sit for R0
-	var sits = new Array(
-	new Array(6, 8, 6), 
-	new Array(6, 8, 6), 
-	new Array(6, 8, 6), 
-	new Array(7, 9, 7), 
-	new Array(7, 9, 7), 
-	new Array(7, 9, 7), 
-	new Array(7, 9, 7), 
-	new Array(8, 10, 8), 
-	new Array(8, 10, 8), 
-	new Array(8, 11, 8), 
-	new Array(9, 11, 9), 
-	new Array(9, 11, 9), 
-	new Array(6, 3, 6)
-	);
+	var sits;
+	if(room === 'r0') {
+		sits = new Array(
+		new Array(6, 8, 6), 
+		new Array(6, 8, 6), 
+		new Array(6, 8, 6), 
+		new Array(7, 9, 7), 
+		new Array(7, 9, 7), 
+		new Array(7, 9, 7), 
+		new Array(7, 9, 7), 
+		new Array(8, 10, 8), 
+		new Array(8, 10, 8), 
+		new Array(8, 11, 8), 
+		new Array(9, 11, 9), 
+		new Array(9, 11, 9), 
+		new Array(6, 3, 6)
+		);
+	} else {
+		sits = new Array(
+		new Array(7, 5, 7), 
+		new Array(7, 5, 7), 
+		new Array(7, 6, 7), 
+		new Array(7, 7, 7), 
+		new Array(7, 7, 7), 
+		new Array(4, 8, 4)
+		);
+	}
 	var numRows = sits.length;
 	var counter = 0;
-
+	
 	sitList = JSON.parse(sitList);
 %>
 
@@ -53,7 +65,8 @@
 
 		<div class="meeting-room" align="center">
 			<div class="row">
-				<div class="stage">講台</div>
+				<div class="stage">講台
+				<p>IRC網址：<a href="http://webchat.freenode.net/?channels=sitcon">點這裡</a></p></div>
 			</div>
 			<% for(var i = 0; i < numRows; i++) { %>
 
@@ -62,10 +75,10 @@
 				<div class="block-area left-block">
 
 					<% for(j=0; j<sits[i][0]; j++) { %>
-						<% if(sitList["r0sit"+counter] == null){ %>
-							<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+						<% if(sitList[room+"sit"+counter] == null){ %>
+							<a class="sit" title="空" id="<%= room %>sit<%= counter %>"></a>
 						<% } else { %>
-							<a class="sit sitted" title="<%= sitList["r0sit"+counter] %>" id="r0sit<%= counter %>"></a>
+							<a class="sit sitted" title="<%= sitList[room+"sit"+counter] %>" id="<%= room %>sit<%= counter %>"></a>
 						<% } %>
 					<% 
 						counter++;
@@ -76,10 +89,10 @@
 				<div class="block-area center-block">
 					
 					<% for(j=0; j<sits[i][0]; j++) { %>
-						<% if(sitList["r0sit"+counter] == null){ %>
-							<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+						<% if(sitList[room+"sit"+counter] == null){ %>
+							<a class="sit" title="空" id="<%= room %>sit<%= counter %>"></a>
 						<% } else { %>
-							<a class="sit sitted" title="<%= sitList["r0sit"+counter] %>" id="r0sit<%= counter %>"></a>
+							<a class="sit sitted" title="<%= sitList[room+"sit"+counter] %>" id="<%= room %>sit<%= counter %>"></a>
 						<% } %>
 					<% 
 						counter++;
@@ -90,10 +103,10 @@
 				<div class="block-area right-block">
 					
 					<% for(j=0; j<sits[i][0]; j++) { %>
-						<% if(sitList["r0sit"+counter] == null){ %>
-							<a class="sit" title="空" id="r0sit<%= counter %>"></a>
+						<% if(sitList[room+"sit"+counter] == null){ %>
+							<a class="sit" title="空" id="<%= room %>sit<%= counter %>"></a>
 						<% } else { %>
-							<a class="sit sitted" title="<%= sitList["r0sit"+counter] %>" id="r0sit<%= counter %>"></a>
+							<a class="sit sitted" title="<%= sitList[room+"sit"+counter] %>" id="<%= room %>sit<%= counter %>"></a>
 						<% } %>
 					<% 
 						counter++;
