@@ -38,39 +38,31 @@ function modifySit () {
 					
 					var _id = $("a[title='" + nick + "']").attr('id');
 					clearSitWithSitno(_id);
-
-					$("a[title='" + nick + "']").removeClass("sitted");
-					$("a[title='" + nick + "']").attr('title', '空');
+				} else {
+					$(".selected").removeClass("selected");
+					$("#"+sn).addClass('sitted');
+					$("#"+sn).attr('title', nick);
+					socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
 				}
-				
-				$(".selected").removeClass("selected");
-				$("#"+sn).addClass('sitted');
-				$("#"+sn).attr('title', nick);
-
 			} else {
 
 			}
 		}, 
 		'json');
-	socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
 }
 
 function clearSitWithSitno(sn){
 	$.post('/modify', 
 		{sitno:sn, nickname:null, room:room_num}, 
 		function(data){
-		
 			if(data.msg === 'success') {
-				$(".selected").removeClass("selected");
-				$("#"+sn).removeClass('sitted');
-				$("#"+sn).attr('title', '空');	
+				modifySit();
+				socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
 			} else {
 
 			}
 		}, 
 		'json');
-
-	socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
 }
 
 function clearSit(){
@@ -106,21 +98,24 @@ function loadSits() {
 function initSocketIO() {
 	console.log('init socket.io');
 
-	socket = io.connect('http://takeshi.tw:8181');
-	socket.on('sit_md', function (data) {
-		var sn = data.sitno;
-		var nick = data.nickname;
-		// console.log(data);
-		$("#"+sn).addClass("sitted");
-		$("#"+sn).attr("title", nick);
+	socket = io.connect('http://'+location.hostname+':'+location.port);
 
+	socket.on('sit_md', function (data) {
+		if(data.room === room_num) {
+			var sn = data.sitno;
+			var nick = data.nickname;
+			// console.log(data);
+			$("#"+sn).addClass("sitted");
+			$("#"+sn).attr("title", nick);
+		}
 	});
 
 	socket.on('sit_clr', function (data) {
-		var sn = data.sitno;
-		
-		$("#"+sn).removeClass('sitted');
-		$("#"+sn).attr('title', '空');
+		if(data.room === room_num) {
+			var sn = data.sitno;
+			$("#"+sn).removeClass('sitted');
+			$("#"+sn).attr('title', '空');
+		}
 	});
 	
 	socket.on('irc_msg', function (data) {

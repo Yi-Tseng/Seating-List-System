@@ -18,7 +18,6 @@ exports.list = function(req, res) {
 		if(!err) {
 			sitList = reply;
 			// console.log(sitList);
-			
 			res.send({'msg':'success', 'sits':sitList});
 		} else {
 			res.send({'msg':'fail'});
@@ -42,7 +41,7 @@ exports.modify = function(req, res) {
 			res.send({'msg':'fail'});
 		} else {
 			if(reply === null) {
-				reply = {};
+				reply = "{}";
 			}
 			reply = JSON.parse(reply);
 			if(nickname !== '') {
