@@ -63,12 +63,12 @@ client.addListener('error', function(message) {
     console.log('error: ', message);
 });
 
-client.join('#sitcon takeshi0807');
+client.join('#sitcon sitcon_bot_pwd');
 
 client.addListener('message', function (from, to, message) {
 	console.log("SITCON IRC : " + from + ' => ' + to + ': ' + message);
 	message = xss(message);
 
-	io.sockets.emit('irc_msg', {'from':from, 'msg':message});
+	io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
 });
 
