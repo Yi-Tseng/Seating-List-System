@@ -158,6 +158,18 @@
 	border-color: #d43f3a;
 }
 
+.btn-black {
+	color: #fff;
+	background-color: #000;
+	border-color: #fff;
+}
+
+.btn-white {
+	color: #000;
+	background-color: #fff;
+	border-color: #000;
+}
+
 .dark-cover {
 	position: fixed;
 	top: 0%;

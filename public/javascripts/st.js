@@ -17,7 +17,6 @@ $(".sit").click(function(){
 			$("#nickname").val(this.title);
 		}
 	}
-	
 });
 
 
@@ -65,7 +64,7 @@ function clearSitWithSitno(sn){
 		'json');
 }
 
-function clearSit(){
+function clearSit() {
 	var sn = $("#sitno").val();
 
 	console.log(sitno);
