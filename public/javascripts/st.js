@@ -25,6 +25,11 @@ function modifySit () {
 	var nick = $("#nickname").val();
 	if(nick === '') {
 		$(".selected").removeClass("selected");
+		$(".selected").removeClass("black-sit");
+		return;
+	}
+
+	if(sn === '') {
 		return;
 	}
 
@@ -37,7 +42,9 @@ function modifySit () {
 					var _id = $("a[title='" + nick + "']").attr('id');
 					clearSitWithSitno(_id);
 				} else {
-					$(".selected").removeClass("selected");
+
+					$("#"+sn).removeClass();
+					$("#"+sn).addClass('sit');
 					$("#"+sn).addClass('sitted');
 					$("#"+sn).attr('title', nick);
 					socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
@@ -67,15 +74,19 @@ function clearSitWithSitno(sn){
 function clearSit() {
 	var sn = $("#sitno").val();
 
-	console.log(sitno);
+	if(sn === '') {
+		return;
+	}
+
+
 
 	$.post('/modify', 
 		{sitno:sn, nickname:null, room:room_num}, 
 		function(data){
 		
 			if(data.msg === 'success') {
-				$(".selected").removeClass("selected");
-				$("#"+sn).removeClass('sitted');
+				$("#"+sn).removeClass();
+				$("#"+sn).addClass('sit');
 				$("#"+sn).attr('title', '空');	
 			} else {
 
@@ -84,6 +95,16 @@ function clearSit() {
 		'json');
 
 	socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
+	
+}
+
+function blackIt() {
+	var nick = $("#nickname").val();
+	if(nick === '') {
+		$(".selected").removeClass("selected");
+		$(".selected").removeClass("black-sit");
+		return;
+	}
 	
 }
 
@@ -123,7 +144,8 @@ function initSocketIO() {
 	socket.on('sit_clr', function (data) {
 		if(data.room === room_num) {
 			var sn = data.sitno;
-			$("#"+sn).removeClass('sitted');
+			$("#"+sn).removeClass();
+			$("#"+sn).addClass('sit');
 			$("#"+sn).attr('title', '空');
 		}
 	});
@@ -138,4 +160,5 @@ function initSocketIO() {
 		}, 2000);
 	});
 }
+
 
