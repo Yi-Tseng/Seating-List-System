@@ -1,59 +1,54 @@
 .msg-bubble {
-	white-space:normal;
 	position:absolute;
-	bottom:40px;
 	left:0%;
 	width: 80px;
-	opacity: 0;
-	bottom: 0px;
-	z-index: 50;
+	z-index: 30;
 	color: #FFF;
 	background-color: #2d7500;
 	border-radius: 7px;
 	padding: 5px;
-
-	white-space:nowrap;
-	text-overflow:ellipsis;
-	-o-text-overflow:ellipsis;
 	overflow:hidden;
 
 	/*animation*/
-
 	-moz-animation-name:popup;
 	-moz-animation-duration:2.0s;
-	-moz-animation-iteration-count:infinite;
+	-moz-animation-iteration-count:1;
 	-moz-animation-direction:linear;
 	
 	-webkit-animation-name:popup;
 	-webkit-animation-duration:2.0s;
-	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-iteration-count:1;
 	-webkit-animation-direction:linear;
 	
 	-ms-animation-name:popup;
 	-ms-animation-duration:2.0s;
-	-ms-animation-iteration-count:infinite;
+	-ms-animation-iteration-count:1;
 	-ms-animation-direction:linear;
 	
 	-o-animation-name:popup;
 	-o-animation-duration:2.0s;
-	-o-animation-iteration-count:infinite;
+	-o-animation-iteration-count:1;
 	-o-animation-direction:linear;
 	
 	animation-name:popup;
 	animation-duration:2.0s;
-	animation-iteration-count:infinite;
+	animation-iteration-count:1;
 	animation-direction:linear;
 
 
 }
 
-@-moz-keyframes popup{
+@-moz-keyframes popup {
 	0% {
 		opacity: 0;
 		bottom: 0px;
 	}
 
-	50% {
+	25% {
+		opacity: 1;
+		bottom: 40px;
+	}
+	75% {
 		opacity: 1;
 		bottom: 40px;
 	}
@@ -70,7 +65,11 @@
 		bottom: 0px;
 	}
 
-	50% {
+	25% {
+		opacity: 1;
+		bottom: 40px;
+	}
+	75% {
 		opacity: 1;
 		bottom: 40px;
 	}
@@ -82,13 +81,17 @@
 
 }
 
-@-ms-keyframes popup{
+@-ms-keyframes popup {
 	0% {
 		opacity: 0;
 		bottom: 0px;
 	}
 
-	50% {
+	25% {
+		opacity: 1;
+		bottom: 40px;
+	}
+	75% {
 		opacity: 1;
 		bottom: 40px;
 	}
@@ -100,13 +103,17 @@
 
 }
 
-@-o-keyframes popup{
+@-o-keyframes popup {
 	0% {
 		opacity: 0;
 		bottom: 0px;
 	}
 
-	50% {
+	25% {
+		opacity: 1;
+		bottom: 40px;
+	}
+	75% {
 		opacity: 1;
 		bottom: 40px;
 	}
@@ -118,13 +125,17 @@
 
 }
 
-@keyframes popup{
+@keyframes popup {
 	0% {
 		opacity: 0;
 		bottom: 0px;
 	}
 
-	50% {
+	25% {
+		opacity: 1;
+		bottom: 40px;
+	}
+	75% {
 		opacity: 1;
 		bottom: 40px;
 	}

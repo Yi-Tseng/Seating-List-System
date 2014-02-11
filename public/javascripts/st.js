@@ -148,7 +148,7 @@ function initSocketIO() {
 
 		setTimeout(function() {
 			$("a[title='" + data.from + "'] .msg-bubble").remove();
-		}, 2200);
+		}, 2000);
 	});
 	socket.on('conf_msg', function(data) {
 		console.log('Conference Message : ' + data.msg);
@@ -157,7 +157,7 @@ function initSocketIO() {
 
 		setTimeout(function() {
 			$('#conf-msg').remove();
-		}, 10200);
+		}, 10000);
 	});
 }
 
