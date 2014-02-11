@@ -199,14 +199,3 @@ body {
     position: relative;
     z-index: 100;
 }
-
-.admin-bg {
-	background: white url('/images/sitcon_jiang.png') no-repeat top right;
-}
-
-.admin-bar {
-	background-color: #7cb059;
-	background-image: url('/images/sitcon_jiang_line.png');
-	background-repeat: no-repeat;
-	background-position: 100% 15%;
-}

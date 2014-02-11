@@ -1,0 +1,16 @@
+h1 {
+	font-size: 2em;
+}
+
+.admin-bg {
+	background: white url('/images/sitcon_jiang.png') no-repeat top right;
+}
+
+.admin-bar {
+	position: absolute;
+	top: 50%;
+	background-color: #7cb059;
+	background-image: url('/images/sitcon_jiang_line.png');
+	background-repeat: no-repeat;
+	background-position: 100% 50%;
+}

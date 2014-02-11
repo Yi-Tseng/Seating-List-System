@@ -79,9 +79,12 @@ app.post('/blablaadmin', function(req, res) {
 		io.sockets.emit('conf_msg', {'msg':req.body.conf_msg});
 	}
 });
+
 app.get('/list', user.list);
 app.post('/modify', user.modify);
 app.get('/black-list', user.blackList);
 app.post('/black-list', user.addBlack);
 app.get('/:room', routes.index);
-
+app.get('/', function(req, res) {
+	res.redirect('/r0');
+});
