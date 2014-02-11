@@ -12,33 +12,33 @@
 	padding-top: 20px;
 
 	/*animation*/
-	-moz-animation-name:popup;
+	-moz-animation-name:push-down;
 	-moz-animation-duration:10.0s;
 	-moz-animation-iteration-count:infinite;
 	-moz-animation-direction:linear;
 	
-	-webkit-animation-name:popup;
+	-webkit-animation-name:push-down;
 	-webkit-animation-duration:10.0s;
 	-webkit-animation-iteration-count:infinite;
 	-webkit-animation-direction:linear;
 	
-	-ms-animation-name:popup;
+	-ms-animation-name:push-down;
 	-ms-animation-duration:10.0s;
 	-ms-animation-iteration-count:infinite;
 	-ms-animation-direction:linear;
 	
-	-o-animation-name:popup;
+	-o-animation-name:push-down;
 	-o-animation-duration:10.0s;
 	-o-animation-iteration-count:infinite;
 	-o-animation-direction:linear;
 	
-	animation-name:popup;
+	animation-name:push-down;
 	animation-duration:10.0s;
 	animation-iteration-count:infinite;
 	animation-direction:linear;
 }
 
-@-moz-keyframes popup{
+@-moz-keyframes push-down{
 	0% {
 		opacity: 0;
 		top: -50px;
@@ -60,30 +60,7 @@
 	}
 }
 
-@-webkit-keyframes popup {
-	0% {
-		opacity: 0;
-		top: -50px;
-	}
-
-	20% {
-		opacity: 1;
-		top: 0px;
-	}
-
-	80% {
-		opacity: 1;
-		top: 0px;
-	}
-
-	100% {
-		opacity: 0;
-		top: -50px;
-	}
-
-}
-
-@-ms-keyframes popup{
+@-webkit-keyframes push-down {
 	0% {
 		opacity: 0;
 		top: -50px;
@@ -106,7 +83,7 @@
 
 }
 
-@-o-keyframes popup{
+@-ms-keyframes push-down{
 	0% {
 		opacity: 0;
 		top: -50px;
@@ -129,7 +106,30 @@
 
 }
 
-@keyframes popup{
+@-o-keyframes push-down{
+	0% {
+		opacity: 0;
+		top: -50px;
+	}
+
+	20% {
+		opacity: 1;
+		top: 0px;
+	}
+
+	80% {
+		opacity: 1;
+		top: 0px;
+	}
+
+	100% {
+		opacity: 0;
+		top: -50px;
+	}
+
+}
+
+@keyframes push-down{
 	0% {
 		opacity: 0;
 		top: -50px;

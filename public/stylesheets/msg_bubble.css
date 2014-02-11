@@ -12,27 +12,27 @@
 	/*animation*/
 	-moz-animation-name:popup;
 	-moz-animation-duration:2.0s;
-	-moz-animation-iteration-count:1;
+	-moz-animation-iteration-count: infinite;
 	-moz-animation-direction:linear;
 	
 	-webkit-animation-name:popup;
 	-webkit-animation-duration:2.0s;
-	-webkit-animation-iteration-count:1;
+	-webkit-animation-iteration-count: infinite;
 	-webkit-animation-direction:linear;
 	
 	-ms-animation-name:popup;
 	-ms-animation-duration:2.0s;
-	-ms-animation-iteration-count:1;
+	-ms-animation-iteration-count: infinite;
 	-ms-animation-direction:linear;
 	
 	-o-animation-name:popup;
 	-o-animation-duration:2.0s;
-	-o-animation-iteration-count:1;
+	-o-animation-iteration-count: infinite;
 	-o-animation-direction:linear;
 	
 	animation-name:popup;
 	animation-duration:2.0s;
-	animation-iteration-count:1;
+	animation-iteration-count: infinite;
 	animation-direction:linear;
 
 
