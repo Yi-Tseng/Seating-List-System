@@ -6,6 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
+var admin = require('./routes/admin')
 var http = require('http');
 var path = require('path');
 var irc = require('irc');
@@ -25,17 +26,11 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // development only
 if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
 }
-
-
-app.get('/list', user.list);
-app.post('/modify', user.modify);
-app.get('/black-list', user.blackList);
-app.post('/black-list', user.addBlack);
-app.get('/:room', routes.index);
 
 
 var server = http.createServer(app).listen(app.get('port'), function(){
@@ -72,4 +67,21 @@ client.addListener('message', function (from, to, message) {
 
 	io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
 });
+
+// path
+app.get('/blablaadmin', admin.index);
+app.post('/blablaadmin', function(req, res) {
+	if(req.body.pwd !== 'blablabla') {
+		res.send({res:'err'});
+		res.end();
+	} else {
+		console.log('Conf Msg : ' + req.body.conf_msg);
+		io.sockets.emit('conf_msg', {'msg':req.body.conf_msg});
+	}
+});
+app.get('/list', user.list);
+app.post('/modify', user.modify);
+app.get('/black-list', user.blackList);
+app.post('/black-list', user.addBlack);
+app.get('/:room', routes.index);
 

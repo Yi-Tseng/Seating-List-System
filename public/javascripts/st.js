@@ -98,15 +98,6 @@ function clearSit() {
 	
 }
 
-function blackIt() {
-	var nick = $("#nickname").val();
-	if(nick === '') {
-		$(".selected").removeClass("selected");
-		$(".selected").removeClass("black-sit");
-		return;
-	}
-	
-}
 
 function loadSits() {
 	room_num = $('#room').val();
@@ -157,8 +148,18 @@ function initSocketIO() {
 
 		setTimeout(function() {
 			$("a[title='" + data.from + "'] .msg-bubble").remove();
-		}, 2000);
+		}, 2200);
+	});
+	socket.on('conf_msg', function(data) {
+		console.log('Conference Message : ' + data.msg);
+		html = '<div class="conf-msg" id="conf-msg">' + data.msg + '</div>';
+		$('body').prepend(html);
+
+		setTimeout(function() {
+			$('#conf-msg').remove();
+		}, 10200);
 	});
 }
+
 
 
