@@ -103,6 +103,7 @@ function loadSits() {
 	room_num = $('#room').val();
 	console.log("get room : " + room_num);
 	loadBlackList();
+	initTomatoSit();
 	initSocketIO();
 	$(".dark-cover").remove();
 }
@@ -115,6 +116,10 @@ function loadBlackList() {
 			$('a[title='+list[k]+']').addClass('black-sit');
 		}
 	}, 'json')
+}
+
+function initTomatoSit() {
+	$('a[title="Oscar"]').addClass('tomato-sit');
 }
 
 function initSocketIO() {

@@ -199,3 +199,10 @@ body {
     position: relative;
     z-index: 100;
 }
+
+.tomato-sit {
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-size: 30px;
+	background-image: url(http://www.gravatar.com/avatar/c7fc9eee61d15190efcddf8e5bcaabeb?d=mm&s=150);
+}
