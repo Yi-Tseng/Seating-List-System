@@ -215,15 +215,24 @@ body {
 
 .display-gra-btn {
 	position: fixed;
-	top: 20%;
-	left: 0;
+	top: 22%;
+	left: -30;
 	background-color: #7cb059;
 	border-radius: 10px;
 	padding: 10px;
 	color: #FFF;
+	z-index: 2;
+	transform: rotate(90deg);
+	-webkit-transform:rotate(90deg);
+	-webkit-transition: .2s;
+	transition: .2s;
+	-webkit-transition-timing-function: linear;
+	transition-timing-function: linear;
 
 }
-
+.display-gra-btn:hover {
+	background-color: #f0ad4e;
+}
 .gravatar-regist {
 	position: fixed;
 	top: 20%;
@@ -231,30 +240,17 @@ body {
 	background-color: #7cb059;
 	border-radius: 10px;
 	padding: 10px;
+	-webkit-transition: .3s;
+	transition: .3s;
+	-webkit-transition-timing-function: linear;
+	transition-timing-function: linear;
 }
 
 .g-move {
-	-webkit-transition: .5s;
-	transition: .5s;
 	left: 0;
 }
-
-.g-move-r {
-	-webkit-transition: .5s;
-	transition: .5s;
-	left: -20%;
-}
-
 .g-btn-move {
-	-webkit-transition: .5s;
-	transition: .3s;
-	left: 154px;
-}
-
-.g-btn-move-r {
-	-webkit-transition: .5s;
-	transition: .3s;
-	left: 0px;
+	left: 145px;
 }
 
 .gravatar-regist > h3 {
@@ -265,4 +261,28 @@ body {
 .gravatar-regist > p {
 	margin: 5px;
 	color: #FFF;
+}
+
+.change-room-btn {
+	
+	position: fixed;
+	top: 20%;
+	right: 0%;
+	background-color: #7cb059;
+	border-radius: 10px;
+	padding: 10px;
+	color: #FFF;
+	z-index: 2;
+	text-decoration: none;
+	-webkit-transition: .2s;
+	transition: .2s;
+	-webkit-transition-timing-function: linear;
+	transition-timing-function: linear;
+}
+.change-room-btn-selected {
+	background-color: #f0ad4e;
+}
+
+.change-room-btn:hover {
+	background-color: #f0ad4e;
 }

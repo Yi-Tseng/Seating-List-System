@@ -21,19 +21,15 @@ $(".sit").click(function(){
 
 $('.display-gra-btn').click(function() {
 	if($('.display-gra-btn').hasClass('g-btn-move')) {
-		$('.display-gra-btn').addClass('g-btn-move-r');
-		$('.gravatar-regist').addClass('g-move-r');
-		$('.display-gra-btn').html('&gt;&gt;');
-		setTimeout(function() {
-			$('.display-gra-btn').removeClass('g-btn-move');
-			$('.display-gra-btn').removeClass('g-btn-move-r');
-			$('.gravatar-regist').removeClass('g-move');
-			$('.gravatar-regist').removeClass('g-move-r');
-		}, 500);
+		
+		$('.display-gra-btn').html('頭像設定');
+		$('.display-gra-btn').removeClass('g-btn-move');
+		$('.gravatar-regist').removeClass('g-move');
+		
 	} else {
 		$('.display-gra-btn').addClass('g-btn-move');
 		$('.gravatar-regist').addClass('g-move');
-		$('.display-gra-btn').html('&lt;&lt;');
+		$('.display-gra-btn').html('關閉');
 	}
 	
 });
