@@ -43,7 +43,10 @@ io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
 
 	socket.on('modify_sit', function(data) {
-		io.sockets.emit('sit_md', data);
+		if(data.sitno.length <= 8 && data.sitno.indexOf('a') === -1) {
+			io.sockets.emit('sit_md', data);
+		}
+		
 	});
 	socket.on('clear_sit', function(data) {
 		io.sockets.emit('sit_clr', data);
