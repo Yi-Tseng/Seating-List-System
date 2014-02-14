@@ -27,6 +27,7 @@ exports.index = function(req, res){
 			if(sitList == null){
 				sitList = "{}";
 			}
+			
 			res.render('index', { 'sitList':sitList , 'room': room});
 		} else {
 			res.send({'msg':'fail'});

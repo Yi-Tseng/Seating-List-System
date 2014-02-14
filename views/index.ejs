@@ -79,9 +79,11 @@
 				<div class="block-area left-block">
 
 					<% for(j=0; j<sits[i][0]; j++) { %>
+
 						<% if(sitList[room+"sit"+counter] == null){ %>
 							<a class="sit" title="空" id="<%= room %>sit<%= counter %>"></a>
 						<% } else { %>
+
 							<a class="sit sitted" title="<%= sitList[room+"sit"+counter] %>" id="<%= room %>sit<%= counter %>"></a>
 						<% } %>
 					<% 
@@ -93,6 +95,7 @@
 				<div class="block-area center-block">
 					
 					<% for(j=0; j<sits[i][0]; j++) { %>
+
 						<% if(sitList[room+"sit"+counter] == null){ %>
 							<a class="sit" title="空" id="<%= room %>sit<%= counter %>"></a>
 						<% } else { %>
@@ -121,8 +124,20 @@
 
 			<% } %>
 
-		</div><!-- center -->
-		
+		</div><!-- meeting room -->
+		<div class="display-gra-btn">&gt;&gt;</div>
+		<div class="gravatar-regist">
+			<h3>頭像註冊</h3>
+			<p>使用 <a href="http://en.gravatar.com/">Gravator</a></p>
+			<p>IRC ID</p>
+			<input type='text' id='ircNick' />
+			<p>email</p>
+			<input type='text' id='email' />
+			<br />
+			<button id="btn_modify" class="btn btn-modify-sit" onClick="addGravatar()">修改</button>
+			<p id='gra_msg'></p>
+		</div>
+
 		<div class="footer">
 			<div class="input-area">
 				座位編號：<input type="text" id="sitno" name="sitno" value="" disabled />
@@ -138,6 +153,7 @@
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="/javascripts/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="/javascripts/md5.js"></script>
 		<script type="text/javascript" src="/javascripts/st.js"></script>
 		
 	</body>

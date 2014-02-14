@@ -73,7 +73,7 @@ exports.blackList = function(req, res) {
 exports.addBlack = function(req, res) {
 	var name = req.body.name;
 	if(name !== ''){
-		client.get('blackList', function(err, data) {
+		client.get('blackList', function(err, reply) {
 			if(reply == null) {
 				reply = "[]";
 			}
@@ -90,5 +90,39 @@ exports.addBlack = function(req, res) {
 	}
 }
 
+exports.addGra = function(req, res) {
 
+	var ircNick = req.body.ircNick;
+	var email = req.body.email;
+
+	if(ircNick !== '' && email !== '') {
+		client.get('gravatar', function(err, reply) {
+			if(reply == null) {
+				reply = "{}";
+			}
+			var list = JSON.parse(reply);
+			list[ircNick] = email;
+			console.log('nick : ' + ircNick);
+			console.log('email : ' + email);
+			console.log(JSON.stringify(list));
+
+			client.set('gravatar', JSON.stringify(list));
+			res.send({'res':'success', 'list':list});
+			res.end();
+		});
+	} else {
+		res.send({'res':'error'});
+		res.end();
+	}
+}
+
+exports.getGra = function(req, res) {
+	client.get('gravatar', function(err, reply) {
+		if(reply == null) {
+			reply = "{}";
+		}
+		res.send({'res':'success', 'graList':reply});
+		res.end();
+	});
+}
 

@@ -206,3 +206,63 @@ body {
 	background-size: 30px;
 	background-image: url(http://www.gravatar.com/avatar/c7fc9eee61d15190efcddf8e5bcaabeb?d=mm&s=150);
 }
+
+.gravatar-sit {
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-size: 30px;
+}
+
+.display-gra-btn {
+	position: fixed;
+	top: 20%;
+	left: 0;
+	background-color: #7cb059;
+	border-radius: 10px;
+	padding: 10px;
+	color: #FFF;
+
+}
+
+.gravatar-regist {
+	position: fixed;
+	top: 20%;
+	left: -20%;
+	background-color: #7cb059;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.g-move {
+	-webkit-transition: .5s;
+	transition: .5s;
+	left: 0;
+}
+
+.g-move-r {
+	-webkit-transition: .5s;
+	transition: .5s;
+	left: -20%;
+}
+
+.g-btn-move {
+	-webkit-transition: .5s;
+	transition: .3s;
+	left: 154px;
+}
+
+.g-btn-move-r {
+	-webkit-transition: .5s;
+	transition: .3s;
+	left: 0px;
+}
+
+.gravatar-regist > h3 {
+	margin: 5px;
+	font-size: 1.5em;
+	color: #FFF;
+}
+.gravatar-regist > p {
+	margin: 5px;
+	color: #FFF;
+}
