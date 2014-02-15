@@ -6,12 +6,13 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
-var admin = require('./routes/admin')
+var admin = require('./routes/admin');
+var md5 = require('MD5');
 var http = require('http');
 var path = require('path');
 var irc = require('irc');
 var xss = require('xss');
-
+var fs = require('fs');
 var app = express();
 
 // all environments
@@ -25,6 +26,11 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
+// get pwd
+console.log('getting password...');
+var pwd = (fs.readFileSync('./config/pwd.txt')).toString();
+console.log('got!');
 
 
 // development only
@@ -77,7 +83,8 @@ client.addListener('message', function (from, to, message) {
 // path
 app.get('/blablaadmin', admin.index);
 app.post('/blablaadmin', function(req, res) {
-	if(req.body.pwd !== 'blablabla') {
+
+	if(md5(req.body.pwd) !== pwd) {
 		res.send({res:'err'});
 		res.end();
 	} else {
@@ -85,6 +92,8 @@ app.post('/blablaadmin', function(req, res) {
 		io.sockets.emit('conf_msg', {'msg':req.body.conf_msg});
 	}
 });
+
+
 app.get('/list', user.list);
 app.post('/modify', user.modify);
 app.get('/list-gra', user.getGra);
