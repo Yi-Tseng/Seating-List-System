@@ -94,6 +94,7 @@ exports.addGra = function(req, res) {
 
 	var ircNick = req.body.ircNick;
 	var email = req.body.email;
+	email = email.toLowerCase();
 
 	if(ircNick !== '' && email !== '') {
 		client.get('gravatar', function(err, reply) {
