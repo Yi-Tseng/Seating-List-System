@@ -118,6 +118,7 @@ body {
 	text-align: center;
 	font-size: 1em;
 	color: #FFF;
+	z-index: 99;
 }
 
 .meeting-room {
