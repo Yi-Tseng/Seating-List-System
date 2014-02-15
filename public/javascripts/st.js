@@ -64,6 +64,7 @@ function modifySit () {
 					$("#"+sn).attr('title', nick);
 					socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
 					loadBlackList();
+					loadGravatar();
 				}
 			} else {
 
@@ -118,7 +119,6 @@ function loadSits() {
 	room_num = $('#room').val();
 	// console.log("get room : " + room_num);
 	loadBlackList();
-	initTomatoSit();
 	loadGravatar();
 	initSocketIO();
 	$(".dark-cover").remove();
@@ -132,10 +132,6 @@ function loadBlackList() {
 			$('a[title='+list[k]+']').addClass('black-sit');
 		}
 	}, 'json')
-}
-
-function initTomatoSit() {
-	$('a[title="Oscar"]').addClass('tomato-sit');
 }
 
 function initSocketIO() {
@@ -183,6 +179,16 @@ function initSocketIO() {
 			$('#conf-msg').remove();
 		}, 10000);
 	});
+
+	socket.on('reload_gravatar', function(data) {
+		var k = data.ircNick;
+		var email = data.email;
+		var emailHash = hex_md5(email);
+		var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
+		$('a[title='+k+']').addClass('gravatar-sit');
+		$('a[title='+k+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
+	});
+	
 }
 
 function loadGravatar() {
@@ -193,9 +199,6 @@ function loadGravatar() {
 				var email = graList[k]
 				var emailHash = hex_md5(email);
 				var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
-				// console.log('[Gravatar] IRC : ' + k);
-				// console.log('[Gravatar] mail : ' + email);
-				// console.log('[Gravatar] url : ' + emailHash);
 				$('a[title='+k+']').addClass('gravatar-sit');
 				$('a[title='+k+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
 			}
@@ -213,8 +216,9 @@ function addGravatar() {
 			if(data.res === 'success') {
 				$('#ircNick').val('');
 				$('#email').val('');
+				socket.emit('reload_gravatar', {ircNick:ircNick, email:email});
 				$('#gra_msg').html('修改成功');
-				loadGravatar();
+				// loadGravatar();
 			} else {
 				$('#gra_msg').html('修改失敗');
 			}
