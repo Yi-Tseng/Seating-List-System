@@ -46,10 +46,14 @@ io.sockets.on('connection', function (socket) {
 		if(data.sitno.length <= 8 && data.sitno.indexOf('a') === -1) {
 			io.sockets.emit('sit_md', data);
 		}
-		
 	});
 	socket.on('clear_sit', function(data) {
 		io.sockets.emit('sit_clr', data);
+	});
+	socket.on('reload_gravatar', function(data) {
+		data.email = xss(data.email);
+		data.ircNick = xss(data.ircNick);
+		io.sockets.emit('reload_gravatar', data);
 	});
 	
 });
@@ -67,7 +71,6 @@ client.join('#sitcon sitcon_bot_pwd');
 client.addListener('message', function (from, to, message) {
 	console.log("SITCON IRC : " + from + ' => ' + to + ': ' + message);
 	message = xss(message);
-
 	io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
 });
 

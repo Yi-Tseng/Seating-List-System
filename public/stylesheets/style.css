@@ -80,7 +80,6 @@ body {
 	font-size: 20px;
 	padding-top: 5px;
 	text-decoration:none
-
 }
 
 .sit:hover:after{
@@ -200,12 +199,6 @@ body {
     z-index: 100;
 }
 
-.tomato-sit {
-	background-repeat: no-repeat;
-	background-position: 50%;
-	background-size: 30px;
-	background-image: url(http://www.gravatar.com/avatar/c7fc9eee61d15190efcddf8e5bcaabeb?d=mm&s=150);
-}
 
 .gravatar-sit {
 	background-repeat: no-repeat;
@@ -261,6 +254,10 @@ body {
 .gravatar-regist > p {
 	margin: 5px;
 	color: #FFF;
+}
+
+.no-under-line-link {
+	text-decoration: none;
 }
 
 .change-room-btn {
