@@ -82,8 +82,8 @@ client.addListener('message', function (from, to, message) {
 });
 
 // path
-app.get('/blablaadmin', admin.index);
-app.post('/blablaadmin', function(req, res) {
+app.get('/admin', admin.index);
+app.post('/admin', function(req, res) {
 
 	if(md5(req.body.pwd) !== pwd) {
 		res.send({res:'err'});

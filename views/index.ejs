@@ -125,9 +125,9 @@
 		</div>
 		<% for(var c = 0; c<3; c++) { %>
 			<% if('r'+c === room){ %>
-				<a class="change-room-btn change-room-btn-selected" href='#' style="top: <%= 20+c*7 %>%;">R<%= c %></a>
+				<a class="change-room-btn change-room-btn-selected" href='#' style="top: <%= 50+c*40 %>px;">R<%= c %></a>
 			<% } else { %>
-				<a class="change-room-btn" href='/r<%= c %>' style="top: <%= 20+c*7 %>%;">Go to R<%= c %></a>
+				<a class="change-room-btn" href='/r<%= c %>' style="top: <%= 50+c*40 %>px;">Go to R<%= c %></a>
 			<% } %>
 		<% } %>
 		<div class="footer">
