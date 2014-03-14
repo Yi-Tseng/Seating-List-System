@@ -17,9 +17,9 @@ Usage
 
 	npm install
 
-3.Start redis server
+3.Start mongo db server
 
-	/etc/init.d/redis start
+	./mongod
     
 4.Start server
 
