@@ -199,16 +199,19 @@ function initSocketIO() {
 	});
 
 	socket.on('reload_gravatar', function(data) {
+		console.log(data);
 		var k = data.ircNick;
 		var emailHash = data.emailHash;
 		var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
 		$('a[title='+k+']').addClass('gravatar-sit');
 		$('a[title='+k+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
+		console.log('change gra finished');
 	});
 	
 }
 
 function loadGravatar() {
+	console.log("reloading gravatar")
 	$.get('/list-gra', function(data) {
 
 		if(data.res === 'success') {
@@ -235,9 +238,9 @@ function addGravatar() {
 			if(data.res === 'success') {
 				$('#ircNick').val('');
 				$('#email').val('');
-				socket.emit('reload_gravatar', {ircNick:ircNick, email:email});
+				socket.emit('reload_gravatar', {'ircNick':ircNick, 'emailHash':emailHash});
 				$('#gra_msg').html('修改成功');
-				loadGravatar();
+				
 			} else {
 				$('#gra_msg').html('修改失敗');
 			}

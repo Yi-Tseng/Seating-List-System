@@ -145,8 +145,9 @@ exports.addGra = function(req, res) {
 					res.end();
 				});
 			} else {
-				data.ircNick = ircNick;
+				data.emailHash = emailHash;
 				data.save();
+				// console.log('save ' + data);
 				res.send({'res':'success'});
 				res.end();
 			}
