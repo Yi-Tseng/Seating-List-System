@@ -37,6 +37,7 @@ $('.display-gra-btn').click(function() {
 
 function modifySit () {
 	var sn = $("#sitno").val();
+	sn = sn.substring(4); // cut "seat"
 	var nick = $("#nickname").val();
 	if(nick === '') {
 		$(".selected").removeClass("selected");
@@ -89,21 +90,20 @@ function clearSitWithSitno(sn){
 
 function clearSit() {
 	var sn = $("#sitno").val();
+	sn = sn.substring(4); // cut "seat"
 	if(sn === '') {
 		return;
 	}
 
-
-
 	$.post('/modify', 
-		{sitno:sn, nickname:null, room:room_num}, 
+		{sitno:sn, nickname:'', room:room_num}, 
 		function(data){
 		
 			if(data.msg === 'success') {
-				$("#"+sn).attr('style', '');
-				$("#"+sn).removeClass();
-				$("#"+sn).addClass('sit');
-				$("#"+sn).attr('title', '空');	
+				$("#seat"+sn).attr('style', '');
+				$("#seat"+sn).removeClass();
+				$("#seat"+sn).addClass('sit');
+				$("#seat"+sn).attr('title', '空');	
 			} else {
 
 			}
@@ -114,24 +114,41 @@ function clearSit() {
 	
 }
 
-
-function loadSits() {
+function init() {
 	room_num = $('#room').val();
-	// console.log("get room : " + room_num);
+	console.log("get room : " + room_num);
+
+	loadSits();
 	loadBlackList();
 	loadGravatar();
+
 	initSocketIO();
 	$(".dark-cover").remove();
+
+}
+
+function loadSits() {
+	
+	$.get('/list/?room=' + room_num, function(data) {
+		if(data.msg === 'success') {
+			for(var k in data.seats) {
+				var seat = data.seats[k];
+				$('#seat' + seat.no).attr('title', seat.name);
+				$('#seat' + seat.no).addClass('sitted');
+			}
+		}
+	}, 'json');
 }
 
 function loadBlackList() {
+
 	$.get('/black-list', function(data) {
 		var list = data.list;
+		console.log(list);
 		for(k in list) {
-			// console.log(name);
-			$('a[title='+list[k]+']').addClass('black-sit');
+			$('a[title='+list[k].name+']').addClass('black-sit');
 		}
-	}, 'json')
+	}, 'json');
 }
 
 function initSocketIO() {
@@ -140,16 +157,17 @@ function initSocketIO() {
 	socket = io.connect('http://'+location.hostname+':'+location.port);
 
 	socket.on('sit_md', function (data) {
+
 		if(data.room === room_num) {
 			var sn = data.sitno;
 			var nick = data.nickname;
-			// console.log(data);
-			$("#"+sn).addClass("sitted");
-			$("#"+sn).attr("title", nick);
+			console.log(data);
+			$("#seat"+sn).removeClass("selected");
+			$("#seat"+sn).addClass("sitted");
+			$("#seat"+sn).attr("title", nick);
 		}
 
-		loadBlackList();
-		loadGravatar();
+		
 	});
 
 	socket.on('sit_clr', function (data) {
@@ -182,8 +200,7 @@ function initSocketIO() {
 
 	socket.on('reload_gravatar', function(data) {
 		var k = data.ircNick;
-		var email = data.email;
-		var emailHash = hex_md5(email);
+		var emailHash = data.emailHash;
 		var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
 		$('a[title='+k+']').addClass('gravatar-sit');
 		$('a[title='+k+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
@@ -193,14 +210,15 @@ function initSocketIO() {
 
 function loadGravatar() {
 	$.get('/list-gra', function(data) {
+
 		if(data.res === 'success') {
-			var graList = JSON.parse(data.graList);
+			var graList = data.list;
 			for(var k in graList) {
-				var email = graList[k]
-				var emailHash = hex_md5(email);
+				var ircNick = graList[k].ircNick;
+				var emailHash = graList[k].emailHash;
 				var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
-				$('a[title='+k+']').addClass('gravatar-sit');
-				$('a[title='+k+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
+				$('a[title='+ircNick+']').addClass('gravatar-sit');
+				$('a[title='+ircNick+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
 			}
 		}
 	});
@@ -209,16 +227,17 @@ function loadGravatar() {
 function addGravatar() {
 	var ircNick = $('#ircNick').val();
 	var email = $('#email').val();
-
+	email = email.toLowerCase();
+	var emailHash = hex_md5(email);
 	$.post('/add-gra', 
-		{'ircNick':ircNick, 'email':email}, 
+		{'ircNick':ircNick, 'emailHash':emailHash}, 
 		function(data) {
 			if(data.res === 'success') {
 				$('#ircNick').val('');
 				$('#email').val('');
 				socket.emit('reload_gravatar', {ircNick:ircNick, email:email});
 				$('#gra_msg').html('修改成功');
-				// loadGravatar();
+				loadGravatar();
 			} else {
 				$('#gra_msg').html('修改失敗');
 			}

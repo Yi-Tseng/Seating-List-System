@@ -3,27 +3,43 @@
  * GET users listing.
  */
 
-var redis = require('redis');
-var client  = redis.createClient('6379', '127.0.0.1');
 var xss = require('xss');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/SeatingTable');
+var Schema = mongoose.Schema;
 
-client.on("error", function(error) {
-    console.log(error);
+var SeatSchema = new Schema({
+	room : String,
+	no : String,
+	name : String
 });
+
+var Seat = mongoose.model('Seat', SeatSchema);
+
+var BlackListSchema = new Schema({
+	name : String
+});
+
+var BlackList = mongoose.model('BlackList', BlackListSchema);
+
+var GravatarSchema = new Schema({
+	ircNick:String, 
+	emailHash:String
+});
+
+var Gravatar = mongoose.model('Gravatar', GravatarSchema);
 
 exports.list = function(req, res) {
 	var room = req.query.room;
 	var sitList;
-	client.get(room, function(err, reply) {
-		if(!err) {
-			sitList = reply;
-			// console.log(sitList);
-			res.send({'msg':'success', 'sits':sitList});
+
+	Seat.find({room:room}, function(err, data) {
+		if(err) {
+			res.send({msg : 'fail'});
 		} else {
-			res.send({'msg':'fail'});
+			res.send({msg:'success', seats : data})
 		}
 		res.end();
-		
 	});
 	
 };
@@ -32,56 +48,73 @@ exports.modify = function(req, res) {
 	console.log('modify');
 	// console.log(req.body);
 
-	var sitno = req.body.sitno;
+	var seatNo = req.body.sitno;
 	var nickname = req.body.nickname;
 	var room = req.body.room;
 
-	client.get(room, function(err, reply) {
-		if(err) {
-			res.send({'msg':'fail'});
-		} else {
-			if(reply === null) {
-				reply = "{}";
-			}
-			reply = JSON.parse(reply);
-			if(nickname !== '') {
-				nickname = xss(nickname);
-				reply[sitno] = nickname;
+	console.log('SeatNo : ' + seatNo);
+	console.log('nickName : ' + nickname);
+	console.log('room : ' + room);
+
+	
+	if(nickname !== '' && seatNo !== '' && room !== '') {
+		Seat.findOne({room:room, name:nickname}, function(err, data) {
+			if(err) {
+				res.send({'msg':'fail'});
+			} else if(data == null){
+				var s = new Seat({room:room, name:nickname, no:seatNo});
+				s.save(function(err){});
 			} else {
-				delete reply[sitno];
+				data.no = seatNo;
+				data.save(function(err){});
+				// Seat.update({room:room, name:nickname, no:seatNo});
 			}
-			client.set(room, JSON.stringify(reply));
 			res.send({'msg':'success'})
-		}
+			res.end();
+		});
+	} else if(nickname === '' && seatNo !== '' && room !== '') { 
+		// delete seat
+		console.log('delete');
+		Seat.remove({room:room, no:seatNo}, function(err, data) {
+			if (err) {
+				res.send({'msg':'fail'});
+			} else {
+				res.send({'msg':'success'});
+			}
+			res.end();
+		});
+
+		
+
+	} else {
+		res.send({'msg':'fail'});
 		res.end();
-	});
+	}
+	
 };
 
 exports.blackList = function(req, res) {
-
-	client.get('blackList', function(err, reply) {
-		if(reply == null) {
-			reply = "[]";
+	BlackList.find({}, function(err, data) {
+		if(err) {
+			res.send({msg:'fail'});
+		} else {
+			res.send({msg:'success', list:data});
 		}
-		var bl = JSON.parse(reply);
-		res.send({'msg':'success', 'list': bl});
 		res.end();
 	});
-	
 }
 
 exports.addBlack = function(req, res) {
 	var name = req.body.name;
+	console.log('add ' + name + ' to black list');
 	if(name !== ''){
-		client.get('blackList', function(err, reply) {
-			if(reply == null) {
-				reply = "[]";
+		var bl = new BlackList({'name':name});
+		bl.save(function(err){
+			if(err) {
+				res.send({msg:'error'});
+			} else {
+				res.send({msg:'success'});
 			}
-			var bl = JSON.parse(reply);
-			bl.push(name);
-			client.set('blackList', JSON.stringify(bl));
-
-			res.send({'msg':'success', 'list': bl});
 			res.end();
 		});
 	} else {
@@ -93,24 +126,33 @@ exports.addBlack = function(req, res) {
 exports.addGra = function(req, res) {
 
 	var ircNick = req.body.ircNick;
-	var email = req.body.email;
-	email = email.toLowerCase();
-
-	if(ircNick !== '' && email !== '') {
-		client.get('gravatar', function(err, reply) {
-			if(reply == null) {
-				reply = "{}";
+	var emailHash = req.body.emailHash;
+	console.log("Nick : " + ircNick);
+	console.log("Hash : " + emailHash);
+	if(ircNick !== '' && emailHash !== '') {
+		Gravatar.findOne({ircNick:ircNick}, function(err, data) {
+			if(err) {
+				res.send({'res':'error'});
+				res.end();
+			} else if( data == null) {
+				var gra = new Gravatar({ircNick:ircNick, emailHash:emailHash});
+				gra.save(function(err){
+					if(err) {
+						res.send({'res':'error'});
+					} else {
+						res.send({'res':'success'});		
+					}
+					res.end();
+				});
+			} else {
+				data.ircNick = ircNick;
+				data.save();
+				res.send({'res':'success'});
+				res.end();
 			}
-			var list = JSON.parse(reply);
-			list[ircNick] = email;
-			console.log('nick : ' + ircNick);
-			console.log('email : ' + email);
-			console.log(JSON.stringify(list));
-
-			client.set('gravatar', JSON.stringify(list));
-			res.send({'res':'success', 'list':list});
-			res.end();
 		});
+
+		
 	} else {
 		res.send({'res':'error'});
 		res.end();
@@ -118,12 +160,12 @@ exports.addGra = function(req, res) {
 }
 
 exports.getGra = function(req, res) {
-	client.get('gravatar', function(err, reply) {
-		if(reply == null) {
-			reply = "{}";
+	Gravatar.find({}, function(err, data) {
+		if(err) {
+			res.send({res:'error'});
+		} else {
+			res.send({res:'success', list:data});
 		}
-		res.send({'res':'success', 'graList':reply});
-		res.end();
 	});
 }
 
