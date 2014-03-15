@@ -129,10 +129,12 @@ function init() {
 	console.log("get room : " + room_num);
 
 	loadSits();
-	loadBlackList();
-	loadGravatar();
-
 	initSocketIO();
+	setTimeout(function(){
+		loadBlackList();
+		loadGravatar();
+	}, 4000);
+	
 	setTimeout(function(){
 		$(".dark-cover").remove();
 		console.log("ok");
