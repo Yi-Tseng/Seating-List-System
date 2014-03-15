@@ -65,21 +65,21 @@ io.sockets.on('connection', function (socket) {
 	
 });
 
-var client = new irc.Client('irc.freenode.net', 'SITCON_BOT', {
-    channels: ['#sitcon'],debug:true
-});
+// var client = new irc.Client('irc.freenode.net', 'SITCON_BOT', {
+//     channels: ['#sitcon'],debug:true
+// });
 
-client.addListener('error', function(message) {
-    console.log('error: ', message);
-});
+// client.addListener('error', function(message) {
+//     console.log('error: ', message);
+// });
 
-client.join('#sitcon sitcon_bot_pwd');
+// client.join('#sitcon sitcon_bot_pwd');
 
-client.addListener('message', function (from, to, message) {
-	console.log("SITCON IRC : " + from + ' => ' + to + ': ' + message);
-	message = xss(message);
-	io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
-});
+// client.addListener('message', function (from, to, message) {
+// 	console.log("SITCON IRC : " + from + ' => ' + to + ': ' + message);
+// 	message = xss(message);
+// 	io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
+// });
 
 // path
 app.get('/admin', admin.index);

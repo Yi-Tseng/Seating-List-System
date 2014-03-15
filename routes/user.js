@@ -44,9 +44,20 @@ exports.list = function(req, res) {
 	
 };
 
+function needBlock(name) {
+	var blockLost = new Array("sss", "tnlin", "frankwu", "wiwi_lee", "HANAK", "i-c0112", "fuck");
+
+	for(var k in blockLost) {
+		if( name === blockLost[k]) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
 exports.modify = function(req, res) {
 	console.log('modify');
-	// console.log(req.body);
 
 	var seatNo = req.body.sitno;
 	var nickname = req.body.nickname;
@@ -55,9 +66,11 @@ exports.modify = function(req, res) {
 	console.log('SeatNo : ' + seatNo);
 	console.log('nickName : ' + nickname);
 	console.log('room : ' + room);
-
 	
-	if(nickname !== '' && seatNo !== '' && room !== '') {
+	if(needBlock(nickname)) {
+
+	} else if(nickname !== '' && seatNo !== '' && room !== '') {
+
 		Seat.findOne({room:room, name:nickname}, function(err, data) {
 			if(err) {
 				res.send({'msg':'fail'});
@@ -72,6 +85,8 @@ exports.modify = function(req, res) {
 			res.send({'msg':'success'})
 			res.end();
 		});
+
+		
 	} else if(nickname === '' && seatNo !== '' && room !== '') { 
 		// delete seat
 		console.log('delete');
