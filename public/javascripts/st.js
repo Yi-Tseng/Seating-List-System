@@ -220,8 +220,8 @@ function loadGravatar() {
 				var ircNick = graList[k].ircNick;
 				var emailHash = graList[k].emailHash;
 				var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
-				$('a[title='+ircNick+']').addClass('gravatar-sit');
-				$('a[title='+ircNick+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
+				$("a[title='"+ircNick+"']").addClass('gravatar-sit');
+				$("a[title='"+ircNick+"']").attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
 			}
 		}
 	});
