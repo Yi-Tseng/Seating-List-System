@@ -48,7 +48,6 @@ function modifySit () {
 	if(sn === '') {
 		return;
 	}
-	clearSitWithSitno(sn);
 
 	$.post('/modify', 
 		{sitno:sn, nickname:nick, room:room_num}, 
@@ -58,18 +57,15 @@ function modifySit () {
 				if($("a[title='" + nick + "']").length != 0) {
 					var _id = $("a[title='" + nick + "']").attr('id');
 					clearSitWithSitno(_id);
-				} else {
-
-					$("#seat"+sn).removeClass();
-					$("#seat"+sn).addClass('sit');
-					$("#seat"+sn).addClass('sitted');
-					$("#seat"+sn).attr('title', nick);
-					socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
-					loadBlackList();
-					loadGravatar();
 				}
-			} else {
 
+				$("#seat"+sn).removeClass();
+				$("#seat"+sn).addClass('sit');
+				$("#seat"+sn).addClass('sitted');
+				$("#seat"+sn).attr('title', nick);
+				socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
+				loadBlackList();
+				loadGravatar();
 			}
 		}, 
 		'json');
@@ -80,10 +76,7 @@ function clearSitWithSitno(sn){
 		{sitno:sn, nickname:null, room:room_num}, 
 		function(data){
 			if(data.msg === 'success') {
-				modifySit();
 				socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
-			} else {
-
 			}
 		}, 
 		'json');
@@ -115,17 +108,7 @@ function clearSit() {
 	
 }
 
-function clearSeatBySeatNo(seatNo) {
-	$.post('/modify', 
-		{sitno:sn, nickname:'', room:room_num}, 
-		function(data){}, 
-		'json');
-
-	socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
-}
-
 function init() {
-	// window.location = "http://128.199.208.98/";
 	room_num = $('#room').val();
 	console.log("get room : " + room_num);
 
