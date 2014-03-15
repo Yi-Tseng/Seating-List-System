@@ -59,10 +59,10 @@ function modifySit () {
 					clearSitWithSitno(_id);
 				} else {
 
-					$("#"+sn).removeClass();
-					$("#"+sn).addClass('sit');
-					$("#"+sn).addClass('sitted');
-					$("#"+sn).attr('title', nick);
+					$("#seat"+sn).removeClass();
+					$("#seat"+sn).addClass('sit');
+					$("#seat"+sn).addClass('sitted');
+					$("#seat"+sn).attr('title', nick);
 					socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
 					loadBlackList();
 					loadGravatar();
@@ -146,7 +146,7 @@ function loadBlackList() {
 		var list = data.list;
 		console.log(list);
 		for(k in list) {
-			$('a[title='+list[k].name+']').addClass('black-sit');
+			$("a[title='"+list[k].name+"']").addClass('black-sit');
 		}
 	}, 'json');
 }
