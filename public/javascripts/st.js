@@ -48,6 +48,7 @@ function modifySit () {
 	if(sn === '') {
 		return;
 	}
+	clearSitWithSitno(sn);
 
 	$.post('/modify', 
 		{sitno:sn, nickname:nick, room:room_num}, 
@@ -114,6 +115,15 @@ function clearSit() {
 	
 }
 
+function clearSeatBySeatNo(seatNo) {
+	$.post('/modify', 
+		{sitno:sn, nickname:'', room:room_num}, 
+		function(data){}, 
+		'json');
+
+	socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
+}
+
 function init() {
 	room_num = $('#room').val();
 	console.log("get room : " + room_num);
@@ -123,8 +133,10 @@ function init() {
 	loadGravatar();
 
 	initSocketIO();
-	$(".dark-cover").remove();
-
+	setTimeout(function(){
+		$(".dark-cover").remove();
+		console.log("ok");
+	}, 3000);
 }
 
 function loadSits() {

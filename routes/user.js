@@ -58,14 +58,13 @@ exports.modify = function(req, res) {
 
 	
 	if(nickname !== '' && seatNo !== '' && room !== '') {
-		Seat.findOne({room:room, name:nickname, no:seatNo}, function(err, data) {
+		Seat.findOne({room:room, name:nickname}, function(err, data) {
 			if(err) {
 				res.send({'msg':'fail'});
 			} else if(data == null){
 				var s = new Seat({room:room, name:nickname, no:seatNo});
 				s.save(function(err){});
 			} else {
-				data.name = nickname;
 				data.no = seatNo;
 				data.save(function(err){});
 				// Seat.update({room:room, name:nickname, no:seatNo});
