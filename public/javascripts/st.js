@@ -73,7 +73,7 @@ function modifySit () {
 
 function clearSitWithSitno(sn){
 	$.post('/modify', 
-		{sitno:sn, nickname:null, room:room_num}, 
+		{sitno:sn, nickname:'', room:room_num}, 
 		function(data){
 			if(data.msg === 'success') {
 				socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
