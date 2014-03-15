@@ -125,7 +125,7 @@ function clearSeatBySeatNo(seatNo) {
 }
 
 function init() {
-	window.location = "http://128.199.208.98/";
+	// window.location = "http://128.199.208.98/";
 	room_num = $('#room').val();
 	console.log("get room : " + room_num);
 
