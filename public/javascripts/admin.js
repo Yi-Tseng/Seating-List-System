@@ -2,7 +2,7 @@
 function sendConfMsg() {
 	var cmsg = $('#conf_msg').val();
 	var pwd = $('#pwd').val();
-	$.post('/blablaadmin', 
+	$.post('/admin', 
 		{pwd:pwd, conf_msg:cmsg}, 
 		function(data) {
 			if(data.res === 'err') {
