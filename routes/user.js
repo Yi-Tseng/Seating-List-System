@@ -44,17 +44,6 @@ exports.list = function(req, res) {
 	
 };
 
-function needBlock(name) {
-	var blockLost = new Array("sss", "tnlin", "frankwu", "wiwi_lee", "HANAK", "i-c0112", "fuck");
-
-	for(var k in blockLost) {
-		if( name === blockLost[k]) {
-			return true;
-		}
-	}
-	return false;
-}
-
 
 exports.modify = function(req, res) {
 	console.log('modify');
@@ -67,9 +56,7 @@ exports.modify = function(req, res) {
 	console.log('nickName : ' + nickname);
 	console.log('room : ' + room);
 	
-	if(needBlock(nickname)) {
-
-	} else if(nickname !== '' && seatNo !== '' && room !== '') {
+	if(nickname !== '' && seatNo !== '' && room !== '') {
 
 		Seat.findOne({room:room, name:nickname}, function(err, data) {
 			if(err) {
