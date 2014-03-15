@@ -76,18 +76,17 @@ exports.modify = function(req, res) {
 		
 	} else if(nickname === '' && seatNo !== '' && room !== '') { 
 		// delete seat
-		console.log('delete');
-		Seat.remove({room:room, no:seatNo}, function(err, data) {
-			if (err) {
-				res.send({'msg':'fail'});
-			} else {
-				res.send({'msg':'success'});
-			}
-			res.end();
-		});
-
-		
-
+		// console.log('delete');
+		// Seat.remove({room:room, no:seatNo}, function(err, data) {
+		// 	if (err) {
+		// 		res.send({'msg':'fail'});
+		// 	} else {
+		// 		res.send({'msg':'success'});
+		// 	}
+		// 	res.end();
+		// });
+		res.send({'msg':'success'});
+		res.end();
 	} else {
 		res.send({'msg':'fail'});
 		res.end();
