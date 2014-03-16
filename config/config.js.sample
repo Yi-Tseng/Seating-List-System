@@ -1,0 +1,18 @@
+(function(){
+    var config = function(){
+        var server_conf = function(){//{{{
+            this.port = 80
+        };//}}}
+        var irc_conf = function(){//{{{
+            this.server = 'chat.freenode.net',
+            this.channel = '#sitcon',
+            this.bot_nick = 'SITCON_BOT'
+            this.bot_pwd = 'sitcon_bot_pwd'
+        };//}}}
+
+        this.server = new server_conf();
+        this.irc = new irc_conf();
+    };
+
+    module.exports = new config();
+})();

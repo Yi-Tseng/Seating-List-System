@@ -14,9 +14,10 @@ var irc = require('irc');
 var xss = require('xss');
 var fs = require('fs');
 var app = express();
+var config = require('./config/config.js');
 
 // all environments
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || config.server.port || 80);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -65,18 +66,18 @@ io.sockets.on('connection', function (socket) {
 	
 });
 
-var client = new irc.Client('irc.freenode.net', 'SITCON_BOT', {
-    channels: ['#sitcon'],debug:true
+var client = new irc.Client(config.irc.server, config.irc.bot_nick, {
+    channels: [config.irc.channel],debug:true
 });
 
 client.addListener('error', function(message) {
     console.log('error: ', message);
 });
 
-client.join('#sitcon sitcon_bot_pwd');
+client.join(config.irc.channel + ' ' + config.irc.bot_pwd);
 
 client.addListener('message', function (from, to, message) {
-	console.log("SITCON IRC : " + from + ' => ' + to + ': ' + message);
+	console.log(config.irc.channel + " IRC : " + from + ' => ' + to + ': ' + message);
 	message = xss(message);
 	io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
 });
