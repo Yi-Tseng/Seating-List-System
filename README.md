@@ -3,7 +3,7 @@ SITCON Seatting Chart
 
 Install
 ----------
- 1. Install Redis : [http://redis.io/][1]
+ 1. Install MongoDB : [https://www.mongodb.org/][1]
  2. Install Node.js : [http://nodejs.org/][2]
  3. git
 
