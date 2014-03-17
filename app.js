@@ -12,7 +12,6 @@ var http = require('http');
 var path = require('path');
 var irc = require('irc');
 var xss = require('xss');
-var fs = require('fs');
 var app = express();
 var config = require('./config/config.js');
 
@@ -28,11 +27,6 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// get pwd
-console.log('getting password...');
-var pwd = (fs.readFileSync('./config/pwd.txt')).toString();
-console.log('got!');
-
 
 // development only
 if ('development' == app.get('env')) {
@@ -45,7 +39,6 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 io = require('socket.io').listen(server);
-
 
 io.sockets.on('connection', function (socket) {
 
@@ -86,7 +79,7 @@ client.addListener('message', function (from, to, message) {
 app.get('/admin', admin.index);
 app.post('/admin', function(req, res) {
 
-	if(md5(req.body.pwd) !== pwd) {
+	if(md5(req.body.pwd) !== config.admin_pwd) {
 		res.send({res:'err'});
 		res.end();
 	} else {
@@ -94,7 +87,6 @@ app.post('/admin', function(req, res) {
 		io.sockets.emit('conf_msg', {'msg':req.body.conf_msg});
 	}
 });
-
 
 app.get('/list', user.list);
 app.post('/modify', user.modify);
