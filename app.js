@@ -41,22 +41,7 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (socket) {
-
-	socket.on('modify_sit', function(data) {
-
-		if(data.sitno.length <= 8) {
-			io.sockets.emit('sit_md', data);
-		}
-	});
-	socket.on('clear_sit', function(data) {
-		io.sockets.emit('sit_clr', data);
-	});
-	socket.on('reload_gravatar', function(data) {
-		data.emailHash = xss(data.emailHash);
-		data.ircNick = xss(data.ircNick);
-		io.sockets.emit('reload_gravatar', data);
-	});
-	
+	console.log('Socket connected!');
 });
 
 var client = new irc.Client(
@@ -97,6 +82,7 @@ app.post('/admin', function(req, res) {
 	}
 });
 
+user.setSockets(io.sockets);
 app.get('/list', user.list);
 app.post('/modify', user.modify);
 app.get('/list-gra', user.getGra);

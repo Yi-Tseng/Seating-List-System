@@ -29,6 +29,12 @@ var GravatarSchema = new Schema({
 
 var Gravatar = mongoose.model('Gravatar', GravatarSchema);
 
+var sockets;
+
+exports.setSockets = function(s) {
+	sockets = s;
+}
+
 exports.list = function(req, res) {
 	var room = req.query.room;
 	var sitList;
@@ -59,17 +65,20 @@ exports.modify = function(req, res) {
 	if(nickname !== '' && seatNo !== '' && room !== '') {
 
 		Seat.findOne({room:room, name:nickname}, function(err, data) {
+			var oldSeat;
 			if(err) {
 				res.send({'msg':'fail'});
 			} else if(data == null){
 				var s = new Seat({room:room, name:nickname, no:seatNo});
 				s.save(function(err){});
 			} else {
+				oldSeat = data.no;
 				data.no = seatNo;
 				data.save(function(err){});
 				// Seat.update({room:room, name:nickname, no:seatNo});
 			}
 			res.send({'msg':'success'})
+			sockets.emit('sit_md', {sitno:seatNo, nickname:nickname, room:room, oldSeat:oldSeat});
 			res.end();
 		});
 
@@ -82,6 +91,7 @@ exports.modify = function(req, res) {
 				res.send({'msg':'fail'});
 			} else {
 				res.send({'msg':'success'});
+				sockets.emit('sit_clr', {sitno:seatNo, room:room});
 			}
 			res.end();
 		});
@@ -142,13 +152,15 @@ exports.addGra = function(req, res) {
 						res.send({'res':'error'});
 					} else {
 						res.send({'res':'success'});		
+						ircNick = xss(ircNick);
+						emailHash = xss(emailHash);
+						sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
 					}
 					res.end();
 				});
 			} else {
 				data.emailHash = emailHash;
 				data.save();
-				// console.log('save ' + data);
 				res.send({'res':'success'});
 				res.end();
 			}
