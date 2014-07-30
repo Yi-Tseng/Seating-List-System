@@ -78,8 +78,12 @@ client.addListener('message', function (from, to, message) {
 // path
 app.get('/admin', admin.index);
 app.post('/admin', function(req, res) {
-
-	if(md5(req.body.pwd) !== config.admin_pwd) {
+	var tmp = req.body.pwd;
+	for(var c=0; c<128; c++) {
+		tmp = md5(tmp);
+	}
+	
+	if(tmp !== config.admin_pwd) {
 		res.send({res:'err'});
 		res.end();
 	} else {

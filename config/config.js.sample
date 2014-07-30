@@ -9,7 +9,7 @@
             this.bot_nick = 'ROBOT_NAME'
             this.bot_pwd = 'ROBOT_PWD'
         };//}}}
-        this.admin_pwd = 'admin_password';
+        this.admin_pwd = 'admin_password'; // 128 times md5 hash
 
         this.server = new server_conf();
         this.irc = new irc_conf();
