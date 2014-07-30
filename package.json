@@ -8,7 +8,7 @@
   "dependencies": {
     "express": "3.4.8",
     "ejs": "*", 
-    "irc": "0.3.6", 
+    "node-irc": ">=0.0.3", 
     "mongoose": "3.8.7", 
     "socket.io": "0.9.16", 
     "xss": "0.0.9", 
