@@ -37,7 +37,7 @@ $('.display-gra-btn').click(function() {
 
 function modifySit () {
 	var sn = $("#sitno").val();
-	sn = sn.substring(4); // cut "seat"
+	// sn = sn.substring(4); // cut "seat"
 	var nick = $("#nickname").val();
 	if(nick === '') {
 		$(".selected").removeClass("selected");
@@ -54,16 +54,17 @@ function modifySit () {
 		function(data){
 		
 			if(data.msg === 'success') {
-				if($("a[title='" + nick + "']").length != 0) {
-					var _id = $("a[title='" + nick + "']").attr('id');
-					clearSitWithSitno(_id);
-				}
+				// if($("a[title='" + nick + "']").length != 0) {
+				// 	var _id = $("a[title='" + nick + "']").attr('id');
+				// 	clearSitWithSitno(_id);
+				// }
 
-				$("#seat"+sn).removeClass();
-				$("#seat"+sn).addClass('sit');
-				$("#seat"+sn).addClass('sitted');
-				$("#seat"+sn).attr('title', nick);
-				socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
+				$("#"+sn).removeClass();
+				$("#"+sn).addClass('sit');
+				$("#"+sn).addClass('sitted');
+				$("#"+sn).attr('title', nick);
+
+				// socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
 				loadBlackList();
 				loadGravatar();
 			}
@@ -76,7 +77,7 @@ function clearSitWithSitno(sn){
 		{sitno:sn, nickname:'', room:room_num}, 
 		function(data){
 			if(data.msg === 'success') {
-				socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
+				// socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
 			}
 		}, 
 		'json');
@@ -84,7 +85,7 @@ function clearSitWithSitno(sn){
 
 function clearSit() {
 	var sn = $("#sitno").val();
-	sn = sn.substring(4); // cut "seat"
+	// sn = sn.substring(4); // cut "seat"
 	if(sn === '') {
 		return;
 	}
@@ -94,17 +95,17 @@ function clearSit() {
 		function(data){
 		
 			if(data.msg === 'success') {
-				$("#seat"+sn).attr('style', '');
-				$("#seat"+sn).removeClass();
-				$("#seat"+sn).addClass('sit');
-				$("#seat"+sn).attr('title', '空');	
+				$("#"+sn).attr('style', '');
+				$("#"+sn).removeClass();
+				$("#"+sn).addClass('sit');
+				$("#"+sn).attr('title', '空');	
 			} else {
 
 			}
 		}, 
 		'json');
 
-	socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
+	// socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
 	
 }
 
@@ -131,8 +132,8 @@ function loadSits() {
 		if(data.msg === 'success') {
 			for(var k in data.seats) {
 				var seat = data.seats[k];
-				$('#seat' + seat.no).attr('title', seat.name);
-				$('#seat' + seat.no).addClass('sitted');
+				$('#' + seat.no).attr('title', seat.name);
+				$('#' + seat.no).addClass('sitted');
 			}
 		}
 	}, 'json');
@@ -159,10 +160,17 @@ function initSocketIO() {
 		if(data.room === room_num) {
 			var sn = data.sitno;
 			var nick = data.nickname;
+			var oldSeat = data.oldSeat;
+			console.log('old ' + oldSeat);
+
+			if(oldSeat != undefined) {
+				clearSitWithSitno(oldSeat);
+			}
+
 			console.log(data);
-			$("#seat"+sn).removeClass("selected");
-			$("#seat"+sn).addClass("sitted");
-			$("#seat"+sn).attr("title", nick);
+			$("#"+sn).removeClass("selected");
+			$("#"+sn).addClass("sitted");
+			$("#"+sn).attr("title", nick);
 		}
 
 		
@@ -209,7 +217,6 @@ function initSocketIO() {
 }
 
 function loadGravatar() {
-	console.log("reloading gravatar")
 	$.get('/list-gra', function(data) {
 
 		if(data.res === 'success') {
@@ -236,7 +243,7 @@ function addGravatar() {
 			if(data.res === 'success') {
 				$('#ircNick').val('');
 				$('#email').val('');
-				socket.emit('reload_gravatar', {'ircNick':ircNick, 'emailHash':emailHash});
+				// socket.emit('reload_gravatar', {'ircNick':ircNick, 'emailHash':emailHash});
 				$('#gra_msg').html('修改成功');
 				
 			} else {
