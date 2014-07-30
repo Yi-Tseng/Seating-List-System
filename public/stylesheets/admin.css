@@ -3,14 +3,14 @@ h1 {
 }
 
 .admin-bg {
-	background: white url('/images/sitcon_jiang.png') no-repeat top right;
+	background: white url('/images/PLG-wide_2x_1000x525_large.png') no-repeat center;
 }
 
 .admin-bar {
 	position: absolute;
 	top: 50%;
-	background-color: #7cb059;
-	background-image: url('/images/sitcon_jiang_line.png');
+	background-color: #000;
+	background-image: url('/images/PLG-wide_2x_1000x525_large_reverse.png');
 	background-repeat: no-repeat;
-	background-position: 100% 50%;
+	background-position: 50% 60%;
 }
