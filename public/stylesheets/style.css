@@ -4,8 +4,12 @@ body {
 
 .header {
 	font-size: 50px;
-	color: #7cb059;
+	color: #fff;
 	text-align: center;
+}
+
+body {
+	background-color: #666;
 }
 
 .stage {
@@ -14,7 +18,7 @@ body {
 	width: 100%;
 	height: 50;
 	font-size: 20px;
-	background-color: #7cb059;
+	background-color: #333;
 	color: #FFF;
 }
 
@@ -27,7 +31,7 @@ body {
 		display: inline-block;
 		margin: 20px;
 		border: 1px solid;
-		border-color: #000;
+		border-color: #fff;
 		z-index: 4;
 	}
 
@@ -48,7 +52,7 @@ body {
 
 	.sit {
 		display: inline-block;
-		background-color: #7cb059;
+		background-color: #fff;
 		color: #FFF;
 		width: 30px;
 		height: 25px;
@@ -106,7 +110,7 @@ body {
 		display: inline-block;
 		margin: 10px;
 		border: 1px solid;
-		border-color: #000;
+		border-color: #fff;
 		z-index: 4;
 	}
 
@@ -127,7 +131,7 @@ body {
 
 	.sit {
 		display: inline-block;
-		background-color: #7cb059;
+		background-color: #fff;
 		color: #FFF;
 		width: 25px;
 		height: 20px;
@@ -186,7 +190,7 @@ body {
 		display: inline-block;
 		margin: 5px;
 		border: 1px solid;
-		border-color: #000;
+		border-color: #fff;
 		z-index: 4;
 	}
 
@@ -207,7 +211,7 @@ body {
 
 	.sit {
 		display: inline-block;
-		background-color: #7cb059;
+		background-color: #fff;
 		color: #FFF;
 		width: 20px;
 		height: 15px;
@@ -263,16 +267,12 @@ body {
 
 
 .sitted {
-	background-color: #FF6633;
+	background-color: #222;
 }
 
 .selected {
 	background-color: #60D0EE;
 }
-
-
-
-
 
 .meeting-room {
 	margin-bottom: 70px;
@@ -289,7 +289,7 @@ body {
 		bottom: 0px;
 		width: 100%;
 		height: 130px;
-		background-color: #7cb059;
+		background-color: #444;
 		text-align: center;
 		font-size: 1em;
 		color: #FFF;
@@ -308,7 +308,7 @@ body {
 		bottom: 0px;
 		width: 100%;
 		height: 50px;
-		background-color: #7cb059;
+		background-color: #444;
 		text-align: center;
 		font-size: 1em;
 		color: #FFF;
@@ -338,8 +338,8 @@ body {
 
 .btn-modify-sit {
 	color: #fff;
-	background-color: #f0ad4e;
-	border-color: #eea236;
+	background-color: #333;
+	border-color: #444;
 }
 
 .btn-clear-sit {
@@ -397,7 +397,7 @@ body {
 	position: fixed;
 	top: 22%;
 	left: -30;
-	background-color: #7cb059;
+	background-color: #000;
 	border-radius: 10px;
 	padding: 10px;
 	color: #FFF;
@@ -411,13 +411,13 @@ body {
 
 }
 .display-gra-btn:hover {
-	background-color: #f0ad4e;
+	background-color: #444;
 }
 .gravatar-regist {
 	position: fixed;
 	top: 20%;
 	left: -160px;
-	background-color: #7cb059;
+	background-color: #000;
 	border-radius: 10px;
 	padding: 10px;
 	z-index: 99;
@@ -460,7 +460,7 @@ body {
 	position: fixed;
 	top: 20%;
 	right: 0%;
-	background-color: #7cb059;
+	background-color: #333;
 	border-radius: 10px;
 	padding: 10px;
 	color: #FFF;
@@ -472,9 +472,29 @@ body {
 	transition-timing-function: linear;
 }
 .change-room-btn-selected {
-	background-color: #f0ad4e;
+	background-color: #555;
 }
 
 .change-room-btn:hover {
-	background-color: #f0ad4e;
+	background-color: #777;
+}
+
+.irc-link:link {
+	text-decoration: none;
+    color: #fff;
+}
+
+.irc-link:visited {
+	text-decoration: none;
+    color: #fff;
+}
+
+.irc-link:hover {
+	text-decoration: none;
+    color: #fff;
+}
+
+.irc-link:active {
+	text-decoration: none;
+    color: #fff;
 }

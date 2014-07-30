@@ -6,10 +6,10 @@
         var irc_conf = function(){//{{{
             this.server = 'chat.freenode.net',
             this.channel = '#sitcon',
-            this.bot_nick = 'SITCON_BOT'
-            this.bot_pwd = 'sitcon_bot_pwd'
+            this.bot_nick = 'ROBOT_NAME'
+            this.bot_pwd = 'ROBOT_PWD'
         };//}}}
-        this.admin_pwd = f086c59663bd4b8e5e0f2c47425bb8a7;
+        this.admin_pwd = 'admin_password';
 
         this.server = new server_conf();
         this.irc = new irc_conf();
