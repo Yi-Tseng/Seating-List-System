@@ -79,6 +79,11 @@ exports.modify = function(req, res) {
 			}
 			res.send({'msg':'success'})
 			sockets.emit('sit_md', {sitno:seatNo, nickname:nickname, room:room, oldSeat:oldSeat});
+			Gravatar.findOne({ircNick:nickname}, function(err, data) {
+				if(!err && data != null) {
+					sockets.emit('reload_gravatar', data);
+				}
+			});
 			res.end();
 		});
 
