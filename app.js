@@ -10,7 +10,7 @@ var admin = require('./routes/admin');
 var md5 = require('MD5');
 var http = require('http');
 var path = require('path');
-var irc = require('irc');
+var irc = require('node-irc');
 var xss = require('xss');
 var app = express();
 var config = require('./config/config.js');
@@ -59,15 +59,20 @@ io.sockets.on('connection', function (socket) {
 	
 });
 
-var client = new irc.Client(config.irc.server, config.irc.bot_nick, {
-    channels: [config.irc.channel],debug:true
-});
+var client = new irc.Client(
+	config.irc.server, 
+	config.irc.bot_nick, 
+	{
+    	channels: [config.irc.channel], 
+    	debug:true
+	}
+);
 
 client.addListener('error', function(message) {
     console.log('error: ', message);
 });
 
-client.join(config.irc.channel + ' ' + config.irc.bot_pwd);
+client.join(config.irc.channel + ' ' + config.irc.bot_pwd)
 
 client.addListener('message', function (from, to, message) {
 	console.log(config.irc.channel + " IRC : " + from + ' => ' + to + ': ' + message);
@@ -82,7 +87,7 @@ app.post('/admin', function(req, res) {
 	for(var c=0; c<128; c++) {
 		tmp = md5(tmp);
 	}
-	
+
 	if(tmp !== config.admin_pwd) {
 		res.send({res:'err'});
 		res.end();
