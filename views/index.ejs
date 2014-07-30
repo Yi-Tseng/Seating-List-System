@@ -65,12 +65,18 @@
 
 		<!-- header -->
 		<div class="row">
-			<h1 class="header">HITCON X Playground 座位表</h1>
+			<div class="header" align='center'>
+				<h1 class='header-text'>HITCON</h1>
+				<h1 class='header-text'>&nbsp;X&nbsp;</h1>
+				<h1 class='header-text'>Playground</h1>
+				<h1 class='header-text'>&nbsp;座位表</h1>
+			</div>
 		</div>
 
 		<div class="meeting-room" align="center">
 			<div class="row">
-				<div class="stage">講台
+				<div class="stage">
+				<p class='stage-text'>講台</p>
 					<p><a class='irc-link' href="http://webchat.freenode.net/?channels=hitcon-plg" class="no-under-line-link" style="color=#FFF;">IRC Channel</a></p>
 				</div>
 			</div>
@@ -126,9 +132,9 @@
 		</div>
 		<% for(var c = 0; c<3; c++) { %>
 			<% if('r'+c === room){ %>
-				<a class="change-room-btn change-room-btn-selected" href='#' style="top: <%= 50+c*40 %>px;">R<%= c %></a>
+				<a class="change-room-btn change-room-btn-selected" href='#' style="top: <%= (40+c*10) %>%;">R<%= c %></a>
 			<% } else { %>
-				<a class="change-room-btn" href='/r<%= c %>' style="top: <%= 50+c*40 %>px;">Go to R<%= c %></a>
+				<a class="change-room-btn" href='/r<%= c %>' style="top: <%= (40+c*10) %>%;">Go to R<%= c %></a>
 			<% } %>
 		<% } %>
 		<div class="footer">
