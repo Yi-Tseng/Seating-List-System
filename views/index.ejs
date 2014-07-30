@@ -87,7 +87,7 @@
 				<div class="block-area left-block">
 
 					<% for(j=0; j<sits[i][0]; j++) { %>
-						<a class="sit" title="空" id="seat<%= counter %>"></a>
+						<a class="sit" title="空" id="<%= counter %>"></a>
 					<% 
 						counter++;
 					} %>
@@ -97,7 +97,7 @@
 				<div class="block-area center-block">
 					
 					<% for(j=0; j<sits[i][1]; j++) { %>
-						<a class="sit" title="空" id="seat<%= counter %>"></a>
+						<a class="sit" title="空" id="<%= counter %>"></a>
 					<% 
 						counter++;
 					} %>
@@ -107,7 +107,7 @@
 				<div class="block-area right-block">
 					
 					<% for(j=0; j<sits[i][2]; j++) { %>
-						<a class="sit" title="空" id="seat<%= counter %>"></a>
+						<a class="sit" title="空" id="<%= counter %>"></a>
 					<% 
 						counter++;
 					} %>
