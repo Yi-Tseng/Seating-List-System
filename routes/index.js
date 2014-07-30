@@ -13,7 +13,6 @@ exports.index = function(req, res){
 		if (req.accepts('html')) {
 			res.render('404', { url: req.url });
 			res.type('txt').send('Not found');
-			res.end();
 			return;
 		}
 	}

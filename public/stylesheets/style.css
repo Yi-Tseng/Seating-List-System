@@ -546,6 +546,26 @@ body {
     color: #fff;
 }
 
+.gra-link:link {
+	text-decoration: none;
+    color: #fff;
+}
+
+.gra-link:visited {
+	text-decoration: none;
+    color: #fff;
+}
+
+.gra-link:hover {
+	text-decoration: none;
+    color: #fff;
+}
+
+.gra-link:active {
+	text-decoration: none;
+    color: #fff;
+}
+
 .stage-text {
 	font-size: 30px;
 	margin-bottom: 10px;
