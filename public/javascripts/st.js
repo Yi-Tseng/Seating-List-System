@@ -54,17 +54,10 @@ function modifySit () {
 		function(data){
 		
 			if(data.msg === 'success') {
-				// if($("a[title='" + nick + "']").length != 0) {
-				// 	var _id = $("a[title='" + nick + "']").attr('id');
-				// 	clearSitWithSitno(_id);
-				// }
-
 				$("#"+sn).removeClass();
 				$("#"+sn).addClass('sit');
 				$("#"+sn).addClass('sitted');
 				$("#"+sn).attr('title', nick);
-
-				// socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
 				loadBlackList();
 				loadGravatar();
 			}
@@ -77,7 +70,7 @@ function clearSitWithSitno(sn){
 		{sitno:sn, nickname:'', room:room_num}, 
 		function(data){
 			if(data.msg === 'success') {
-				// socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
+				$("#"+sn).attr('style', '');
 			}
 		}, 
 		'json');
@@ -179,6 +172,7 @@ function initSocketIO() {
 	socket.on('sit_clr', function (data) {
 		if(data.room === room_num) {
 			var sn = data.sitno;
+			$("#"+sn).attr('style', '');
 			$("#"+sn).removeClass();
 			$("#"+sn).addClass('sit');
 			$("#"+sn).attr('title', '空');
