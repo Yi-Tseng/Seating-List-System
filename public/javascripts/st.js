@@ -1,5 +1,4 @@
 var socket;
-
 var room_num;
 
 $(".sit").click(function(){
@@ -18,22 +17,6 @@ $(".sit").click(function(){
 		}
 	}
 });
-
-$('.display-gra-btn').click(function() {
-	if($('.display-gra-btn').hasClass('g-btn-move')) {
-		
-		$('.display-gra-btn').html('頭像設定');
-		$('.display-gra-btn').removeClass('g-btn-move');
-		$('.gravatar-regist').removeClass('g-move');
-		
-	} else {
-		$('.display-gra-btn').addClass('g-btn-move');
-		$('.gravatar-regist').addClass('g-move');
-		$('.display-gra-btn').html('關閉');
-	}
-	
-});
-
 
 function modifySit () {
 	var sn = $("#sitno").val();
@@ -97,8 +80,6 @@ function clearSit() {
 			}
 		}, 
 		'json');
-
-	// socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
 	
 }
 
@@ -199,7 +180,7 @@ function initSocketIO() {
 	});
 
 	socket.on('reload_gravatar', function(data) {
-		console.log(data);
+		console.log('reload gra' + data);
 		var k = data.ircNick;
 		var emailHash = data.emailHash;
 		var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
@@ -225,24 +206,3 @@ function loadGravatar() {
 		}
 	});
 }
-
-function addGravatar() {
-	var ircNick = $('#ircNick').val();
-	var email = $('#email').val();
-	email = email.toLowerCase();
-	var emailHash = hex_md5(email);
-	$.post('/add-gra', 
-		{'ircNick':ircNick, 'emailHash':emailHash}, 
-		function(data) {
-			if(data.res === 'success') {
-				$('#ircNick').val('');
-				$('#email').val('');
-				// socket.emit('reload_gravatar', {'ircNick':ircNick, 'emailHash':emailHash});
-				$('#gra_msg').html('修改成功');
-				
-			} else {
-				$('#gra_msg').html('修改失敗');
-			}
-		});
-}
-

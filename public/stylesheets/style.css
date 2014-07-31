@@ -3,7 +3,6 @@ body {
 	background-color: #666;
 }
 
-.header {}
 .header-text {
 	font-size: 50px;
 	color: #fff;
@@ -321,12 +320,7 @@ body {
 	.change-room-btn {
 		display: none;
 	}
-	.display-gra-btn {
-		display: none;
-	}
-	.gravatar-regist {
-		display: none;
-	}
+	
 }
 
 @media screen and (min-width: 65.625em) {
@@ -355,9 +349,7 @@ body {
 	.footer {
 		display: none;
 	}
-	.display-gra-btn {
-		display: none;
-	}
+	
 }
 
 .btn {
@@ -434,70 +426,11 @@ body {
 	background-size: 30px;
 }
 
-.display-gra-btn {
-	position: fixed;
-	top: 40%;
-	left: -30;
-	background-color: #000;
-	border-radius: 10px;
-	padding: 10px;
-	color: #FFF;
-	z-index: 99;
-	transform: rotate(90deg);
-	-webkit-transform:rotate(90deg);
-	-webkit-transition: .2s;
-	transition: .2s;
-	-webkit-transition-timing-function: linear;
-	transition-timing-function: linear;
-
-}
-.display-gra-btn:hover {
-	background-color: #444;
-}
-.gravatar-regist {
-	position: fixed;
-	top: 38%;
-	left: -160px;
-	background-color: #000;
-	border-radius: 10px;
-	padding: 10px;
-	z-index: 99;
-	-webkit-transition: .3s;
-	transition: .3s;
-	-webkit-transition-timing-function: linear;
-	transition-timing-function: linear;
-}
-
-.g-move {
-	left: 0;
-}
-.g-btn-move {
-	left: 145px;
-}
-
-.gravatar-regist > h3 {
-	margin: 5px;
-	font-size: 1.5em;
-	color: #FFF;
-}
-.gravatar-regist > p {
-	margin: 5px;
-	color: #FFF;
-}
-
-#ircNick {
-	width: 125px;
-}
-#email {
-	width: 125px;
-}
-
 .no-under-line-link {
 	text-decoration: none;
 }
 
 .change-room-btn {
-	
 	position: fixed;
 	top: 20%;
 	right: 0%;
@@ -538,26 +471,6 @@ body {
 }
 
 .irc-link:active {
-	text-decoration: none;
-    color: #fff;
-}
-
-.gra-link:link {
-	text-decoration: none;
-    color: #fff;
-}
-
-.gra-link:visited {
-	text-decoration: none;
-    color: #fff;
-}
-
-.gra-link:hover {
-	text-decoration: none;
-    color: #fff;
-}
-
-.gra-link:active {
 	text-decoration: none;
     color: #fff;
 }

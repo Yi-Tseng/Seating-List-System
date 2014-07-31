@@ -61,8 +61,24 @@ client.join(config.irc.channel + ' ' + config.irc.bot_pwd)
 
 client.addListener('message', function (from, to, message) {
 	console.log(config.irc.channel + " IRC : " + from + ' => ' + to + ': ' + message);
-	message = xss(message);
-	io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
+	if(!to.match(/HITCON_BOT[0-9]?/)) {
+		message = xss(message);
+		io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
+	}
+	
+});
+
+client.addListener('pm', function(from, message) {
+	console.log('[PM] : ' + message);
+	var splitArr = message.split(' ');
+	var command = splitArr[0];
+	console.log('command : ' + command);
+
+	if(command === 'setIcon') {
+		var email = splitArr[1];
+		user._addGra(from, email);
+	}
+
 });
 
 // path
@@ -77,7 +93,6 @@ app.post('/admin', function(req, res) {
 		res.send({res:'err'});
 		res.end();
 	} else {
-		console.log('Conf Msg : ' + req.body.conf_msg);
 		io.sockets.emit('conf_msg', {'msg':req.body.conf_msg});
 	}
 });
@@ -86,7 +101,6 @@ user.setSockets(io.sockets);
 app.get('/list', user.list);
 app.post('/modify', user.modify);
 app.get('/list-gra', user.getGra);
-app.post('/add-gra', user.addGra);
 app.get('/black-list', user.blackList);
 app.post('/black-list', user.addBlack);
 app.get('/:room', routes.index);

@@ -118,18 +118,7 @@
 			<% } %>
 
 		</div><!-- meeting room -->
-		<div class="display-gra-btn">頭像設定</div>
-		<div class="gravatar-regist">
-			<h3>頭像設定</h3>
-			<p>使用 <a class='gra-link' href="http://en.gravatar.com/">Gravator</a></p>
-			<p>IRC ID</p>
-			<input type='text' id='ircNick' />
-			<p>email</p>
-			<input type='text' id='email' />
-			<br />
-			<button id="btn_modify" class="btn btn-modify-sit" onClick="addGravatar()">修改</button>
-			<p id='gra_msg'></p>
-		</div>
+		
 		<% for(var c = 0; c<3; c++) { %>
 			<% if('r'+c === room){ %>
 				<a class="change-room-btn change-room-btn-selected" href='#' style="top: <%= (40+c*10) %>%;">R<%= c %></a>
