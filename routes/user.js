@@ -5,6 +5,7 @@
 
 var xss = require('xss');
 var mongoose = require('mongoose');
+var md5 = require('MD5');
 mongoose.connect('mongodb://localhost/SeatingTable');
 var Schema = mongoose.Schema;
 
@@ -139,12 +140,41 @@ exports.addBlack = function(req, res) {
 	}
 }
 
+exports._addGra = function(ircNick, email) {
+	var emailHash = md5(email);
+
+	console.log('_addGra ' + ircNick + ' ' + emailHash);
+	if(ircNick !== '' && emailHash !== '') {
+		Gravatar.findOne({ircNick:ircNick}, function(err, data) {
+			if( data == null) {
+				var gra = new Gravatar({ircNick:ircNick, emailHash:emailHash});
+				gra.save(function(err){
+					if(err) {
+						console.log(err);
+					} else {
+						ircNick = xss(ircNick);
+						emailHash = xss(emailHash);
+						sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
+					}
+				});
+			} else {
+				data.emailHash = emailHash;
+				data.save();
+				sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
+			}
+		});
+
+		
+	} 
+}
+
 exports.addGra = function(req, res) {
 
 	var ircNick = req.body.ircNick;
 	var emailHash = req.body.emailHash;
 	console.log("Nick : " + ircNick);
 	console.log("Hash : " + emailHash);
+
 	if(ircNick !== '' && emailHash !== '') {
 		Gravatar.findOne({ircNick:ircNick}, function(err, data) {
 			if(err) {
