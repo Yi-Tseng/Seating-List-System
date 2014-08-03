@@ -89,15 +89,12 @@ function init() {
 
 	loadSits();
 	initSocketIO();
-	setTimeout(function(){
-		loadBlackList();
-		loadGravatar();
-	}, 4000);
+	loadBlackList();
+	loadGravatar();
 	
 	setTimeout(function(){
 		$(".dark-cover").remove();
-		console.log("ok");
-	}, 3000);
+	}, 2000);
 }
 
 function loadSits() {
