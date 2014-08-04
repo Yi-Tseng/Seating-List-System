@@ -2,7 +2,6 @@ var socket;
 var room_num;
 var bullets = {};
 var firedBullets = {};
-var explodes = {};
 var bulletSpeed = 30;
 
 $(".sit").click(function(){
@@ -194,13 +193,27 @@ function initSocketIO() {
 			bullets[bulletId] = bullet;
 			$('body').append(bcvs);
 
-			console.log('left:' + locTo.left + 'px; top:' + locTo.top + 'px;');
 			$('#' + bulletId).animate(
 				{left:locTo.left + "px", top:locTo.top + "px"}, 
 				400, 
 				function(){
-					var bulletId = this.id;
-					$('#' + bulletId).remove();
+					var pos = $(this).position();
+					var height = $(this).height();
+					var width = $(this).width();
+
+					$(this).animate(
+						{
+							height: height*2, 
+							width:width*2, 
+							opacity:0, 
+							left:pos.left - width/2, 
+							top:pos.top - height/2
+						}, 
+						300, 
+						function(){
+							var bulletId = this.id;
+							$('#' + bulletId).remove();
+						})
 				});
 		}
 
