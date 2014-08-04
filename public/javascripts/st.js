@@ -1,5 +1,9 @@
 var socket;
 var room_num;
+var bullets = {};
+var firedBullets = {};
+var explodes = {};
+var bulletSpeed = 30;
 
 $(".sit").click(function(){
 	if(this.className.indexOf('selected') != -1){
@@ -158,13 +162,55 @@ function initSocketIO() {
 	});
 	
 	socket.on('irc_msg', function (data) {
-		console.log("IRC Message : " + data.from + " : " + data.msg);
-		html =  "<div class='msg-bubble'>" + data.msg + "</div>";
-		$("a[title='" + data.from + "']").prepend(html);
+		var tmpArr = data.msg.split(':');
+		var from = data.from;
+		var to = '';
+		var message = '';
+		if(tmpArr.length > 1){
+			to = tmpArr[0];
+			message = data.msg.substr(to.length + 1);
+		} else {
+			message = data.msg;
+		}
+		
+		// 'DennyHuang: Hello:World'
 
+		console.log("IRC Message : " + from + " -> " + to + " : " + message);
+
+		if(to !== '' && $("a[title='" + to + "']").length != 0) {
+			var locFrom = $("a[title='" + from + "']").position();
+			var locTo = $("a[title='" + to + "']").position();
+			var rnd = Math.random();
+
+			var bulletId = hex_md5('' + rnd);
+			while(typeof bullets[bulletId] !== 'undefined') {
+				rnd = Math.random();
+				bulletId = hex_md5(rnd);
+			}			
+
+			var bcvs = "<div id='" + bulletId + "' class='irc-bullet' style='top:" + (locFrom.top) + "px; left:" + (locFrom.left)+ "px;'></div>"
+			var bullet = {from:from, to:to, locFrom:locFrom, locTo:locTo};
+			
+			bullets[bulletId] = bullet;
+			$('body').append(bcvs);
+
+			console.log('left:' + locTo.left + 'px; top:' + locTo.top + 'px;');
+			$('#' + bulletId).animate(
+				{left:locTo.left + "px", top:locTo.top + "px"}, 
+				400, 
+				function(){
+					var bulletId = this.id;
+					$('#' + bulletId).remove();
+				});
+		}
+
+		//
+		html =  "<div class='msg-bubble'>" + message + "</div>";
+		$("a[title='" + from + "']").prepend(html);
 		setTimeout(function() {
-			$("a[title='" + data.from + "'] .msg-bubble").remove();
+			$("a[title='" + from + "'] .msg-bubble").remove();
 		}, 2000);
+
 	});
 	socket.on('conf_msg', function(data) {
 		console.log('Conference Message : ' + data.msg);
