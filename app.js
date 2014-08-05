@@ -74,7 +74,7 @@ client.addListener('pm', function(from, message) {
 	var command = splitArr[0];
 	console.log('command : ' + command);
 
-	if(command === 'setIcon') {
+	if(command === 'setGravatar') {
 		var email = splitArr[1];
 		user._addGra(from, email);
 	}
