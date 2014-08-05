@@ -262,3 +262,12 @@ function loadGravatar() {
 		}
 	});
 }
+
+function help() {
+	window.scrollTo(0, 0);
+	var helpImageHtml = '<div class="help"></div>';
+	$('html').append(helpImageHtml);
+	$('.help').click(function() {
+		$('.help').remove();
+	});
+}
