@@ -1,7 +1,11 @@
-
+var winston = require('winston');
 
 exports.index = function(req, res){
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	var room = req.params.room;
+
+	winston.info('[/' + room + '] access from ' + ip);
+
 	if(room !== 'r0' && room !== 'r1' && room !== 'r2') {
 		res.status(404);
 
@@ -11,13 +15,7 @@ exports.index = function(req, res){
 		}
 	}
 	
-	console.log("get : " + room);
-
-	
 	res.render('index', {room: room});
-	
-	
-	
 
 };
 

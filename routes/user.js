@@ -3,6 +3,7 @@
  * GET users listing.
  */
 
+var winston = require('winston');
 var xss = require('xss');
 var mongoose = require('mongoose');
 var md5 = require('MD5');
@@ -37,8 +38,11 @@ exports.setSockets = function(s) {
 }
 
 exports.list = function(req, res) {
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	var room = req.query.room;
 	var sitList;
+	winston.info('[/list] access from ' + ip);
+	winston.info('[/list] room number ' + room);
 
 	Seat.find({room:room}, function(err, data) {
 		if(err) {
@@ -53,15 +57,16 @@ exports.list = function(req, res) {
 
 
 exports.modify = function(req, res) {
-	console.log('modify');
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	winston.info('[/modify] access from ' + ip);
 
 	var seatNo = req.body.sitno;
 	var nickname = req.body.nickname;
 	var room = req.body.room;
 
-	console.log('SeatNo : ' + seatNo);
-	console.log('nickName : ' + nickname);
-	console.log('room : ' + room);
+	winston.info('SeatNo : ' + seatNo);
+	winston.info('nickName : ' + nickname);
+	winston.info('room : ' + room);
 	
 	if(nickname !== '' && seatNo !== '' && room !== '') {
 
@@ -76,10 +81,10 @@ exports.modify = function(req, res) {
 				oldSeat = data.no;
 				data.no = seatNo;
 				data.save(function(err){});
-				// Seat.update({room:room, name:nickname, no:seatNo});
 			}
 			res.send({'msg':'success'})
 			sockets.emit('sit_md', {sitno:seatNo, nickname:nickname, room:room, oldSeat:oldSeat});
+
 			Gravatar.findOne({ircNick:nickname}, function(err, data) {
 				if(!err && data != null) {
 					sockets.emit('reload_gravatar', data);
@@ -90,8 +95,8 @@ exports.modify = function(req, res) {
 
 		
 	} else if(nickname === '' && seatNo !== '' && room !== '') { 
-		// delete seat
-		// console.log('delete');
+		winston.info('[/modify] delete seat, room : ' + room + ', seatNo : ' + seatNo);
+
 		Seat.remove({room:room, no:seatNo}, function(err, data) {
 			if (err) {
 				res.send({'msg':'fail'});
@@ -111,6 +116,9 @@ exports.modify = function(req, res) {
 };
 
 exports.blackList = function(req, res) {
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	winston.info('[/blackList] access from ' + ip);
+
 	BlackList.find({}, function(err, data) {
 		if(err) {
 			res.send({msg:'fail'});
@@ -122,8 +130,11 @@ exports.blackList = function(req, res) {
 }
 
 exports.addBlack = function(req, res) {
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	winston.info('[/blackList] access from ' + ip);
 	var name = req.body.name;
-	console.log('add ' + name + ' to black list');
+	winston.info('[/blackList] add ' + name + ' to black list');
+
 	if(name !== ''){
 		var bl = new BlackList({'name':name});
 		bl.save(function(err){
@@ -143,7 +154,7 @@ exports.addBlack = function(req, res) {
 exports._addGra = function(ircNick, email) {
 	var emailHash = md5(email);
 
-	console.log('_addGra ' + ircNick + ' ' + emailHash);
+	winston.info('[_addGra] ircNick : ' + ircNick + ', email : ' + emailHash);
 	if(ircNick !== '' && emailHash !== '') {
 		Gravatar.findOne({ircNick:ircNick}, function(err, data) {
 			if( data == null) {
@@ -172,8 +183,8 @@ exports.addGra = function(req, res) {
 
 	var ircNick = req.body.ircNick;
 	var emailHash = req.body.emailHash;
-	console.log("Nick : " + ircNick);
-	console.log("Hash : " + emailHash);
+	winston.info("[addGra] Nick : " + ircNick);
+	winston.info("[addGra] Hash : " + emailHash);
 
 	if(ircNick !== '' && emailHash !== '') {
 		Gravatar.findOne({ircNick:ircNick}, function(err, data) {
@@ -209,6 +220,9 @@ exports.addGra = function(req, res) {
 }
 
 exports.getGra = function(req, res) {
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	winston.info('[/list-gra] access from ' + ip);
+
 	Gravatar.find({}, function(err, data) {
 		if(err) {
 			res.send({res:'error'});
