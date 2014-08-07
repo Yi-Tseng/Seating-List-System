@@ -35,10 +35,10 @@ function modifySit () {
 		return;
 	}
 
-	$.post('/modify', 
-		{sitno:sn, nickname:nick, room:room_num}, 
+	$.post('/modify',
+		{sitno:sn, nickname:nick, room:room_num},
 		function(data){
-		
+
 			if(data.msg === 'success') {
 				$("#"+sn).removeClass();
 				$("#"+sn).addClass('sit');
@@ -47,18 +47,18 @@ function modifySit () {
 				loadBlackList();
 				loadGravatar();
 			}
-		}, 
+		},
 		'json');
 }
 
 function clearSitWithSitno(sn){
-	$.post('/modify', 
-		{sitno:sn, nickname:'', room:room_num}, 
+	$.post('/modify',
+		{sitno:sn, nickname:'', room:room_num},
 		function(data){
 			if(data.msg === 'success') {
 				$("#"+sn).attr('style', '');
 			}
-		}, 
+		},
 		'json');
 }
 
@@ -69,21 +69,21 @@ function clearSit() {
 		return;
 	}
 
-	$.post('/modify', 
-		{sitno:sn, nickname:'', room:room_num}, 
+	$.post('/modify',
+		{sitno:sn, nickname:'', room:room_num},
 		function(data){
-		
+
 			if(data.msg === 'success') {
 				$("#"+sn).attr('style', '');
 				$("#"+sn).removeClass();
 				$("#"+sn).addClass('sit');
-				$("#"+sn).attr('title', '空');	
+				$("#"+sn).attr('title', '空');
 			} else {
 
 			}
-		}, 
+		},
 		'json');
-	
+
 }
 
 function init() {
@@ -94,14 +94,14 @@ function init() {
 	initSocketIO();
 	loadBlackList();
 	loadGravatar();
-	
+
 	setTimeout(function(){
 		$(".dark-cover").remove();
 	}, 2000);
 }
 
 function loadSits() {
-	
+
 	$.get('/list/?room=' + room_num, function(data) {
 		if(data.msg === 'success') {
 			for(var k in data.seats) {
@@ -147,7 +147,7 @@ function initSocketIO() {
 			$("#"+sn).attr("title", nick);
 		}
 
-		
+
 	});
 
 	socket.on('sit_clr', function (data) {
@@ -159,7 +159,7 @@ function initSocketIO() {
 			$("#"+sn).attr('title', '空');
 		}
 	});
-	
+
 	socket.on('irc_msg', function (data) {
 		var tmpArr = data.msg.split(':');
 		var from = data.from;
@@ -171,7 +171,7 @@ function initSocketIO() {
 		} else {
 			message = data.msg;
 		}
-		
+
 		// 'DennyHuang: Hello:World'
 
 		console.log("IRC Message : " + from + " -> " + to + " : " + message);
@@ -185,17 +185,17 @@ function initSocketIO() {
 			while(typeof bullets[bulletId] !== 'undefined') {
 				rnd = Math.random();
 				bulletId = hex_md5(rnd);
-			}			
+			}
 
 			var bcvs = "<div id='" + bulletId + "' class='irc-bullet' style='top:" + (locFrom.top) + "px; left:" + (locFrom.left)+ "px;'></div>"
 			var bullet = {from:from, to:to, locFrom:locFrom, locTo:locTo};
-			
+
 			bullets[bulletId] = bullet;
 			$('body').append(bcvs);
 
 			$('#' + bulletId).animate(
-				{left:locTo.left + "px", top:locTo.top + "px"}, 
-				400, 
+				{left:locTo.left + "px", top:locTo.top + "px"},
+				400,
 				function(){
 					var pos = $(this).position();
 					var height = $(this).height();
@@ -203,13 +203,13 @@ function initSocketIO() {
 
 					$(this).animate(
 						{
-							height: height*2, 
-							width:width*2, 
-							opacity:0, 
-							left:pos.left - width/2, 
+							height: height*2,
+							width:width*2,
+							opacity:0,
+							left:pos.left - width/2,
 							top:pos.top - height/2
-						}, 
-						300, 
+						},
+						300,
 						function(){
 							var bulletId = this.id;
 							$('#' + bulletId).remove();
@@ -244,7 +244,7 @@ function initSocketIO() {
 		$('a[title='+k+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
 		console.log('change gra finished');
 	});
-	
+
 }
 
 function loadGravatar() {
@@ -265,7 +265,7 @@ function loadGravatar() {
 
 function help() {
 	window.scrollTo(0, 0);
-	var helpImageHtml = '<div class="help"></div>';
+	var helpImageHtml = '<img class="help" src="/images/help.png"></img>';
 	$('html').append(helpImageHtml);
 	$('.help').click(function() {
 		$('.help').remove();

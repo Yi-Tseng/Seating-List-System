@@ -320,7 +320,7 @@ body {
 	.change-room-btn {
 		display: none;
 	}
-	
+
 }
 
 @media screen and (min-width: 65.625em) {
@@ -349,7 +349,7 @@ body {
 	.footer {
 		display: none;
 	}
-	
+
 }
 
 .btn {
@@ -497,9 +497,6 @@ body {
 }
 
 .help {
-	background-image: url('/images/help.png');
-	background-size: cover;
-	background-repeat: no-repeat;
 	z-index: 101;
 	position: fixed;
 	top: 0;
