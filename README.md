@@ -1,4 +1,4 @@
-SITCON Seatting Chart
+MakerConf Seatting Chart
 =====================
 
 Install
