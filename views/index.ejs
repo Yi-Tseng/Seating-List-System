@@ -3,35 +3,35 @@
 	var sits;
 	if(room === 'r0') {
 		sits = new Array(
-		new Array(6, 8, 6), 
-		new Array(6, 8, 6), 
-		new Array(6, 8, 6), 
-		new Array(7, 9, 7), 
-		new Array(7, 9, 7), 
-		new Array(7, 9, 7), 
-		new Array(7, 9, 7), 
-		new Array(8, 10, 8), 
-		new Array(8, 10, 8), 
-		new Array(8, 11, 8), 
-		new Array(9, 11, 9), 
-		new Array(9, 11, 9), 
-		new Array(9, 11, 9), 
+		new Array(6, 8, 6),
+		new Array(6, 8, 6),
+		new Array(6, 8, 6),
+		new Array(7, 9, 7),
+		new Array(7, 9, 7),
+		new Array(7, 9, 7),
+		new Array(7, 9, 7),
+		new Array(8, 10, 8),
+		new Array(8, 10, 8),
+		new Array(8, 11, 8),
+		new Array(9, 11, 9),
+		new Array(9, 11, 9),
+		new Array(9, 11, 9),
 		new Array(6, 3, 6)
 		);
 	} else {
 		sits = new Array(
-		new Array(7, 5, 7), 
-		new Array(7, 5, 7), 
-		new Array(7, 6, 7), 
-		new Array(7, 7, 7), 
-		new Array(7, 7, 7), 
+		new Array(7, 5, 7),
+		new Array(7, 5, 7),
+		new Array(7, 6, 7),
+		new Array(7, 7, 7),
+		new Array(7, 7, 7),
 		new Array(4, 8, 4)
 		);
 	}
 	var numRows = sits.length;
 	var counter = 0;
-	
-	
+
+
 %>
 
 <html>
@@ -46,9 +46,9 @@
 
 
 	<body onLoad="init()">
-		<input id="room" type="hidden" value="<%= room %>" />
+		<input id="room" type="hidden" value="r0" />
 		<div class="dark-cover">
-			
+
 			<div id="floatingCirclesG" class="center-pos">
 				<div class="f_circleG" id="frotateG_01"></div>
 				<div class="f_circleG" id="frotateG_02"></div>
@@ -59,19 +59,19 @@
 				<div class="f_circleG" id="frotateG_07"></div>
 				<div class="f_circleG" id="frotateG_08"></div>
 			</div>
-					
+
 		</div>
-		
+
 
 		<!-- header -->
 		<div class="row">
-			<h1 class="header">SITCON 座位表</h1>
+			<h1 class="header">MakerConf 座位表</h1>
 		</div>
 
 		<div class="meeting-room" align="center">
 			<div class="row">
 				<div class="stage">講台
-					<p>IRC網址：<a href="http://webchat.freenode.net/?channels=sitcon" class="no-under-line-link" style="color=#FFF;">點這裡</a></p>
+					<p>IRC網址：<a href="http://webchat.freenode.net/?channels=MakerConf" class="no-under-line-link" style="color=#FFF;">點這裡</a></p>
 				</div>
 			</div>
 			<% for(var i = 0; i < numRows; i++) { %>
@@ -82,30 +82,30 @@
 
 					<% for(j=0; j<sits[i][0]; j++) { %>
 						<a class="sit" title="空" id="seat<%= counter %>"></a>
-					<% 
+					<%
 						counter++;
 					} %>
 
 				</div>
 
 				<div class="block-area center-block">
-					
+
 					<% for(j=0; j<sits[i][1]; j++) { %>
 						<a class="sit" title="空" id="seat<%= counter %>"></a>
-					<% 
+					<%
 						counter++;
 					} %>
-					
+
 				</div>
 
 				<div class="block-area right-block">
-					
+
 					<% for(j=0; j<sits[i][2]; j++) { %>
 						<a class="sit" title="空" id="seat<%= counter %>"></a>
-					<% 
+					<%
 						counter++;
 					} %>
-					
+
 				</div>
 			</div><!-- row -->
 
@@ -124,13 +124,6 @@
 			<button id="btn_modify" class="btn btn-modify-sit" onClick="addGravatar()">修改</button>
 			<p id='gra_msg'></p>
 		</div>
-		<% for(var c = 0; c<3; c++) { %>
-			<% if('r'+c === room){ %>
-				<a class="change-room-btn change-room-btn-selected" href='#' style="top: <%= 50+c*40 %>px;">R<%= c %></a>
-			<% } else { %>
-				<a class="change-room-btn" href='/r<%= c %>' style="top: <%= 50+c*40 %>px;">Go to R<%= c %></a>
-			<% } %>
-		<% } %>
 		<div class="footer">
 			<div class="input-area">
 				座位編號：<input type="text" id="sitno" name="sitno" value="" disabled />
@@ -146,7 +139,7 @@
 		<script type="text/javascript" src="/javascripts/jquery-1.11.0.min.js"></script>
 		<script type="text/javascript" src="/javascripts/md5.js"></script>
 		<script type="text/javascript" src="/javascripts/st.js"></script>
-		
+
 	</body>
 
 

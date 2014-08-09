@@ -4,7 +4,7 @@ body {
 
 .header {
 	font-size: 50px;
-	color: #7cb059;
+	color: #036eb8;
 	text-align: center;
 }
 
@@ -14,7 +14,7 @@ body {
 	width: 100%;
 	height: 50;
 	font-size: 20px;
-	background-color: #7cb059;
+	background-color: #036eb8;
 	color: #FFF;
 }
 
@@ -48,7 +48,7 @@ body {
 
 	.sit {
 		display: inline-block;
-		background-color: #7cb059;
+		background-color: #036eb8;
 		color: #FFF;
 		width: 30px;
 		height: 25px;
@@ -127,7 +127,7 @@ body {
 
 	.sit {
 		display: inline-block;
-		background-color: #7cb059;
+		background-color: #036eb8;
 		color: #FFF;
 		width: 25px;
 		height: 20px;
@@ -207,7 +207,7 @@ body {
 
 	.sit {
 		display: inline-block;
-		background-color: #7cb059;
+		background-color: #036eb8;
 		color: #FFF;
 		width: 20px;
 		height: 15px;
@@ -263,7 +263,7 @@ body {
 
 
 .sitted {
-	background-color: #FF6633;
+	background-color: #D80252;
 }
 
 .selected {
@@ -289,7 +289,7 @@ body {
 		bottom: 0px;
 		width: 100%;
 		height: 130px;
-		background-color: #7cb059;
+		background-color: #036eb8;
 		text-align: center;
 		font-size: 1em;
 		color: #FFF;
@@ -308,7 +308,7 @@ body {
 		bottom: 0px;
 		width: 100%;
 		height: 50px;
-		background-color: #7cb059;
+		background-color: #036eb8;
 		text-align: center;
 		font-size: 1em;
 		color: #FFF;
@@ -397,7 +397,7 @@ body {
 	position: fixed;
 	top: 22%;
 	left: -30;
-	background-color: #7cb059;
+	background-color: #036eb8;
 	border-radius: 10px;
 	padding: 10px;
 	color: #FFF;
@@ -417,7 +417,7 @@ body {
 	position: fixed;
 	top: 20%;
 	left: -160px;
-	background-color: #7cb059;
+	background-color: #036eb8;
 	border-radius: 10px;
 	padding: 10px;
 	z-index: 99;
@@ -456,11 +456,11 @@ body {
 }
 
 .change-room-btn {
-	
+
 	position: fixed;
 	top: 20%;
 	right: 0%;
-	background-color: #7cb059;
+	background-color: #036eb8;
 	border-radius: 10px;
 	padding: 10px;
 	color: #FFF;
