@@ -1,4 +1,4 @@
-HITCON Seatting List
+SITCON Seatting List
 =====================
 
 Install
