@@ -18,7 +18,7 @@
 		new Array(9, 11, 9), 
 		new Array(6, 3, 6)
 		);
-	} else {
+	} else if(room !== 'r3'){
 		sits = new Array(
 		new Array(7, 5, 7), 
 		new Array(7, 5, 7), 
@@ -26,6 +26,13 @@
 		new Array(7, 7, 7), 
 		new Array(7, 7, 7), 
 		new Array(4, 8, 4)
+		);
+	} else {
+		sits = new Array(
+		new Array(0, 9, 0), 
+		new Array(0, 9, 0), 
+		new Array(0, 9, 0), 
+		new Array(0, 9, 0)
 		);
 	}
 	var numRows = sits.length;
@@ -86,6 +93,8 @@
 
 			<div class="row">
 				<h1 class="row-title">第 <%= i+1 %> 排</h1>
+
+				<% if(room !== 'r3') {%>
 				<div class="block-area left-block">
 
 					<% for(j=0; j<sits[i][0]; j++) { %>
@@ -95,7 +104,8 @@
 					} %>
 
 				</div>
-
+				<% } %>
+				
 				<div class="block-area center-block">
 					
 					<% for(j=0; j<sits[i][1]; j++) { %>
@@ -105,7 +115,8 @@
 					} %>
 					
 				</div>
-
+				
+				<% if(room !== 'r3') {%>
 				<div class="block-area right-block">
 					
 					<% for(j=0; j<sits[i][2]; j++) { %>
@@ -115,13 +126,14 @@
 					} %>
 					
 				</div>
+				<% } %>
 			</div><!-- row -->
 
 			<% } %>
 
 		</div><!-- meeting room -->
 		
-		<% for(var c = 0; c<3; c++) { %>
+		<% for(var c = 0; c<4; c++) { %>
 			<% if('r'+c === room){ %>
 				<a class="change-room-btn change-room-btn-selected" href='#' style="top: <%= (40+c*10) %>%;">R<%= c %></a>
 			<% } else { %>
