@@ -127,7 +127,7 @@ function loadBlackList() {
 function initSocketIO() {
 	console.log('init socket.io');
 
-	socket = io.connect('http://'+location.hostname+':'+location.port);
+	socket = io.connect('//' + location.hostname + ':' + location.port);
 
 	socket.on('sit_md', function (data) {
 
