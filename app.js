@@ -14,6 +14,7 @@ var irc = require('irc');
 var xss = require('xss');
 var app = express();
 var config = require('./config/config.js');
+var winston = require('winston');
 
 // all environments
 app.set('port', process.env.PORT || config.server.port || 80);
@@ -32,69 +33,91 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
 }
-
+winston.add(winston.transports.File, { filename: 'log.log' });
 
 var server = http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+  winston.info('[Express] Express server listening on port ' + app.get('port'));
 });
 
 io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (socket) {
+	winston.info('[Socket] Socket connected!');
+});
 
-	socket.on('modify_sit', function(data) {
+var client = new irc.Client(
+	config.irc.server, 
+	config.irc.bot_nick, 
+	{
+    	channels: [config.irc.channel], 
+    	debug:true
+	}
+);
 
-		if(data.sitno.length <= 8) {
-			io.sockets.emit('sit_md', data);
-		}
-	});
-	socket.on('clear_sit', function(data) {
-		io.sockets.emit('sit_clr', data);
-	});
-	socket.on('reload_gravatar', function(data) {
-		data.emailHash = xss(data.emailHash);
-		data.ircNick = xss(data.ircNick);
-		io.sockets.emit('reload_gravatar', data);
-	});
+client.addListener('error', function(message) {
+    winston.info('[IRC] error: ', message);
+});
+
+client.join(config.irc.channel + ' ' + config.irc.bot_pwd)
+
+client.addListener('message', function (from, to, message) {
+	winston.info("[IRC] channel : " + config.irc.channel + " from : " + from + ', to : ' + to + ', message : ' + message);
+	if(!to.match(/HITCON_BOT[0-9]?/)) {
+		message = xss(message);
+		io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
+	}
 	
 });
 
-var client = new irc.Client(config.irc.server, config.irc.bot_nick, {
-    channels: [config.irc.channel],debug:true
-});
+client.addListener('pm', function(from, message) {
+	winston.info('[IRC-PM] get message : ' + message);
+	var splitArr = message.split(' ');
+	var command = splitArr[0];
+	winston.info('[IRC-PM] command : ' + command);
 
-client.addListener('error', function(message) {
-    console.log('error: ', message);
-});
+	if(command === 'setGravatar') {
+		var email = splitArr[1];
+		user._addGra(from, email);
+	}
 
-client.join(config.irc.channel + ' ' + config.irc.bot_pwd);
-
-client.addListener('message', function (from, to, message) {
-	console.log(config.irc.channel + " IRC : " + from + ' => ' + to + ': ' + message);
-	message = xss(message);
-	io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
 });
 
 // path
 app.get('/admin', admin.index);
 app.post('/admin', function(req, res) {
+	winston.info('[/admin]POST to admin password : ' + req.body.pwd);
 
-	if(md5(req.body.pwd) !== config.admin_pwd) {
+	var tmp = req.body.pwd;
+	if(typeof tmp === 'undefined'){
+		return;
+	}
+
+	for(var c=0; c<128; c++) {
+		tmp = md5(tmp);
+	}
+
+	if(tmp !== config.admin_pwd) {
+		winston.info('[/admin] Password error!');
 		res.send({res:'err'});
 		res.end();
 	} else {
-		console.log('Conf Msg : ' + req.body.conf_msg);
+		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		winston.info('[/admin] Password pass from ip ' + ip);
+		winston.info('[/admin] message : ' + req.body.conf_msg);
+
 		io.sockets.emit('conf_msg', {'msg':req.body.conf_msg});
 	}
 });
 
+user.setSockets(io.sockets);
 app.get('/list', user.list);
 app.post('/modify', user.modify);
 app.get('/list-gra', user.getGra);
-app.post('/add-gra', user.addGra);
 app.get('/black-list', user.blackList);
 app.post('/black-list', user.addBlack);
 app.get('/:room', routes.index);
 app.get('/', function(req, res) {
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	winston.info('[/] Access from ' + ip);
 	res.redirect('/r0');
 });

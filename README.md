@@ -1,4 +1,4 @@
-MakerConf Seatting Chart
+Seatting List System
 =====================
 
 Install

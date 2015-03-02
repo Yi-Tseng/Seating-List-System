@@ -1,6 +1,8 @@
 var socket;
-
 var room_num;
+var bullets = {};
+var firedBullets = {};
+var bulletSpeed = 30;
 
 $(".sit").click(function(){
 	if(this.className.indexOf('selected') != -1){
@@ -19,25 +21,9 @@ $(".sit").click(function(){
 	}
 });
 
-$('.display-gra-btn').click(function() {
-	if($('.display-gra-btn').hasClass('g-btn-move')) {
-		
-		$('.display-gra-btn').html('頭像設定');
-		$('.display-gra-btn').removeClass('g-btn-move');
-		$('.gravatar-regist').removeClass('g-move');
-		
-	} else {
-		$('.display-gra-btn').addClass('g-btn-move');
-		$('.gravatar-regist').addClass('g-move');
-		$('.display-gra-btn').html('關閉');
-	}
-	
-});
-
-
 function modifySit () {
 	var sn = $("#sitno").val();
-	sn = sn.substring(4); // cut "seat"
+	// sn = sn.substring(4); // cut "seat"
 	var nick = $("#nickname").val();
 	if(nick === '') {
 		$(".selected").removeClass("selected");
@@ -49,63 +35,55 @@ function modifySit () {
 		return;
 	}
 
-	$.post('/modify', 
-		{sitno:sn, nickname:nick, room:room_num}, 
+	$.post('/modify',
+		{sitno:sn, nickname:nick, room:room_num},
 		function(data){
-		
-			if(data.msg === 'success') {
-				if($("a[title='" + nick + "']").length != 0) {
-					var _id = $("a[title='" + nick + "']").attr('id');
-					clearSitWithSitno(_id);
-				}
 
-				$("#seat"+sn).removeClass();
-				$("#seat"+sn).addClass('sit');
-				$("#seat"+sn).addClass('sitted');
-				$("#seat"+sn).attr('title', nick);
-				socket.emit('modify_sit', {sitno:sn, nickname:nick, room:room_num});
+			if(data.msg === 'success') {
+				$("#"+sn).removeClass();
+				$("#"+sn).addClass('sit');
+				$("#"+sn).addClass('sitted');
+				$("#"+sn).attr('title', nick);
 				loadBlackList();
 				loadGravatar();
 			}
-		}, 
+		},
 		'json');
 }
 
 function clearSitWithSitno(sn){
-	$.post('/modify', 
-		{sitno:sn, nickname:'', room:room_num}, 
+	$.post('/modify',
+		{sitno:sn, nickname:'', room:room_num},
 		function(data){
 			if(data.msg === 'success') {
-				socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
+				$("#"+sn).attr('style', '');
 			}
-		}, 
+		},
 		'json');
 }
 
 function clearSit() {
 	var sn = $("#sitno").val();
-	sn = sn.substring(4); // cut "seat"
+	// sn = sn.substring(4); // cut "seat"
 	if(sn === '') {
 		return;
 	}
 
-	$.post('/modify', 
-		{sitno:sn, nickname:'', room:room_num}, 
+	$.post('/modify',
+		{sitno:sn, nickname:'', room:room_num},
 		function(data){
-		
+
 			if(data.msg === 'success') {
-				$("#seat"+sn).attr('style', '');
-				$("#seat"+sn).removeClass();
-				$("#seat"+sn).addClass('sit');
-				$("#seat"+sn).attr('title', '空');	
+				$("#"+sn).attr('style', '');
+				$("#"+sn).removeClass();
+				$("#"+sn).addClass('sit');
+				$("#"+sn).attr('title', '空');
 			} else {
 
 			}
-		}, 
+		},
 		'json');
 
-	socket.emit('clear_sit', {sitno:sn, nickname:null, room:room_num});
-	
 }
 
 function init() {
@@ -114,25 +92,22 @@ function init() {
 
 	loadSits();
 	initSocketIO();
-	setTimeout(function(){
-		loadBlackList();
-		loadGravatar();
-	}, 4000);
-	
+	loadBlackList();
+	loadGravatar();
+
 	setTimeout(function(){
 		$(".dark-cover").remove();
-		console.log("ok");
-	}, 3000);
+	}, 2000);
 }
 
 function loadSits() {
-	
+
 	$.get('/list/?room=' + room_num, function(data) {
 		if(data.msg === 'success') {
 			for(var k in data.seats) {
 				var seat = data.seats[k];
-				$('#seat' + seat.no).attr('title', seat.name);
-				$('#seat' + seat.no).addClass('sitted');
+				$('#' + seat.no).attr('title', seat.name);
+				$('#' + seat.no).addClass('sitted');
 			}
 		}
 	}, 'json');
@@ -159,32 +134,96 @@ function initSocketIO() {
 		if(data.room === room_num) {
 			var sn = data.sitno;
 			var nick = data.nickname;
+			var oldSeat = data.oldSeat;
+			console.log('old ' + oldSeat);
+
+			if(oldSeat != undefined) {
+				clearSitWithSitno(oldSeat);
+			}
+
 			console.log(data);
-			$("#seat"+sn).removeClass("selected");
-			$("#seat"+sn).addClass("sitted");
-			$("#seat"+sn).attr("title", nick);
+			$("#"+sn).removeClass("selected");
+			$("#"+sn).addClass("sitted");
+			$("#"+sn).attr("title", nick);
 		}
 
-		
+
 	});
 
 	socket.on('sit_clr', function (data) {
 		if(data.room === room_num) {
 			var sn = data.sitno;
+			$("#"+sn).attr('style', '');
 			$("#"+sn).removeClass();
 			$("#"+sn).addClass('sit');
 			$("#"+sn).attr('title', '空');
 		}
 	});
-	
-	socket.on('irc_msg', function (data) {
-		console.log("IRC Message : " + data.from + " : " + data.msg);
-		html =  "<div class='msg-bubble'>" + data.msg + "</div>";
-		$("a[title='" + data.from + "']").prepend(html);
 
+	socket.on('irc_msg', function (data) {
+		var tmpArr = data.msg.split(':');
+		var from = data.from;
+		var to = '';
+		var message = '';
+		if(tmpArr.length > 1){
+			to = tmpArr[0];
+			message = data.msg.substr(to.length + 1);
+		} else {
+			message = data.msg;
+		}
+
+		// 'DennyHuang: Hello:World'
+
+		console.log("IRC Message : " + from + " -> " + to + " : " + message);
+
+		if(to !== '' && $("a[title='" + to + "']").length != 0) {
+			var locFrom = $("a[title='" + from + "']").position();
+			var locTo = $("a[title='" + to + "']").position();
+			var rnd = Math.random();
+
+			var bulletId = hex_md5('' + rnd);
+			while(typeof bullets[bulletId] !== 'undefined') {
+				rnd = Math.random();
+				bulletId = hex_md5(rnd);
+			}
+
+			var bcvs = "<div id='" + bulletId + "' class='irc-bullet' style='top:" + (locFrom.top) + "px; left:" + (locFrom.left)+ "px;'></div>"
+			var bullet = {from:from, to:to, locFrom:locFrom, locTo:locTo};
+
+			bullets[bulletId] = bullet;
+			$('body').append(bcvs);
+
+			$('#' + bulletId).animate(
+				{left:locTo.left + "px", top:locTo.top + "px"},
+				400,
+				function(){
+					var pos = $(this).position();
+					var height = $(this).height();
+					var width = $(this).width();
+
+					$(this).animate(
+						{
+							height: height*2,
+							width:width*2,
+							opacity:0,
+							left:pos.left - width/2,
+							top:pos.top - height/2
+						},
+						300,
+						function(){
+							var bulletId = this.id;
+							$('#' + bulletId).remove();
+						})
+				});
+		}
+
+		//
+		html =  "<div class='msg-bubble'>" + message + "</div>";
+		$("a[title='" + from + "']").prepend(html);
 		setTimeout(function() {
-			$("a[title='" + data.from + "'] .msg-bubble").remove();
+			$("a[title='" + from + "'] .msg-bubble").remove();
 		}, 2000);
+
 	});
 	socket.on('conf_msg', function(data) {
 		console.log('Conference Message : ' + data.msg);
@@ -197,7 +236,7 @@ function initSocketIO() {
 	});
 
 	socket.on('reload_gravatar', function(data) {
-		console.log(data);
+		console.log('reload gra' + data);
 		var k = data.ircNick;
 		var emailHash = data.emailHash;
 		var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
@@ -205,11 +244,10 @@ function initSocketIO() {
 		$('a[title='+k+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
 		console.log('change gra finished');
 	});
-	
+
 }
 
 function loadGravatar() {
-	console.log("reloading gravatar")
 	$.get('/list-gra', function(data) {
 
 		if(data.res === 'success') {
@@ -225,23 +263,11 @@ function loadGravatar() {
 	});
 }
 
-function addGravatar() {
-	var ircNick = $('#ircNick').val();
-	var email = $('#email').val();
-	email = email.toLowerCase();
-	var emailHash = hex_md5(email);
-	$.post('/add-gra', 
-		{'ircNick':ircNick, 'emailHash':emailHash}, 
-		function(data) {
-			if(data.res === 'success') {
-				$('#ircNick').val('');
-				$('#email').val('');
-				socket.emit('reload_gravatar', {'ircNick':ircNick, 'emailHash':emailHash});
-				$('#gra_msg').html('修改成功');
-				
-			} else {
-				$('#gra_msg').html('修改失敗');
-			}
-		});
+function help() {
+	window.scrollTo(0, 0);
+	var helpImageHtml = '<img class="help" src="/images/help.png"></img>';
+	$('html').append(helpImageHtml);
+	$('.help').click(function() {
+		$('.help').remove();
+	});
 }
-

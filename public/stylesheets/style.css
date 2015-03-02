@@ -1,33 +1,44 @@
 body {
 	margin: 70px 0px;
+	background-color: #666;
 }
 
-.header {
+.header-text {
 	font-size: 50px;
-	color: #7cb059;
-	text-align: center;
+	color: #fff;
+	display: inline-block;
 }
 
 .stage {
 	padding-top: 30px;
 	display: block;
 	width: 100%;
-	height: 50;
+	height: 70px;
 	font-size: 20px;
-	background-color: #7cb059;
+	background-color: #333;
 	color: #FFF;
 }
 
-.row {
-	display: block;
-	margin: 5px 0px;
+.row-title {
+	color: #fff;
+	transform: translate(0px,35px);
+	-webkit-transform: translate(0px,35px);
 }
-@media screen and (min-width: 1176px) {
+@media screen and (max-width: 697px) {
+	.header-text {
+		display: block;
+	}
+}
+@media screen and (min-width: 1231px) {
+	.row {
+		display: block;
+		margin: 5px 0px;
+	}
 	.block-area {
 		display: inline-block;
 		margin: 20px;
 		border: 1px solid;
-		border-color: #000;
+		border-color: #fff;
 		z-index: 4;
 	}
 
@@ -48,7 +59,7 @@ body {
 
 	.sit {
 		display: inline-block;
-		background-color: #7cb059;
+		background-color: #fff;
 		color: #FFF;
 		width: 30px;
 		height: 25px;
@@ -101,12 +112,16 @@ body {
 	    z-index:2
 	}
 }
-@media screen and (min-width: 989px) and (max-width: 1175px) {
+@media screen and (min-width: 1020px) and (max-width: 1230px) {
+	.row {
+		display: block;
+		margin: 15px 0px;
+	}
 	.block-area {
 		display: inline-block;
 		margin: 10px;
 		border: 1px solid;
-		border-color: #000;
+		border-color: #fff;
 		z-index: 4;
 	}
 
@@ -127,7 +142,7 @@ body {
 
 	.sit {
 		display: inline-block;
-		background-color: #7cb059;
+		background-color: #fff;
 		color: #FFF;
 		width: 25px;
 		height: 20px;
@@ -181,12 +196,16 @@ body {
 	}
 }
 
-@media screen and (min-width: 0px) and (max-width: 988px) {
+@media screen and (min-width: 0px) and (max-width: 1019px) {
+	.row {
+		display: block;
+		margin: 15px 0px;
+	}
 	.block-area {
 		display: inline-block;
 		margin: 5px;
 		border: 1px solid;
-		border-color: #000;
+		border-color: #fff;
 		z-index: 4;
 	}
 
@@ -207,7 +226,7 @@ body {
 
 	.sit {
 		display: inline-block;
-		background-color: #7cb059;
+		background-color: #fff;
 		color: #FFF;
 		width: 20px;
 		height: 15px;
@@ -259,45 +278,52 @@ body {
 	    position:absolute;
 	    z-index:2
 	}
+	.row-title {
+		transform:translate(0px, -5px);
+		-webkit-transform:translate(0px, -5px);
+	}
 }
 
 
 .sitted {
-	background-color: #FF6633;
+	background-color: #222;
 }
 
 .selected {
 	background-color: #60D0EE;
 }
 
-
-
-
-
 .meeting-room {
 	margin-bottom: 70px;
 }
 
-@media screen and (max-width: 614px) {
+
+
+@media screen and (max-width: 65.625em) {
 	.input-area {
 		display: block;
 		margin: 12px 30px;
 	}
 
 	.footer {
-		position: fixed;
+		display: none;
+		/*position: fixed;
 		bottom: 0px;
 		width: 100%;
 		height: 130px;
-		background-color: #7cb059;
+		background-color: #444;
 		text-align: center;
 		font-size: 1em;
 		color: #FFF;
-		z-index: 90;
+		z-index: 90;*/
 	}
+	.change-room-btn {
+		display: none;
+	}
+
 }
 
-@media screen and (min-width: 615px) {
+@media screen and (min-width: 65.625em) {
 	.input-area {
 		display: inline-block;
 		margin: 12px 30px;
@@ -308,12 +334,22 @@ body {
 		bottom: 0px;
 		width: 100%;
 		height: 50px;
-		background-color: #7cb059;
+		background-color: #444;
 		text-align: center;
 		font-size: 1em;
 		color: #FFF;
 		z-index: 90;
 	}
+}
+
+@media screen and (max-height: 436px) {
+	.change-room-btn {
+		display: none;
+	}
+	.footer {
+		display: none;
+	}
+
 }
 
 .btn {
@@ -338,14 +374,14 @@ body {
 
 .btn-modify-sit {
 	color: #fff;
-	background-color: #f0ad4e;
-	border-color: #eea236;
+	background-color: #333;
+	border-color: #444;
 }
 
 .btn-clear-sit {
 	color: #fff;
-	background-color: #d9534f;
-	border-color: #d43f3a;
+	background-color: #333;
+	border-color: #444;
 }
 
 .btn-black {
@@ -373,14 +409,9 @@ body {
 	filter: alpha(opacity=80);
 }
 
-.row-title {
-	transform: translate(0px,45px);
-	-webkit-transform: translate(0px,45px);
-}
-
 .black-sit {
-	background-color: #E90 !important;
-    border: 1px solid #C60 !important;
+	background-color: #000 !important;
+    border: 1px solid #fff !important;
     box-shadow: 0 0 50px 50px rgba(0, 0, 0, 0.8);
     position: relative;
     z-index: 100;
@@ -393,74 +424,17 @@ body {
 	background-size: 30px;
 }
 
-.display-gra-btn {
-	position: fixed;
-	top: 22%;
-	left: -30;
-	background-color: #7cb059;
-	border-radius: 10px;
-	padding: 10px;
-	color: #FFF;
-	z-index: 99;
-	transform: rotate(90deg);
-	-webkit-transform:rotate(90deg);
-	-webkit-transition: .2s;
-	transition: .2s;
-	-webkit-transition-timing-function: linear;
-	transition-timing-function: linear;
-
-}
-.display-gra-btn:hover {
-	background-color: #f0ad4e;
-}
-.gravatar-regist {
-	position: fixed;
-	top: 20%;
-	left: -160px;
-	background-color: #7cb059;
-	border-radius: 10px;
-	padding: 10px;
-	z-index: 99;
-	-webkit-transition: .3s;
-	transition: .3s;
-	-webkit-transition-timing-function: linear;
-	transition-timing-function: linear;
-}
-
-.g-move {
-	left: 0;
-}
-.g-btn-move {
-	left: 145px;
-}
-
-.gravatar-regist > h3 {
-	margin: 5px;
-	font-size: 1.5em;
-	color: #FFF;
-}
-.gravatar-regist > p {
-	margin: 5px;
-	color: #FFF;
-}
-
-#ircNick {
-	width: 125px;
-}
-#email {
-	width: 125px;
-}
-
 .no-under-line-link {
 	text-decoration: none;
 }
 
 .change-room-btn {
-	
 	position: fixed;
 	top: 20%;
 	right: 0%;
-	background-color: #7cb059;
+	background-color: #000;
+	border: 1px solid;
+	border-color: #fff;
 	border-radius: 10px;
 	padding: 10px;
 	color: #FFF;
@@ -472,9 +446,61 @@ body {
 	transition-timing-function: linear;
 }
 .change-room-btn-selected {
-	background-color: #f0ad4e;
+	background-color: #555;
 }
 
 .change-room-btn:hover {
-	background-color: #f0ad4e;
+	background-color: #777;
+}
+
+.irc-link:link {
+	text-decoration: none;
+    color: #fff;
+}
+
+.irc-link:visited {
+	text-decoration: none;
+    color: #fff;
+}
+
+.irc-link:hover {
+	text-decoration: none;
+    color: #fff;
+}
+
+.irc-link:active {
+	text-decoration: none;
+    color: #fff;
+}
+
+.stage-text {
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+
+.help-btn {
+	position: fixed;
+	top: 45%;
+	left: 0%;
+	background-color: #000;
+	border: 1px solid;
+	border-color: #fff;
+	border-radius: 10px;
+	padding: 10px;
+	color: #FFF;
+	z-index: 99;
+	text-decoration: none;
+	-webkit-transition: .2s;
+	transition: .2s;
+	-webkit-transition-timing-function: linear;
+	transition-timing-function: linear;
+}
+
+.help {
+	z-index: 101;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
