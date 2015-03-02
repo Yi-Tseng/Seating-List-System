@@ -4,8 +4,8 @@
             this.port = 80
         };//}}}
         var irc_conf = function(){//{{{
-            this.server = 'chat.freenode.net',
-            this.channel = '#sitcon',
+            this.server = 'irc.freenode.net'
+            this.channel = '#channel'
             this.bot_nick = 'ROBOT_NAME'
             this.bot_pwd = 'ROBOT_PWD'
         };//}}}

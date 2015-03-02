@@ -6,7 +6,7 @@ exports.index = function(req, res){
 
 	winston.info('[/' + room + '] access from ' + ip);
 
-	if(room !== 'r0' && room !== 'r1' && room !== 'r2') {
+	if(room !== 'r0' && room !== 'r1' && room !== 'r2' && room !== 'r3') {
 		res.status(404);
 
 		if (req.accepts('html')) {
