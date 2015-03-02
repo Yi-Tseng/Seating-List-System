@@ -1,6 +1,9 @@
 body {
 	margin: 70px 0px;
-	background-color: #666;
+
+	background: none repeat scroll 0% 0% #151924;
+    background-image: url("/images/bg-grid.png");
+    font-family: "PT Sans Narrow","Source Han Sans TWHK",sans-serif;
 }
 
 .header-text {
