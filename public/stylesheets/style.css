@@ -306,7 +306,6 @@ body {
 		display: block;
 		margin: 12px 30px;
 	}
-
 	.footer {
 		display: none;
 		/*position: fixed;
@@ -319,10 +318,6 @@ body {
 		color: #FFF;
 		z-index: 90;*/
 	}
-	.change-room-btn {
-		display: none;
-	}
-
 }
 
 @media screen and (min-width: 65.625em) {
@@ -345,13 +340,9 @@ body {
 }
 
 @media screen and (max-height: 436px) {
-	.change-room-btn {
-		display: none;
-	}
 	.footer {
 		display: none;
 	}
-
 }
 
 .btn {
@@ -442,9 +433,7 @@ body {
 	color: #FFF;
 	z-index: 99;
 	text-decoration: none;
-	-webkit-transition: .2s;
 	transition: .2s;
-	-webkit-transition-timing-function: linear;
 	transition-timing-function: linear;
 }
 .change-room-btn-selected {
@@ -492,10 +481,12 @@ body {
 	color: #FFF;
 	z-index: 99;
 	text-decoration: none;
-	-webkit-transition: .2s;
 	transition: .2s;
-	-webkit-transition-timing-function: linear;
 	transition-timing-function: linear;
+}
+
+.help-btn:hover {
+	background-color: #777;
 }
 
 .help {
