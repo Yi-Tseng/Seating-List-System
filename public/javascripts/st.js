@@ -127,7 +127,7 @@ function loadBlackList() {
 function initSocketIO() {
 	console.log('init socket.io');
 
-	socket = io.connect('http://'+location.hostname+':'+location.port);
+	socket = io.connect('//' + location.hostname + ':' + location.port);
 
 	socket.on('sit_md', function (data) {
 
@@ -203,11 +203,11 @@ function initSocketIO() {
 
 					$(this).animate(
 						{
-							height: height*2,
-							width:width*2,
+							height: height*4,
+							width:width*4,
 							opacity:0,
-							left:pos.left - width/2,
-							top:pos.top - height/2
+							left:pos.left - width,
+							top:pos.top - height
 						},
 						300,
 						function(){
@@ -271,3 +271,13 @@ function help() {
 		$('.help').remove();
 	});
 }
+
+$('#modify-trigger-btn').click(function(){
+	$footer = $('.footer')
+	if($footer.css('display') === 'none'){
+		$footer.css('display', 'block')
+	}
+	else{
+		$footer.attr('style', null)
+	}
+})

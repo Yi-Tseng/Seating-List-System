@@ -37,7 +37,7 @@
 	}
 	var numRows = sits.length;
 	var counter = 0;
-	
+
 %>
 
 <html>
@@ -74,25 +74,27 @@
 		<!-- header -->
 		<div class="row">
 			<div class="header" align='center'>
-				<h1 class='header-text'>SITCON</h1>
-				<h1 class='header-text'>&nbsp;The</h1>
-				<h1 class='header-text'>&nbsp;True</h1>
-				<h1 class='header-text'>&nbsp;Hackers</h1>
-				<h1 class='header-text'>&nbsp;座位表</h1>
+				<h1 class='header-text'><%= conference.name %></h1>
+				<% for(var i in conference.subtitle.split(' ')){ %>
+					<h1 class='header-text'><%= conference.subtitle.split(' ')[i] %></h1>
+				<% } %>
+				<h1 class='header-text'>座位表</h1>
 			</div>
 		</div>
 
 		<div class="meeting-room" align="center">
 			<div class="row">
 				<div class="stage">
-				<p class='stage-text'>講台</p>
-					<p><a class='irc-link' href="http://webchat.freenode.net/?channels=sitcon" class="no-under-line-link" style="color=#FFF;">IRC Channel</a></p>
+					<p class='stage-text'>講台</p>
+					<p>
+						<a class="irc-link no-under-line-link" href="http://webchat.freenode.net/?channels=<%= channel %>">IRC Channel</a>
+					</p>
 				</div>
 			</div>
 			<% for(var i = 0; i < numRows; i++) { %>
 
 			<div class="row">
-				<h1 class="row-title">第 <%= i+1 %> 排</h1>
+				<h1 class="row-title">第 <%= i + 1 %> 排</h1>
 
 				<% if(room !== 'r3') {%>
 				<div class="block-area left-block">
@@ -135,12 +137,13 @@
 		
 		<% for(var c = 0; c<4; c++) { %>
 			<% if('r'+c === room){ %>
-				<a class="change-room-btn change-room-btn-selected" href='#' style="top: <%= (40+c*10) %>%;">R<%= c %></a>
+				<a class="change-room-btn change-room-btn-selected menu-btn" href='#' style="top: <%= (40+c*10) %>%;">R<%= c %></a>
 			<% } else { %>
-				<a class="change-room-btn" href='/r<%= c %>' style="top: <%= (40+c*10) %>%;">Go to R<%= c %></a>
+				<a class="change-room-btn menu-btn" href='/r<%= c %>' style="top: <%= (40+c*10) %>%;">Go to R<%= c %></a>
 			<% } %>
 		<% } %>
-		<a class='help-btn' href='#' onclick='help()'>使<br>用<br>說<br>明</a>
+		<a class="help-btn menu-btn" href="#" onclick='help()'>使<br>用<br>說<br>明</a>
+		<a id="modify-trigger-btn" class="menu-btn" href="#">修<br>改</a>
 
 		<div class="footer">
 			<div class="input-area">
@@ -154,10 +157,12 @@
 		</div>
 
 		<script src="/socket.io/socket.io.js"></script>
-		<script type="text/javascript" src="/javascripts/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery-2.1.3.min.js"></script>
 		<script type="text/javascript" src="/javascripts/md5.js"></script>
 		<script type="text/javascript" src="/javascripts/st.js"></script>
-		
+		<% if(need_help){ %>
+			<script type="text/javascript">help()</script>
+		<% } %>		
 	</body>
 
 

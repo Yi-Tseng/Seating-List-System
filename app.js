@@ -12,6 +12,7 @@ var http = require('http');
 var path = require('path');
 var irc = require('irc');
 var xss = require('xss');
+var escape = require('escape-html');
 var app = express();
 var config = require('./config/config.js');
 var winston = require('winston');
@@ -25,6 +26,8 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(express.cookieParser(config.cookieSecret));
+app.use(express.cookieSession());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -62,11 +65,11 @@ client.join(config.irc.channel + ' ' + config.irc.bot_pwd)
 
 client.addListener('message', function (from, to, message) {
 	winston.info("[IRC] channel : " + config.irc.channel + " from : " + from + ', to : ' + to + ', message : ' + message);
-	if(!to.match(/HITCON_BOT[0-9]?/)) {
-		message = xss(message);
+	
+	if(!to.match(new RegExp(config.irc.bot_nick + '[0-9_]*'))) {
+		message = escape(message);
 		io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
 	}
-	
 });
 
 client.addListener('pm', function(from, message) {
@@ -79,13 +82,11 @@ client.addListener('pm', function(from, message) {
 		var email = splitArr[1];
 		user._addGra(from, email);
 	}
-
 });
 
 // path
 app.get('/admin', admin.index);
 app.post('/admin', function(req, res) {
-	winston.info('[/admin]POST to admin password : ' + req.body.pwd);
 
 	var tmp = req.body.pwd;
 	if(typeof tmp === 'undefined'){
@@ -106,6 +107,8 @@ app.post('/admin', function(req, res) {
 		winston.info('[/admin] message : ' + req.body.conf_msg);
 
 		io.sockets.emit('conf_msg', {'msg':req.body.conf_msg});
+		res.send({res:'ok'})
+		res.end()
 	}
 });
 

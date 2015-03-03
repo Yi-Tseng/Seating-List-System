@@ -1,4 +1,4 @@
-Seatting List System
+Seating List System
 =====================
 
 Install
@@ -17,11 +17,16 @@ Usage
 
 	npm install
 
-3.Start mongo db server
+3.Checkout the config and modify it.
+
+	cp config/config.js.sample config/config.js
+	vim config/config.js # change it!
+
+4.Start mongo db server
 
 	./mongod
     
-4.Start server
+5.Start server
 
 	node app.js
     
