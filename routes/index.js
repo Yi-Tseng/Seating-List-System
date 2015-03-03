@@ -1,4 +1,5 @@
 var winston = require('winston');
+var config = require('../config/config.js');
 
 exports.index = function(req, res){
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -14,9 +15,10 @@ exports.index = function(req, res){
 			return;
 		}
 	}
-	
-	res.render('index', {room: room});
 
+	res.render('index', {
+		conference: config.conference,
+		channel: config.irc.channel.replace('#', ''),
+		room: room,
+	});
 };
-
-
