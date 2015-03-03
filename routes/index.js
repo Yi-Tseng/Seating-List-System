@@ -15,10 +15,14 @@ exports.index = function(req, res){
 			return;
 		}
 	}
+	
+	var need_help = !('help' in req.session);
+	req.session['help'] = false;
 
 	res.render('index', {
 		conference: config.conference,
 		channel: config.irc.channel.replace('#', ''),
 		room: room,
+		need_help: need_help
 	});
 };
