@@ -5,6 +5,7 @@
 
 var winston = require('winston');
 var xss = require('xss');
+var escape = require('escape-html');
 var mongoose = require('mongoose');
 var md5 = require('MD5');
 mongoose.connect('mongodb://localhost/SeatingTable');
@@ -82,7 +83,6 @@ exports.modify = function(req, res) {
 				data.no = seatNo;
 				data.save(function(err){});
 			}
-			res.send({'msg':'success'})
 			sockets.emit('sit_md', {sitno:seatNo, nickname:nickname, room:room, oldSeat:oldSeat});
 
 			Gravatar.findOne({ircNick:nickname}, function(err, data) {
@@ -90,10 +90,15 @@ exports.modify = function(req, res) {
 					sockets.emit('reload_gravatar', data);
 				}
 			});
+
+			Seat.remove({name:'Takeshi_tw', room:{$ne:room}}, function(err, data){
+				winston.info('Remove seat ' + data);
+			});
+
+			res.send({'msg':'success'})
 			res.end();
 		});
 
-		
 	} else if(nickname === '' && seatNo !== '' && room !== '') { 
 		winston.info('[/modify] delete seat, room : ' + room + ', seatNo : ' + seatNo);
 
@@ -163,8 +168,9 @@ exports._addGra = function(ircNick, email) {
 					if(err) {
 						console.log(err);
 					} else {
-						ircNick = xss(ircNick);
-						emailHash = xss(emailHash);
+						
+						ircNick = escape(ircNick);
+						emailHash = escape(emailHash);
 						sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
 					}
 				});
@@ -198,8 +204,8 @@ exports.addGra = function(req, res) {
 						res.send({'res':'error'});
 					} else {
 						res.send({'res':'success'});		
-						ircNick = xss(ircNick);
-						emailHash = xss(emailHash);
+						ircNick = escape(ircNick);
+						emailHash = escape(emailHash);
 						sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
 					}
 					res.end();
