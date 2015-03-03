@@ -1,4 +1,3 @@
-
 function sendConfMsg() {
 	var cmsg = $('#conf_msg').val();
 	var pwd = $('#pwd').val();

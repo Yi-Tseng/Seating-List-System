@@ -8,6 +8,13 @@ body {
     font-family: "PT Sans Narrow","Source Han Sans TWHK",sans-serif;
 }
 
+.no-under-line-link {
+	text-decoration: none;
+}
+
+/**********************************************
+ *  Header
+ **********************************************/
 .header-text {
 	font-size: 50px;
 	color: #fff;
@@ -15,6 +22,9 @@ body {
 	margin: 0px 4px;
 }
 
+/**********************************************
+ *  Stage
+ **********************************************/
 .stage {
 	padding-top: 30px;
 	display: block;
@@ -25,21 +35,45 @@ body {
 	color: #FFF;
 }
 
+.stage-text {
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+
+.irc-link:link {
+	text-decoration: none;
+    color: #fff;
+}
+
+.irc-link:visited {
+	text-decoration: none;
+    color: #fff;
+}
+
+.irc-link:hover {
+	text-decoration: none;
+    color: #fff;
+}
+
+.irc-link:active {
+	text-decoration: none;
+    color: #fff;
+}
+
+/**********************************************
+ *  Row with Responsive rules
+ **********************************************/
 .row-title {
 	color: #fff;
 	transform: translate(0px,35px);
-	-webkit-transform: translate(0px,35px);
 }
-@media screen and (max-width: 697px) {
-	.header-text {
-		display: block;
-	}
-}
+
 @media screen and (min-width: 1231px) {
 	.row {
 		display: block;
 		margin: 5px 0px;
 	}
+
 	.block-area {
 		display: inline-block;
 		margin: 20px;
@@ -118,11 +152,13 @@ body {
 	    z-index:2
 	}
 }
+
 @media screen and (min-width: 1020px) and (max-width: 1230px) {
 	.row {
 		display: block;
 		margin: 15px 0px;
 	}
+
 	.block-area {
 		display: inline-block;
 		margin: 10px;
@@ -207,6 +243,7 @@ body {
 		display: block;
 		margin: 15px 0px;
 	}
+
 	.block-area {
 		display: inline-block;
 		margin: 5px;
@@ -284,12 +321,11 @@ body {
 	    position:absolute;
 	    z-index:2
 	}
+
 	.row-title {
 		transform:translate(0px, -5px);
-		-webkit-transform:translate(0px, -5px);
 	}
 }
-
 
 .sitted {
 	background-color: #222;
@@ -303,6 +339,36 @@ body {
 	margin-bottom: 70px;
 }
 
+.dark-cover {
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	background-color:#000;
+	z-index:101;
+	-moz-opacity: 0.8;
+	opacity:.80;
+	filter: alpha(opacity=80);
+}
+
+.black-sit {
+	background-color: #000 !important;
+    border: 1px solid #fff !important;
+    box-shadow: 0 0 50px 50px rgba(0, 0, 0, 0.8);
+    position: relative;
+    z-index: 100;
+}
+
+.gravatar-sit {
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-size: 30px;
+}
+
+/**********************************************
+ *  Side bar
+ **********************************************/
 .btn {
 	display: inline-block;
 	margin-bottom: 0;
@@ -355,7 +421,7 @@ body {
 	border-radius: 10px;
 	padding: 10px;
 	color: #FFF;
-	z-index: 99;
+	z-index: 103;
 	text-decoration: none;
 	transition: .2s;
 	transition-timing-function: linear;
@@ -365,38 +431,6 @@ body {
 	background-color: #777;
 }
 
-.dark-cover {
-	position: fixed;
-	top: 0%;
-	left: 0%;
-	width: 100%;
-	height: 100%;
-	background-color:#000;
-	z-index:101;
-	-moz-opacity: 0.8;
-	opacity:.80;
-	filter: alpha(opacity=80);
-}
-
-.black-sit {
-	background-color: #000 !important;
-    border: 1px solid #fff !important;
-    box-shadow: 0 0 50px 50px rgba(0, 0, 0, 0.8);
-    position: relative;
-    z-index: 100;
-}
-
-
-.gravatar-sit {
-	background-repeat: no-repeat;
-	background-position: 50%;
-	background-size: 30px;
-}
-
-.no-under-line-link {
-	text-decoration: none;
-}
-
 .change-room-btn {
 	top: 20%;
 	right: 0%;
@@ -404,31 +438,6 @@ body {
 
 .change-room-btn-selected {
 	background-color: #555;
-}
-
-.irc-link:link {
-	text-decoration: none;
-    color: #fff;
-}
-
-.irc-link:visited {
-	text-decoration: none;
-    color: #fff;
-}
-
-.irc-link:hover {
-	text-decoration: none;
-    color: #fff;
-}
-
-.irc-link:active {
-	text-decoration: none;
-    color: #fff;
-}
-
-.stage-text {
-	font-size: 30px;
-	margin-bottom: 10px;
 }
 
 /**********************************************
@@ -471,12 +480,18 @@ body {
 	text-align: center;
 	font-size: 1em;
 	color: #FFF;
-	z-index: 90;
+	z-index: 102;
 }
 
 /**********************************************
- *  Responsive rule
+ *  Other Responsive rules
  **********************************************/
+@media screen and (max-width: 697px) {
+	.header-text {
+		display: block;
+	}
+}
+
 @media screen and (max-width: 1019px) {
 	.input-area {
 		display: block;
