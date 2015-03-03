@@ -12,6 +12,7 @@ var http = require('http');
 var path = require('path');
 var irc = require('irc');
 var xss = require('xss');
+var escape = require('escape-html');
 var app = express();
 var config = require('./config/config.js');
 var winston = require('winston');
@@ -62,8 +63,9 @@ client.join(config.irc.channel + ' ' + config.irc.bot_pwd)
 
 client.addListener('message', function (from, to, message) {
 	winston.info("[IRC] channel : " + config.irc.channel + " from : " + from + ', to : ' + to + ', message : ' + message);
-	if(!to.match(/HITCON_BOT[0-9]?/)) {
-		message = xss(message);
+	
+	if(!to.match(/SITCON_BOT[0-9]?/)) {
+		message = escape(message);
 		io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
 	}
 });
