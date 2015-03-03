@@ -1,16 +1,18 @@
 h1 {
+	color: #FFF;
 	font-size: 2em;
 }
 
 .admin-bg {
-	background: white url('/images/admin_bg.png') no-repeat center;
+	background-color: #000;
+	background-image: url('/images/admin_bg.png');
+	background-position: 50% 40%;
 }
 
 .admin-bar {
-	position: absolute;
-	top: 50%;
-	background-color: #000;
-	background-image: url('/images/admin_bg_reverse.png');
-	background-repeat: no-repeat;
-	background-position: 50% 62%;
+	margin-top: 210px;
+	margin-bottom: 170px;
+        background-image: url('/images/admin_bg_reverse.png');
+        background-position: 50% 52%;
+	color: #000;
 }
