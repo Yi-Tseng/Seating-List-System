@@ -19,6 +19,7 @@
         this.server = new server_conf();
         this.irc = new irc_conf();
 		this.conference = new conference();
+	this.cookieSecret = 'S3CR3T';
     };
 
     module.exports = new config();
