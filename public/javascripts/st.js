@@ -203,11 +203,11 @@ function initSocketIO() {
 
 					$(this).animate(
 						{
-							height: height*2,
-							width:width*2,
+							height: height*4,
+							width:width*4,
 							opacity:0,
-							left:pos.left - width/2,
-							top:pos.top - height/2
+							left:pos.left - width,
+							top:pos.top - height
 						},
 						300,
 						function(){
