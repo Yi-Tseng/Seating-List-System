@@ -37,7 +37,7 @@
 	}
 	var numRows = sits.length;
 	var counter = 0;
-	
+
 %>
 
 <html>
@@ -85,10 +85,10 @@
 		<div class="meeting-room" align="center">
 			<div class="row">
 				<div class="stage">
-				<p class='stage-text'>講台</p>
-				<p>
-					<a class="irc-link no-under-line-link" href="http://webchat.freenode.net/?channels=<%= channel %>" style="color=#FFF;">IRC Channel</a>
-				</p>
+					<p class='stage-text'>講台</p>
+					<p>
+						<a class="irc-link no-under-line-link" href="http://webchat.freenode.net/?channels=<%= channel %>">IRC Channel</a>
+					</p>
 				</div>
 			</div>
 			<% for(var i = 0; i < numRows; i++) { %>
@@ -137,12 +137,13 @@
 		
 		<% for(var c = 0; c<4; c++) { %>
 			<% if('r'+c === room){ %>
-				<a class="change-room-btn change-room-btn-selected" href='#' style="top: <%= (40+c*10) %>%;">R<%= c %></a>
+				<a class="change-room-btn change-room-btn-selected menu-btn" href='#' style="top: <%= (40+c*10) %>%;">R<%= c %></a>
 			<% } else { %>
-				<a class="change-room-btn" href='/r<%= c %>' style="top: <%= (40+c*10) %>%;">Go to R<%= c %></a>
+				<a class="change-room-btn menu-btn" href='/r<%= c %>' style="top: <%= (40+c*10) %>%;">Go to R<%= c %></a>
 			<% } %>
 		<% } %>
-		<a class='help-btn' href='#' onclick='help()'>使<br>用<br>說<br>明</a>
+		<a class="help-btn menu-btn" href="#" onclick='help()'>使<br>用<br>說<br>明</a>
+		<a id="modify-trigger-btn" class="menu-btn" href="#">修<br>改</a>
 
 		<div class="footer">
 			<div class="input-area">
