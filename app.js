@@ -70,7 +70,6 @@ client.addListener('message', function (from, to, message) {
 		message = escape(message);
 		io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
 	}
-	
 });
 
 client.addListener('pm', function(from, message) {
@@ -83,7 +82,6 @@ client.addListener('pm', function(from, message) {
 		var email = splitArr[1];
 		user._addGra(from, email);
 	}
-
 });
 
 // path
