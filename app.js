@@ -26,6 +26,8 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(express.cookieParser(config.cookieSecret));
+app.use(express.cookieSession());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -87,7 +89,6 @@ client.addListener('pm', function(from, message) {
 // path
 app.get('/admin', admin.index);
 app.post('/admin', function(req, res) {
-	winston.info('[/admin]POST to admin password : ' + req.body.pwd);
 
 	var tmp = req.body.pwd;
 	if(typeof tmp === 'undefined'){
@@ -108,6 +109,8 @@ app.post('/admin', function(req, res) {
 		winston.info('[/admin] message : ' + req.body.conf_msg);
 
 		io.sockets.emit('conf_msg', {'msg':req.body.conf_msg});
+		res.send({res:'ok'})
+		res.end()
 	}
 });
 
