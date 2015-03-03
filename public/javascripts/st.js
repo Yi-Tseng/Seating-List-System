@@ -271,3 +271,13 @@ function help() {
 		$('.help').remove();
 	});
 }
+
+$('#modify-trigger-btn').click(function(){
+	$footer = $('.footer')
+	if($footer.css('display') === 'none'){
+		$footer.css('display', 'block')
+	}
+	else{
+		$footer.attr('style', null)
+	}
+})
