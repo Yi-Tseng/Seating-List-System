@@ -1,4 +1,4 @@
-Seatting List System
+Seating List System
 =====================
 
 Install
