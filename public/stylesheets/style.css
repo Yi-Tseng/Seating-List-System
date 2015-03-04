@@ -449,7 +449,7 @@ body {
 }
 
 .help {
-	z-index: 101;
+	z-index: 200;
 	position: fixed;
 	top: 0;
 	left: 0;
