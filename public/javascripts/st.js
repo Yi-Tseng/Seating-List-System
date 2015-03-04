@@ -3,23 +3,7 @@ var room_num;
 var bullets = {};
 var firedBullets = {};
 var bulletSpeed = 30;
-
-$(".sit").click(function(){
-	if(this.className.indexOf('selected') != -1){
-		$(".selected").removeClass("selected");
-		$("#sitno").val('');
-		$("#nickname").val('');
-	} else {
-		$(".selected").removeClass("selected");
-		this.className = "selected " + this.className;
-		$("#sitno").val(this.id);
-		if(this.title === '空') {
-			$("#nickname").val('');
-		} else {
-			$("#nickname").val(this.title);
-		}
-	}
-});
+var graApi = '//seccdn.libravatar.org/avatar';
 
 function modifySit () {
 	var sn = $("#sitno").val();
@@ -83,25 +67,9 @@ function clearSit() {
 			}
 		},
 		'json');
-
-}
-
-function init() {
-	room_num = $('#room').val();
-	console.log("get room : " + room_num);
-
-	loadSits();
-	initSocketIO();
-	loadBlackList();
-	loadGravatar();
-
-	setTimeout(function(){
-		$(".dark-cover").remove();
-	}, 2000);
 }
 
 function loadSits() {
-
 	$.get('/list/?room=' + room_num, function(data) {
 		if(data.msg === 'success') {
 			for(var k in data.seats) {
@@ -114,7 +82,6 @@ function loadSits() {
 }
 
 function loadBlackList() {
-
 	$.get('/black-list', function(data) {
 		var list = data.list;
 		console.log(list);
@@ -172,8 +139,6 @@ function initSocketIO() {
 			message = data.msg;
 		}
 
-		// 'DennyHuang: Hello:World'
-
 		console.log("IRC Message : " + from + " -> " + to + " : " + message);
 
 		if(to !== '' && $("a[title='" + to + "']").length != 0) {
@@ -187,42 +152,30 @@ function initSocketIO() {
 				bulletId = hex_md5(rnd);
 			}
 
-			var bcvs = "<div id='" + bulletId + "' class='irc-bullet' style='top:" + (locFrom.top) + "px; left:" + (locFrom.left)+ "px;'></div>"
-			var bullet = {from:from, to:to, locFrom:locFrom, locTo:locTo};
+			var bcvs = '<div id="' + bulletId + '" class="irc-bullet" style="top:' + (locFrom.top) + 'px; left:' + (locFrom.left)+ 'px;"></div>'
+			var bullet = {
+				from: from,
+				to: to,
+				locFrom: locFrom,
+				locTo: locTo
+			};
 
 			bullets[bulletId] = bullet;
 			$('body').append(bcvs);
 
-			$('#' + bulletId).animate(
-				{left:locTo.left + "px", top:locTo.top + "px"},
-				400,
-				function(){
-					var pos = $(this).position();
-					var height = $(this).height();
-					var width = $(this).width();
-
-					$(this).animate(
-						{
-							height: height*4,
-							width:width*4,
-							opacity:0,
-							left:pos.left - width,
-							top:pos.top - height
-						},
-						300,
-						function(){
-							var bulletId = this.id;
-							$('#' + bulletId).remove();
-						})
-				});
+			$('#' + bulletId).animate({
+					left:locTo.left + 'px',
+					top:locTo.top + "px"
+				},
+				400
+			 );
 		}
 
-		//
 		html =  "<div class='msg-bubble'>" + message + "</div>";
 		$("a[title='" + from + "']").prepend(html);
 		setTimeout(function() {
 			$("a[title='" + from + "'] .msg-bubble").remove();
-		}, 2000);
+		}, 3000);
 
 	});
 	socket.on('conf_msg', function(data) {
@@ -239,25 +192,26 @@ function initSocketIO() {
 		console.log('reload gra' + data);
 		var k = data.ircNick;
 		var emailHash = data.emailHash;
-		var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
+		var graURL = graApi + '/' + emailHash;
 		$('a[title='+k+']').addClass('gravatar-sit');
-		$('a[title='+k+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
+		$('a[title='+k+']').attr('style', 'background-image: url(' + graURL + '?d=mm&s=150);');
 		console.log('change gra finished');
 	});
-
 }
 
 function loadGravatar() {
 	$.get('/list-gra', function(data) {
+		console.log('list-gra status: ' + data.res)
 
 		if(data.res === 'success') {
 			var graList = data.list;
+			console.log('gra list:' + graList)
 			for(var k in graList) {
 				var ircNick = graList[k].ircNick;
 				var emailHash = graList[k].emailHash;
-				var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
+				var graURL = graApi + '/' + emailHash;
 				$("a[title='"+ircNick+"']").addClass('gravatar-sit');
-				$("a[title='"+ircNick+"']").attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
+				$("a[title='"+ircNick+"']").attr('style', 'background-image: url(' + graURL + '?d=mm&s=150);');
 			}
 		}
 	});
@@ -272,12 +226,47 @@ function help() {
 	});
 }
 
-$('#modify-trigger-btn').click(function(){
-	$footer = $('.footer')
-	if($footer.css('display') === 'none'){
-		$footer.css('display', 'block')
-	}
-	else{
-		$footer.attr('style', null)
-	}
-})
+function init(){
+	room_num = $('#room').val();
+	console.log("get room : " + room_num);
+
+	loadSits();
+	initSocketIO();
+	loadBlackList();
+	loadGravatar();
+
+	setTimeout(function(){
+		$(".dark-cover").remove();
+	}, 2000);
+}
+
+$(document).ready(function(){
+	init()
+
+	$('.sit').click(function(){
+		if(this.className.indexOf('selected') != -1){
+			$(".selected").removeClass("selected");
+			$("#sitno").val('');
+			$("#nickname").val('');
+		} else {
+			$(".selected").removeClass("selected");
+			this.className = "selected " + this.className;
+			$("#sitno").val(this.id);
+			if(this.title === '空') {
+				$("#nickname").val('');
+			} else {
+				$("#nickname").val(this.title);
+			}
+		}
+	});
+
+	$('#modify-trigger-btn').click(function(){
+		$footer = $('.footer')
+		if($footer.css('display') === 'none'){
+			$footer.css('display', 'block')
+		}
+		else{
+			$footer.attr('style', null)
+		}
+	})
+});

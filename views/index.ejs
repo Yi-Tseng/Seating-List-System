@@ -1,5 +1,4 @@
 <%
-	// sit for R0
 	var sits;
 	if(room === 'r0') {
 		sits = new Array(
@@ -37,7 +36,6 @@
 	}
 	var numRows = sits.length;
 	var counter = 0;
-
 %>
 
 <html>
@@ -52,11 +50,9 @@
 	</head>
 
 
-	<body onLoad="init()">
-		
+	<body>
 		<input id="room" type="hidden" value="<%= room %>" />
 		<div class="dark-cover">
-			
 			<div id="floatingCirclesG" class="center-pos">
 				<div class="f_circleG" id="frotateG_01"></div>
 				<div class="f_circleG" id="frotateG_02"></div>
@@ -67,9 +63,7 @@
 				<div class="f_circleG" id="frotateG_07"></div>
 				<div class="f_circleG" id="frotateG_08"></div>
 			</div>
-					
 		</div>
-		
 
 		<!-- header -->
 		<div class="row">
@@ -164,6 +158,4 @@
 			<script type="text/javascript">help()</script>
 		<% } %>		
 	</body>
-
-
 </html>
