@@ -60,14 +60,13 @@ function clearSit() {
 			room: room_num
 		},
 		function(data){
-			if(data.msg === 'success') {
-				$("#"+sn).attr('style', '');
-				$("#"+sn).removeClass();
-				$("#"+sn).addClass('sit');
-				$("#"+sn).attr('title', '空');
-			} else {
+			if(data.msg !== 'success')
+				return
 
-			}
+			$('#' + sn).attr('style', null);
+			$('#' + sn).removeClass();
+			$('#' + sn).addClass('sit');
+			$('#' + sn).attr('title', '空');
 		},
 		'json');
 }
@@ -97,7 +96,6 @@ function loadBlackList(callback) {
 	 **********************************************/
 
 	$.get('/black-list', function(data) {
-		console.log(data.msg)
 		if(data.msg !== 'success')
 			return;
 
@@ -248,7 +246,6 @@ function loadGravatar(callback) {
 			return;
 
 		var graList = data.list;
-		console.log('gra list:' + graList)
 		for(var k in graList) {
 			var ircNick = graList[k].ircNick;
 			var emailHash = graList[k].emailHash;
@@ -274,8 +271,8 @@ function init(){
 	/**********************************************
 	 *  Init order
 	 *		*. loadSits();
-	 *		*. loadBlackList();
-	 *		*. loadGravatar();
+	 *			*. loadBlackList();
+	 *				*. loadGravatar();
 	 *		*. initSocketIO();
 	 **********************************************/
 	room_num = $('#room').val();
@@ -323,5 +320,9 @@ $(document).ready(function(){
 		else{
 			$footer.attr('style', null);
 		}
+	})
+
+	$('#help-btn').click(function(){
+		help()
 	})
 });
