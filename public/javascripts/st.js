@@ -28,8 +28,9 @@ function modifySit () {
 				$("#"+sn).addClass('sit');
 				$("#"+sn).addClass('sitted');
 				$("#"+sn).attr('title', nick);
-				loadBlackList();
-				loadGravatar();
+				loadGravatar(function(){
+					loadBlackList();
+				});
 			}
 		},
 		'json');
@@ -48,15 +49,17 @@ function clearSitWithSitno(sn){
 
 function clearSit() {
 	var sn = $("#sitno").val();
-	// sn = sn.substring(4); // cut "seat"
 	if(sn === '') {
 		return;
 	}
 
 	$.post('/modify',
-		{sitno:sn, nickname:'', room:room_num},
+		{
+			sitno: sn,
+			nickname: '',
+			room: room_num
+		},
 		function(data){
-
 			if(data.msg === 'success') {
 				$("#"+sn).attr('style', '');
 				$("#"+sn).removeClass();
@@ -69,35 +72,73 @@ function clearSit() {
 		'json');
 }
 
-function loadSits() {
+function loadSits(callback) {
+	/**********************************************
+	 *  :param callback: The success callback
+	 **********************************************/
+
 	$.get('/list/?room=' + room_num, function(data) {
-		if(data.msg === 'success') {
-			for(var k in data.seats) {
-				var seat = data.seats[k];
-				$('#' + seat.no).attr('title', seat.name);
-				$('#' + seat.no).addClass('sitted');
-			}
+		if(data.msg !== 'success')
+			return
+
+		for(var k in data.seats) {
+			var seat = data.seats[k];
+			$('#' + seat.no).attr('title', seat.name);
+			$('#' + seat.no).addClass('sitted');
 		}
+		if (isFunction(callback))
+			callback();
 	}, 'json');
 }
 
-function loadBlackList() {
+function loadBlackList(callback) {
+	/**********************************************
+	 *  :param callback: The success callback
+	 **********************************************/
+
 	$.get('/black-list', function(data) {
+		console.log(data.msg)
+		if(data.msg !== 'success')
+			return;
+
 		var list = data.list;
-		console.log(list);
+		console.log('black list: ', list);
 		for(k in list) {
 			$("a[title='"+list[k].name+"']").addClass('black-sit');
 		}
+		if (isFunction(callback))
+			callback();
 	}, 'json');
 }
 
-function initSocketIO() {
+function initSocketIO(success_cb) {
+	/*************************************************************************
+	 *  :param success_cb: The callback after connect/reconnect successfully.
+	 *************************************************************************/
+
 	console.log('init socket.io');
 
 	socket = io.connect('//' + location.hostname + ':' + location.port);
 
-	socket.on('sit_md', function (data) {
+	socket.on('connect', function(){
+		removeLoadingAnimation();
+		if (isFunction(success_cb)) {
+			success_cb();
+		}
+	})
 
+	socket.on('reconnect', function(){
+		removeLoadingAnimation();
+		if (isFunction(success_cb)) {
+			success_cb();
+		}
+	})
+
+	socket.on('reconnecting', function(){
+		$('.dark-cover').show();
+	})
+
+	socket.on('sit_md', function (data) {
 		if(data.room === room_num) {
 			var sn = data.sitno;
 			var nick = data.nickname;
@@ -113,8 +154,6 @@ function initSocketIO() {
 			$("#"+sn).addClass("sitted");
 			$("#"+sn).attr("title", nick);
 		}
-
-
 	});
 
 	socket.on('sit_clr', function (data) {
@@ -176,8 +215,8 @@ function initSocketIO() {
 		setTimeout(function() {
 			$("a[title='" + from + "'] .msg-bubble").remove();
 		}, 3000);
-
 	});
+
 	socket.on('conf_msg', function(data) {
 		console.log('Conference Message : ' + data.msg);
 		html = '<div class="conf-msg" id="conf-msg">' + data.msg + '</div>';
@@ -199,21 +238,26 @@ function initSocketIO() {
 	});
 }
 
-function loadGravatar() {
-	$.get('/list-gra', function(data) {
-		console.log('list-gra status: ' + data.res)
+function loadGravatar(callback) {
+	/**********************************************
+	 *  :param callback: The success callback
+	 **********************************************/
 
-		if(data.res === 'success') {
-			var graList = data.list;
-			console.log('gra list:' + graList)
-			for(var k in graList) {
-				var ircNick = graList[k].ircNick;
-				var emailHash = graList[k].emailHash;
-				var graURL = graApi + '/' + emailHash;
-				$("a[title='"+ircNick+"']").addClass('gravatar-sit');
-				$("a[title='"+ircNick+"']").attr('style', 'background-image: url(' + graURL + '?d=mm&s=150);');
-			}
+	$.get('/list-gra', function(data) {
+		if(data.msg !== 'success')
+			return;
+
+		var graList = data.list;
+		console.log('gra list:' + graList)
+		for(var k in graList) {
+			var ircNick = graList[k].ircNick;
+			var emailHash = graList[k].emailHash;
+			var graURL = graApi + '/' + emailHash;
+			$("a[title='"+ircNick+"']").addClass('gravatar-sit');
+			$("a[title='"+ircNick+"']").attr('style', 'background-image: url(' + graURL + '?d=mm&s=150);');
 		}
+		if (isFunction(callback))
+			callback();
 	});
 }
 
@@ -227,21 +271,32 @@ function help() {
 }
 
 function init(){
+	/**********************************************
+	 *  Init order
+	 *		*. loadSits();
+	 *		*. loadBlackList();
+	 *		*. loadGravatar();
+	 *		*. initSocketIO();
+	 **********************************************/
 	room_num = $('#room').val();
-	console.log("get room : " + room_num);
+	console.log('get room : ' + room_num);
 
-	loadSits();
+	loadSits(function(){
+		loadGravatar(function(){
+			loadBlackList();
+		})
+	})
 	initSocketIO();
-	loadBlackList();
-	loadGravatar();
+}
 
-	setTimeout(function(){
-		$(".dark-cover").remove();
-	}, 2000);
+function removeLoadingAnimation(){
+	var loading = $('.dark-cover')
+	if(loading.length > 0)
+		$('.dark-cover').hide();
 }
 
 $(document).ready(function(){
-	init()
+	init();
 
 	$('.sit').click(function(){
 		if(this.className.indexOf('selected') != -1){
@@ -261,12 +316,12 @@ $(document).ready(function(){
 	});
 
 	$('#modify-trigger-btn').click(function(){
-		$footer = $('.footer')
+		$footer = $('.footer');
 		if($footer.css('display') === 'none'){
-			$footer.css('display', 'block')
+			$footer.css('display', 'block');
 		}
 		else{
-			$footer.attr('style', null)
+			$footer.attr('style', null);
 		}
 	})
 });
