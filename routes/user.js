@@ -141,19 +141,43 @@ exports.addBlack = function(req, res) {
 	winston.info('[/blackList] add ' + name + ' to black list');
 
 	if(name !== ''){
+
+		// remove first.
+		BlackList.remove({'name':name}, function(err, data) {});
+		
 		var bl = new BlackList({'name':name});
-		bl.save(function(err){
+		bl.save(function(err, data){
 			if(err) {
 				res.send({msg:'error'});
+				res.end();
 			} else {
+				winston.info('save success');
 				res.send({msg:'success'});
+				res.end();
 			}
-			res.end();
 		});
+		
 	} else {
 		res.send({'msg':'empty name'});
 		res.end();
 	}
+}
+
+exports.delBlack = function(req, res) {
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	winston.info('[/blackList] access from ' + ip);
+	var name = req.body.name;
+	winston.info('[/blackList] delete ' + name + ' to black list');
+
+	BlackList.remove({'name':name}, function(err, data) {
+		if(err) {
+			res.send({'res':'error'});
+			res.end();
+		} else {
+			res.send({'res':'success'});
+			res.end();
+		}
+	});
 }
 
 exports._addGra = function(ircNick, email) {

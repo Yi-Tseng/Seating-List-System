@@ -118,6 +118,8 @@ app.post('/modify', user.modify);
 app.get('/list-gra', user.getGra);
 app.get('/black-list', user.blackList);
 app.post('/black-list', user.addBlack);
+app.delete('/black-list', user.delBlack);
+
 app.get('/:room', routes.index);
 app.get('/', function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
