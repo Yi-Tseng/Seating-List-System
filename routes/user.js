@@ -83,7 +83,12 @@ exports.modify = function(req, res) {
 				data.no = seatNo;
 				data.save(function(err){});
 			}
-			sockets.emit('sit_md', {sitno:seatNo, nickname:nickname, room:room, oldSeat:oldSeat});
+			sockets.emit('sit_md', {
+				sitno: seatNo,
+				nickname: nickname,
+				room: room,
+				oldSeat: oldSeat
+			});
 
 			Gravatar.findOne({ircNick:nickname}, function(err, data) {
 				if(!err && data != null) {
