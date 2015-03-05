@@ -91,7 +91,7 @@ exports.modify = function(req, res) {
 				}
 			});
 
-			Seat.remove({name:'Takeshi_tw', room:{$ne:room}}, function(err, data){
+			Seat.remove({name:nickname, room:{$ne:room}}, function(err, data){
 				winston.info('Remove seat ' + data);
 			});
 
