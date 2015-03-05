@@ -3,7 +3,7 @@ var room_num;
 var bullets = {};
 var firedBullets = {};
 var bulletSpeed = 30;
-var graApi = '//seccdn.libravatar.org/avatar';
+var graApi = '//en.gravatar.com/avatar';
 
 function modifySit () {
 	var sn = $("#sitno").val();
