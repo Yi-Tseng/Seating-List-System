@@ -14,13 +14,18 @@
 			this.subtitle = ''; // e.g. The True Hackers
 			this.title = this.name + ' ' + this.subtitle;
 		};
+		var redis_conf = function(){
+			this.host = '127.0.0.1';
+			this.port = 6379;
+		};
 
 		this.admin_pwd = 'admin_password'; // 128 times md5 hash
         this.server = new server_conf();
         this.irc = new irc_conf();
 		this.conference = new conference();
 		this.cookieSecret = 'S3CR3T';
-        this.gaid = "";
+        this.gaid = '';
+		this.redis = new redis_conf();
     };
 
     module.exports = new config();
