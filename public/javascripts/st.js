@@ -9,60 +9,52 @@ function modifySit () {
 	var sn = $('#sitno').val();
 	var nick = $('#nickname').val();
 	if(nick === '') {
-		$('.selected').removeClass('selected');
-		$('.selected').removeClass('black-sit');
+		clearSit();
 		return;
 	}
 
-	if(sn === '') {
+	if(sn === '')
 		return;
-	}
 
 	$.post('/modify', {
-			sitno: sn,
-			nickname: nick,
-			room: room_num,
-		},
-		function(data){
-			if(data.msg !== 'success')
-				return;
-		},
-		'json');
+		sitno: sn,
+		nickname: nick,
+		room: room_num,
+	},
+	function(data){
+		if(data.msg !== 'success')
+			return;
+	},
+	'json');
 }
 
 function clearSitWithSitno(sn){
-	$.post('/modify',
-		{sitno: sn, nickname: '', room: room_num},
-		function(data){
-			if(data.msg !== 'success')
-				return
-			$("#"+sn).attr('style', null);
-		},
-		'json');
+	$.post('/modify', {
+		sitno: sn,
+		nickname: '',
+		room: room_num,
+	}, function(data){
+		if(data.msg !== 'success')
+			return;
+		// $('#' + sn).attr('style', null);
+	},
+	'json');
 }
 
 function clearSit() {
-	var sn = $("#sitno").val();
-	if(sn === '') {
+	var sn = $('#sitno').val();
+	if(sn === '')
 		return;
-	}
 
-	$.post('/modify',
-		{
-			sitno: sn,
-			nickname: '',
-			room: room_num
-		},
-		function(data){
-			if(data.msg !== 'success')
-				return
-
-			$('#' + sn).attr('style', null);
-			$('#' + sn).removeClass();
-			$('#' + sn).addClass('sit');
-			$('#' + sn).attr('title', '空');
-		},
-		'json');
+	$.post('/modify', {
+		sitno: sn,
+		nickname: '',
+		room: room_num
+	}, function(data){
+		if(data.msg !== 'success')
+			return
+	},
+	'json');
 }
 
 function loadSits(callback) {
@@ -76,8 +68,7 @@ function loadSits(callback) {
 
 		for(var k in data.seats) {
 			var seat = data.seats[k];
-			$('#' + seat.no).attr('title', seat.name);
-			$('#' + seat.no).addClass('sitted');
+			$('#' + seat.no).attr('title', seat.name).addClass('sitted');
 		}
 		if (isFunction(callback))
 			callback();
@@ -94,9 +85,8 @@ function loadBlackList(callback) {
 			return;
 
 		var list = data.list;
-		console.log('black list: ', list);
 		for(k in list) {
-			$("a[title='"+list[k].name+"']").addClass('black-sit');
+			$("a[title='" + list[k].name + "']").addClass('black-sit');
 		}
 		if (isFunction(callback))
 			callback();
@@ -107,8 +97,6 @@ function initSocketIO(success_cb) {
 	/*************************************************************************
 	 *  :param success_cb: The callback after connect/reconnect successfully.
 	 *************************************************************************/
-
-	console.log('init socket.io');
 
 	socket = io.connect('//' + location.hostname + ':' + location.port);
 
@@ -134,31 +122,24 @@ function initSocketIO(success_cb) {
 	})
 
 	socket.on('sit_md', function (data) {
-		if(data.room === room_num) {
-			var sn = data.sitno;
-			var nick = data.nickname;
-			var oldSeat = data.oldSeat;
-			console.log('old ' + oldSeat);
+		if(data.room !== room_num)
+			return
+		var sn = data.sitno;
+		var nick = data.nickname;
+		var oldSeat = data.oldSeat;
 
-			if(oldSeat != undefined) {
-				clearSitWithSitno(oldSeat);
-			}
-
-			console.log(data);
-			$("#"+sn).removeClass("selected");
-			$("#"+sn).addClass("sitted");
-			$("#"+sn).attr("title", nick);
+		if(oldSeat != undefined) {
+			clearSitWithSitno(oldSeat);
 		}
+
+		$('#' + sn).prop('class', 'sit sitted').attr('title', nick);
 	});
 
 	socket.on('sit_clr', function (data) {
-		if(data.room === room_num) {
-			var sn = data.sitno;
-			$("#"+sn).attr('style', '');
-			$("#"+sn).removeClass();
-			$("#"+sn).addClass('sit');
-			$("#"+sn).attr('title', '空');
-		}
+		if(data.room !== room_num)
+			return
+		var sn = data.sitno;
+		$('#' + sn).attr('style', null).prop('class', 'sit').attr('title', '空');
 	});
 
 	socket.on('irc_msg', function (data) {
@@ -221,7 +202,6 @@ function initSocketIO(success_cb) {
 	});
 
 	socket.on('conf_msg', function(data) {
-		console.log('Conference Message : ' + data.msg);
 		html = '<div class="conf-msg" id="conf-msg">' + data.msg + '</div>';
 		$('body').prepend(html);
 
@@ -231,11 +211,9 @@ function initSocketIO(success_cb) {
 	});
 
 	socket.on('reload_gravatar', function(data) {
-		console.log('reload gra:', data);
 		var nickname = data.ircNick;
 		var emailHash = data.emailHash;
 		loadGravatar(nickname, emailHash);
-		console.log('change gra finished');
 		loadBlackList();
 	});
 }
@@ -256,7 +234,6 @@ function loadGravatars(callback) {
 			return;
 
 		var graList = data.list;
-		console.log('gra list: ', data.list)
 		for(var k in graList) {
 			var nickname = graList[k].ircNick;
 			var emailHash = graList[k].emailHash;
@@ -286,7 +263,6 @@ function init(){
 	 *		*. initSocketIO();
 	 **********************************************/
 	room_num = $('#room').val();
-	console.log('get room : ' + room_num);
 
 	loadSits(function(){
 		loadGravatars(function(){
@@ -306,18 +282,18 @@ $(document).ready(function(){
 	init();
 
 	$('.sit').click(function(){
-		if(this.className.indexOf('selected') != -1){
-			$(".selected").removeClass("selected");
-			$("#sitno").val('');
-			$("#nickname").val('');
+		if($(this).hasClass('selected')){
+			$(this).removeClass("selected");
+			$('#sitno').val(null);
+			$('#nickname').val(null);
 		} else {
-			$(".selected").removeClass("selected");
-			this.className = "selected " + this.className;
-			$("#sitno").val(this.id);
+			$('.sit').removeClass('selected'); // remove other selection
+			$(this).addClass('selected');
+			$('#sitno').val(this.id);
 			if(this.title === '空') {
-				$("#nickname").val('');
+				$('#nickname').val(null);
 			} else {
-				$("#nickname").val(this.title);
+				$('#nickname').val(this.title);
 			}
 		}
 	});
