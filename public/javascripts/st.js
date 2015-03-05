@@ -175,7 +175,9 @@ function initSocketIO(success_cb) {
 
 		console.log("IRC Message : " + from + " -> " + to + " : " + message);
 
-		if(to !== '' && $("a[title='" + to + "']").length != 0) {
+		if(to !== ''
+			&& $("a[title='" + to + "']").length != 0
+			&& $("a[title='" + from + "']").length != 0) {
 			var locFrom = $("a[title='" + from + "']").position();
 			var locTo = $("a[title='" + to + "']").position();
 			var rnd = Math.random();
@@ -186,30 +188,35 @@ function initSocketIO(success_cb) {
 				bulletId = hex_md5(rnd);
 			}
 
-			var bcvs = '<div id="' + bulletId + '" class="irc-bullet" style="top:' + (locFrom.top) + 'px; left:' + (locFrom.left)+ 'px;"></div>'
+			var bcvs = '<div id="' + bulletId + '" class="irc-bullet" style="top:' + (locFrom.top) + 'px; left:' + (locFrom.left)+ 'px;background-color: yellow;"></div>'
 			var bullet = {
 				from: from,
 				to: to,
 				locFrom: locFrom,
-				locTo: locTo
+				locTo: locTo,
 			};
 
 			bullets[bulletId] = bullet;
 			$('body').append(bcvs);
 
+			console.log('locto', locTo);
+			var magic = 4.34375
 			$('#' + bulletId).animate({
-					left:locTo.left + 'px',
-					top:locTo.top + "px"
+					left: locTo.left + magic + 'px',
+					top: locTo.top + magic + 'px',
 				},
-				400
+				2000
 			 );
+			 setTimeout(function(){
+				 $('#' + bulletId).remove()
+			 }, 2000)
 		}
 
 		html =  "<div class='msg-bubble'>" + message + "</div>";
 		$("a[title='" + from + "']").prepend(html);
 		setTimeout(function() {
 			$("a[title='" + from + "'] .msg-bubble").remove();
-		}, 3000);
+		}, 5000);
 	});
 
 	socket.on('conf_msg', function(data) {

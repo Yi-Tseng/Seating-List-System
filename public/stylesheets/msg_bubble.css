@@ -1,128 +1,19 @@
 .msg-bubble {
 	position:absolute;
-	left:0%;
+	left: 0%;
 	width: 80px;
 	z-index: 30;
 	color: #FFF;
 	background-color: #000;
 	border-radius: 7px;
 	padding: 5px;
-	overflow:hidden;
+	overflow: hidden;
 
 	/*animation*/
-	-moz-animation-name:popup;
-	-moz-animation-duration:2.0s;
-	-moz-animation-iteration-count: infinite;
-	-moz-animation-direction:linear;
-	
-	-webkit-animation-name:popup;
-	-webkit-animation-duration:2.0s;
-	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-direction:linear;
-	
-	-ms-animation-name:popup;
-	-ms-animation-duration:2.0s;
-	-ms-animation-iteration-count: infinite;
-	-ms-animation-direction:linear;
-	
-	-o-animation-name:popup;
-	-o-animation-duration:2.0s;
-	-o-animation-iteration-count: infinite;
-	-o-animation-direction:linear;
-	
-	animation-name:popup;
-	animation-duration:2.0s;
-	animation-iteration-count: infinite;
+	animation-name: popup;
+	animation-duration: 5.0s;
+	animation-iteration-count: 1;
 	animation-direction:linear;
-
-
-}
-
-@-moz-keyframes popup {
-	0% {
-		opacity: 0;
-		bottom: 0px;
-	}
-
-	25% {
-		opacity: 1;
-		bottom: 40px;
-	}
-	75% {
-		opacity: 1;
-		bottom: 40px;
-	}
-
-	100% {
-		opacity: 0;
-		bottom: 0px;
-	}
-}
-
-@-webkit-keyframes popup {
-	0% {
-		opacity: 0;
-		bottom: 0px;
-	}
-
-	25% {
-		opacity: 1;
-		bottom: 40px;
-	}
-	75% {
-		opacity: 1;
-		bottom: 40px;
-	}
-
-	100% {
-		opacity: 0;
-		bottom: 0px;
-	}
-
-}
-
-@-ms-keyframes popup {
-	0% {
-		opacity: 0;
-		bottom: 0px;
-	}
-
-	25% {
-		opacity: 1;
-		bottom: 40px;
-	}
-	75% {
-		opacity: 1;
-		bottom: 40px;
-	}
-
-	100% {
-		opacity: 0;
-		bottom: 0px;
-	}
-
-}
-
-@-o-keyframes popup {
-	0% {
-		opacity: 0;
-		bottom: 0px;
-	}
-
-	25% {
-		opacity: 1;
-		bottom: 40px;
-	}
-	75% {
-		opacity: 1;
-		bottom: 40px;
-	}
-
-	100% {
-		opacity: 0;
-		bottom: 0px;
-	}
-
 }
 
 @keyframes popup {
@@ -141,8 +32,8 @@
 	}
 
 	100% {
-		opacity: 0;
-		bottom: 0px;
+		opacity: 1;
+		bottom: 40px;
 	}
 
 }
