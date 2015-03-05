@@ -23,6 +23,7 @@ exports.index = function(req, res){
 		conference: config.conference,
 		channel: config.irc.channel.replace('#', ''),
 		room: room,
-		need_help: need_help
+		need_help: need_help,
+		ga: config.gaScript,
 	});
 };

@@ -20,6 +20,7 @@
         this.irc = new irc_conf();
 		this.conference = new conference();
 		this.cookieSecret = 'S3CR3T';
+        this.gaScript = "";
     };
 
     module.exports = new config();
