@@ -199,7 +199,6 @@ function initSocketIO(success_cb) {
 			bullets[bulletId] = bullet;
 			$('body').append(bcvs);
 
-			console.log('locto', locTo);
 			var magic = 4.34375
 			$('#' + bulletId).animate({
 					left: locTo.left + magic + 'px',
@@ -212,7 +211,7 @@ function initSocketIO(success_cb) {
 			 }, 2000)
 		}
 
-		html =  "<div class='msg-bubble'>" + message + "</div>";
+		html =  "<div class='msg-bubble'><p>" +  message + "</p></div>";
 		$(html).appendTo($("a[title='" + from + "']")).animate({
 			bottom: '40px',
 			opacity: 1,
