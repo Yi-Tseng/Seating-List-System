@@ -69,6 +69,12 @@ exports.modify = function(req, res) {
 	winston.info('nickName : ' + nickname);
 	winston.info('room : ' + room);
 	
+
+	if (seatNo === undefined || nickname === undefined || root === undefined) {
+		res.send({'msg':'fail'});
+		res.end();
+	}
+
 	if(nickname !== '' && seatNo !== '' && room !== '') {
 
 		Seat.findOne({room:room, name:nickname}, function(err, data) {
@@ -79,6 +85,8 @@ exports.modify = function(req, res) {
 				var s = new Seat({room:room, name:nickname, no:seatNo});
 				s.save(function(err){});
 			} else {
+				if(data.no === seatNo)
+					return;
 				oldSeat = data.no;
 				data.no = seatNo;
 				data.save(function(err){});

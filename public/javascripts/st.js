@@ -26,22 +26,17 @@ function modifySit () {
 		function(data){
 			if(data.msg !== 'success')
 				return;
-			var $sit = $('#' + sn);
-			$sit.removeClass();
-			$sit.addClass('sit');
-			$sit.addClass('sitted');
-			$sit.attr('title', nick);
 		},
 		'json');
 }
 
 function clearSitWithSitno(sn){
 	$.post('/modify',
-		{sitno:sn, nickname:'', room:room_num},
+		{sitno: sn, nickname: '', room: room_num},
 		function(data){
-			if(data.msg === 'success') {
-				$("#"+sn).attr('style', null);
-			}
+			if(data.msg !== 'success')
+				return
+			$("#"+sn).attr('style', null);
 		},
 		'json');
 }
@@ -229,11 +224,9 @@ function initSocketIO(success_cb) {
 
 	socket.on('reload_gravatar', function(data) {
 		console.log('reload gra:', data);
-		var k = data.ircNick;
+		var nickname = data.ircNick;
 		var emailHash = data.emailHash;
-		var graURL = graApi + '/' + emailHash;
-		$('a[title='+k+']').addClass('gravatar-sit');
-		$('a[title='+k+']').attr('style', 'background-image: url(' + graURL + '?d=mm&s=150);');
+		loadGravatar(nickname, emailHash);
 		console.log('change gra finished');
 		loadBlackList();
 	});
@@ -257,10 +250,10 @@ function loadGravatars(callback) {
 		var graList = data.list;
 		console.log('gra list: ', data.list)
 		for(var k in graList) {
-			var ircNick = graList[k].ircNick;
+			var nickname = graList[k].ircNick;
 			var emailHash = graList[k].emailHash;
 			var graURL = graApi + '/' + emailHash;
-			loadGravatar(ircNick, emailHash)
+			loadGravatar(nickname, emailHash);
 		}
 		if (isFunction(callback))
 			callback();
