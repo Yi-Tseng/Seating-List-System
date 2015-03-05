@@ -6,7 +6,7 @@ exports.index = function(req, res) {
 	winston.info('[/admin] access from ' + ip);
 	res.render('admin', {
 		conference: config.conference,
-		gaScript: config.gaScript,
+		gaid: config.gaid,
 	});
 	res.end();
 }

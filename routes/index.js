@@ -24,6 +24,6 @@ exports.index = function(req, res){
 		channel: config.irc.channel.replace('#', ''),
 		room: room,
 		need_help: need_help,
-		ga: config.gaScript,
+		gaid: config.gaid,
 	});
 };
