@@ -34,5 +34,5 @@ Usage
 
   [1]: https://www.mongodb.org/
   [2]: http://nodejs.org/
-	[3]: http://redis.io/
-	[4]: https://github.com/Unitech/pm2
+  [3]: http://redis.io/
+  [4]: https://github.com/Unitech/pm2
