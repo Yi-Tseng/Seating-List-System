@@ -134,6 +134,9 @@ function initSocketIO(success_cb) {
 
 	socket.on('reconnecting', function(){
 		$('.dark-cover').show();
+		loadBlackList(function(){
+			loadGravatar();
+		})
 	})
 
 	socket.on('sit_md', function (data) {
