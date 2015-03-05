@@ -354,7 +354,6 @@ body {
 
 .black-sit {
 	background-color: #000 !important;
-    border: 1px solid #fff !important;
     box-shadow: 0 0 50px 50px rgba(0, 0, 0, 0.8);
     position: relative;
     z-index: 100;
@@ -443,7 +442,7 @@ body {
 /**********************************************
  *  Left side menu
  **********************************************/
-.help-btn {
+#help-btn {
 	top: 45%;
 	left: 0;
 }

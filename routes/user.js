@@ -255,9 +255,9 @@ exports.getGra = function(req, res) {
 
 	Gravatar.find({}, function(err, data) {
 		if(err) {
-			res.send({res:'error'});
+			res.send({msg:'error'});
 		} else {
-			res.send({res:'success', list:data});
+			res.send({msg:'success', list:data});
 		}
 	});
 }

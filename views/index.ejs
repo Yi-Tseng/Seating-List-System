@@ -1,5 +1,4 @@
 <%
-	// sit for R0
 	var sits;
 	if(room === 'r0') {
 		sits = new Array(
@@ -37,7 +36,6 @@
 	}
 	var numRows = sits.length;
 	var counter = 0;
-
 %>
 
 <html>
@@ -52,11 +50,9 @@
 	</head>
 
 
-	<body onLoad="init()">
-		
+	<body>
 		<input id="room" type="hidden" value="<%= room %>" />
 		<div class="dark-cover">
-			
 			<div id="floatingCirclesG" class="center-pos">
 				<div class="f_circleG" id="frotateG_01"></div>
 				<div class="f_circleG" id="frotateG_02"></div>
@@ -67,9 +63,7 @@
 				<div class="f_circleG" id="frotateG_07"></div>
 				<div class="f_circleG" id="frotateG_08"></div>
 			</div>
-					
 		</div>
-		
 
 		<!-- header -->
 		<div class="row">
@@ -142,7 +136,7 @@
 				<a class="change-room-btn menu-btn" href='/r<%= c %>' style="top: <%= (40+c*10) %>%;">Go to R<%= c %></a>
 			<% } %>
 		<% } %>
-		<a class="help-btn menu-btn" href="#" onclick='help()'>使<br>用<br>說<br>明</a>
+		<a id="help-btn" class="menu-btn" href="#">使<br>用<br>說<br>明</a>
 		<a id="modify-trigger-btn" class="menu-btn" href="#">修<br>改</a>
 
 		<div class="footer">
@@ -159,12 +153,11 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="/javascripts/jquery-2.1.3.min.js"></script>
 		<script type="text/javascript" src="/javascripts/md5.js"></script>
+		<script type="text/javascript" src="/javascripts/utils.js"></script>
 		<script type="text/javascript" src="/javascripts/st.js"></script>
 		<% if(need_help){ %>
 			<script type="text/javascript">help()</script>
 		<% } %>
 		<%= gaScript %>
 	</body>
-
-
 </html>

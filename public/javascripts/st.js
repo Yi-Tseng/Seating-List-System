@@ -3,23 +3,7 @@ var room_num;
 var bullets = {};
 var firedBullets = {};
 var bulletSpeed = 30;
-
-$(".sit").click(function(){
-	if(this.className.indexOf('selected') != -1){
-		$(".selected").removeClass("selected");
-		$("#sitno").val('');
-		$("#nickname").val('');
-	} else {
-		$(".selected").removeClass("selected");
-		this.className = "selected " + this.className;
-		$("#sitno").val(this.id);
-		if(this.title === '空') {
-			$("#nickname").val('');
-		} else {
-			$("#nickname").val(this.title);
-		}
-	}
-});
+var graApi = '//seccdn.libravatar.org/avatar';
 
 function modifySit () {
 	var sn = $("#sitno").val();
@@ -44,8 +28,9 @@ function modifySit () {
 				$("#"+sn).addClass('sit');
 				$("#"+sn).addClass('sitted');
 				$("#"+sn).attr('title', nick);
-				loadBlackList();
-				loadGravatar();
+				loadGravatar(function(){
+					loadBlackList();
+				});
 			}
 		},
 		'json');
@@ -64,73 +49,94 @@ function clearSitWithSitno(sn){
 
 function clearSit() {
 	var sn = $("#sitno").val();
-	// sn = sn.substring(4); // cut "seat"
 	if(sn === '') {
 		return;
 	}
 
 	$.post('/modify',
-		{sitno:sn, nickname:'', room:room_num},
+		{
+			sitno: sn,
+			nickname: '',
+			room: room_num
+		},
 		function(data){
+			if(data.msg !== 'success')
+				return
 
-			if(data.msg === 'success') {
-				$("#"+sn).attr('style', '');
-				$("#"+sn).removeClass();
-				$("#"+sn).addClass('sit');
-				$("#"+sn).attr('title', '空');
-			} else {
-
-			}
+			$('#' + sn).attr('style', null);
+			$('#' + sn).removeClass();
+			$('#' + sn).addClass('sit');
+			$('#' + sn).attr('title', '空');
 		},
 		'json');
-
 }
 
-function init() {
-	room_num = $('#room').val();
-	console.log("get room : " + room_num);
-
-	loadSits();
-	initSocketIO();
-	loadBlackList();
-	loadGravatar();
-
-	setTimeout(function(){
-		$(".dark-cover").remove();
-	}, 2000);
-}
-
-function loadSits() {
+function loadSits(callback) {
+	/**********************************************
+	 *  :param callback: The success callback
+	 **********************************************/
 
 	$.get('/list/?room=' + room_num, function(data) {
-		if(data.msg === 'success') {
-			for(var k in data.seats) {
-				var seat = data.seats[k];
-				$('#' + seat.no).attr('title', seat.name);
-				$('#' + seat.no).addClass('sitted');
-			}
+		if(data.msg !== 'success')
+			return
+
+		for(var k in data.seats) {
+			var seat = data.seats[k];
+			$('#' + seat.no).attr('title', seat.name);
+			$('#' + seat.no).addClass('sitted');
 		}
+		if (isFunction(callback))
+			callback();
 	}, 'json');
 }
 
-function loadBlackList() {
+function loadBlackList(callback) {
+	/**********************************************
+	 *  :param callback: The success callback
+	 **********************************************/
 
 	$.get('/black-list', function(data) {
+		if(data.msg !== 'success')
+			return;
+
 		var list = data.list;
-		console.log(list);
+		console.log('black list: ', list);
 		for(k in list) {
 			$("a[title='"+list[k].name+"']").addClass('black-sit');
 		}
+		if (isFunction(callback))
+			callback();
 	}, 'json');
 }
 
-function initSocketIO() {
+function initSocketIO(success_cb) {
+	/*************************************************************************
+	 *  :param success_cb: The callback after connect/reconnect successfully.
+	 *************************************************************************/
+
 	console.log('init socket.io');
 
 	socket = io.connect('//' + location.hostname + ':' + location.port);
 
-	socket.on('sit_md', function (data) {
+	socket.on('connect', function(){
+		removeLoadingAnimation();
+		if (isFunction(success_cb)) {
+			success_cb();
+		}
+	})
 
+	socket.on('reconnect', function(){
+		removeLoadingAnimation();
+		if (isFunction(success_cb)) {
+			success_cb();
+		}
+	})
+
+	socket.on('reconnecting', function(){
+		$('.dark-cover').show();
+	})
+
+	socket.on('sit_md', function (data) {
 		if(data.room === room_num) {
 			var sn = data.sitno;
 			var nick = data.nickname;
@@ -146,8 +152,6 @@ function initSocketIO() {
 			$("#"+sn).addClass("sitted");
 			$("#"+sn).attr("title", nick);
 		}
-
-
 	});
 
 	socket.on('sit_clr', function (data) {
@@ -172,8 +176,6 @@ function initSocketIO() {
 			message = data.msg;
 		}
 
-		// 'DennyHuang: Hello:World'
-
 		console.log("IRC Message : " + from + " -> " + to + " : " + message);
 
 		if(to !== '' && $("a[title='" + to + "']").length != 0) {
@@ -187,44 +189,32 @@ function initSocketIO() {
 				bulletId = hex_md5(rnd);
 			}
 
-			var bcvs = "<div id='" + bulletId + "' class='irc-bullet' style='top:" + (locFrom.top) + "px; left:" + (locFrom.left)+ "px;'></div>"
-			var bullet = {from:from, to:to, locFrom:locFrom, locTo:locTo};
+			var bcvs = '<div id="' + bulletId + '" class="irc-bullet" style="top:' + (locFrom.top) + 'px; left:' + (locFrom.left)+ 'px;"></div>'
+			var bullet = {
+				from: from,
+				to: to,
+				locFrom: locFrom,
+				locTo: locTo
+			};
 
 			bullets[bulletId] = bullet;
 			$('body').append(bcvs);
 
-			$('#' + bulletId).animate(
-				{left:locTo.left + "px", top:locTo.top + "px"},
-				400,
-				function(){
-					var pos = $(this).position();
-					var height = $(this).height();
-					var width = $(this).width();
-
-					$(this).animate(
-						{
-							height: height*4,
-							width:width*4,
-							opacity:0,
-							left:pos.left - width,
-							top:pos.top - height
-						},
-						300,
-						function(){
-							var bulletId = this.id;
-							$('#' + bulletId).remove();
-						})
-				});
+			$('#' + bulletId).animate({
+					left:locTo.left + 'px',
+					top:locTo.top + "px"
+				},
+				400
+			 );
 		}
 
-		//
 		html =  "<div class='msg-bubble'>" + message + "</div>";
 		$("a[title='" + from + "']").prepend(html);
 		setTimeout(function() {
 			$("a[title='" + from + "'] .msg-bubble").remove();
-		}, 2000);
-
+		}, 3000);
 	});
+
 	socket.on('conf_msg', function(data) {
 		console.log('Conference Message : ' + data.msg);
 		html = '<div class="conf-msg" id="conf-msg">' + data.msg + '</div>';
@@ -239,27 +229,32 @@ function initSocketIO() {
 		console.log('reload gra' + data);
 		var k = data.ircNick;
 		var emailHash = data.emailHash;
-		var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
+		var graURL = graApi + '/' + emailHash;
 		$('a[title='+k+']').addClass('gravatar-sit');
-		$('a[title='+k+']').attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
+		$('a[title='+k+']').attr('style', 'background-image: url(' + graURL + '?d=mm&s=150);');
 		console.log('change gra finished');
 	});
-
 }
 
-function loadGravatar() {
-	$.get('/list-gra', function(data) {
+function loadGravatar(callback) {
+	/**********************************************
+	 *  :param callback: The success callback
+	 **********************************************/
 
-		if(data.res === 'success') {
-			var graList = data.list;
-			for(var k in graList) {
-				var ircNick = graList[k].ircNick;
-				var emailHash = graList[k].emailHash;
-				var graURL = 'http://en.gravatar.com/avatar/' + emailHash;
-				$("a[title='"+ircNick+"']").addClass('gravatar-sit');
-				$("a[title='"+ircNick+"']").attr('style', 'background-image: url('+graURL+'?d=mm&s=150);');
-			}
+	$.get('/list-gra', function(data) {
+		if(data.msg !== 'success')
+			return;
+
+		var graList = data.list;
+		for(var k in graList) {
+			var ircNick = graList[k].ircNick;
+			var emailHash = graList[k].emailHash;
+			var graURL = graApi + '/' + emailHash;
+			$("a[title='"+ircNick+"']").addClass('gravatar-sit');
+			$("a[title='"+ircNick+"']").attr('style', 'background-image: url(' + graURL + '?d=mm&s=150);');
 		}
+		if (isFunction(callback))
+			callback();
 	});
 }
 
@@ -272,12 +267,62 @@ function help() {
 	});
 }
 
-$('#modify-trigger-btn').click(function(){
-	$footer = $('.footer')
-	if($footer.css('display') === 'none'){
-		$footer.css('display', 'block')
-	}
-	else{
-		$footer.attr('style', null)
-	}
-})
+function init(){
+	/**********************************************
+	 *  Init order
+	 *		*. loadSits();
+	 *			*. loadBlackList();
+	 *				*. loadGravatar();
+	 *		*. initSocketIO();
+	 **********************************************/
+	room_num = $('#room').val();
+	console.log('get room : ' + room_num);
+
+	loadSits(function(){
+		loadGravatar(function(){
+			loadBlackList();
+		})
+	})
+	initSocketIO();
+}
+
+function removeLoadingAnimation(){
+	var loading = $('.dark-cover')
+	if(loading.length > 0)
+		$('.dark-cover').hide();
+}
+
+$(document).ready(function(){
+	init();
+
+	$('.sit').click(function(){
+		if(this.className.indexOf('selected') != -1){
+			$(".selected").removeClass("selected");
+			$("#sitno").val('');
+			$("#nickname").val('');
+		} else {
+			$(".selected").removeClass("selected");
+			this.className = "selected " + this.className;
+			$("#sitno").val(this.id);
+			if(this.title === '空') {
+				$("#nickname").val('');
+			} else {
+				$("#nickname").val(this.title);
+			}
+		}
+	});
+
+	$('#modify-trigger-btn').click(function(){
+		$footer = $('.footer');
+		if($footer.css('display') === 'none'){
+			$footer.css('display', 'block');
+		}
+		else{
+			$footer.attr('style', null);
+		}
+	})
+
+	$('#help-btn').click(function(){
+		help()
+	})
+});
