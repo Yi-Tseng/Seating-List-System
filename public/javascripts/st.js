@@ -6,12 +6,11 @@ var bulletSpeed = 30;
 var graApi = '//en.gravatar.com/avatar';
 
 function modifySit () {
-	var sn = $("#sitno").val();
-	// sn = sn.substring(4); // cut "seat"
-	var nick = $("#nickname").val();
+	var sn = $('#sitno').val();
+	var nick = $('#nickname').val();
 	if(nick === '') {
-		$(".selected").removeClass("selected");
-		$(".selected").removeClass("black-sit");
+		$('.selected').removeClass('selected');
+		$('.selected').removeClass('black-sit');
 		return;
 	}
 
@@ -19,19 +18,19 @@ function modifySit () {
 		return;
 	}
 
-	$.post('/modify',
-		{sitno:sn, nickname:nick, room:room_num},
+	$.post('/modify', {
+			sitno: sn,
+			nickname: nick,
+			room: room_num,
+		},
 		function(data){
-
-			if(data.msg === 'success') {
-				$("#"+sn).removeClass();
-				$("#"+sn).addClass('sit');
-				$("#"+sn).addClass('sitted');
-				$("#"+sn).attr('title', nick);
-				loadGravatar(function(){
-					loadBlackList();
-				});
-			}
+			if(data.msg !== 'success')
+				return;
+			var $sit = $('#' + sn);
+			$sit.removeClass();
+			$sit.addClass('sit');
+			$sit.addClass('sitted');
+			$sit.attr('title', nick);
 		},
 		'json');
 }
@@ -41,7 +40,7 @@ function clearSitWithSitno(sn){
 		{sitno:sn, nickname:'', room:room_num},
 		function(data){
 			if(data.msg === 'success') {
-				$("#"+sn).attr('style', '');
+				$("#"+sn).attr('style', null);
 			}
 		},
 		'json');
@@ -135,7 +134,7 @@ function initSocketIO(success_cb) {
 	socket.on('reconnecting', function(){
 		$('.dark-cover').show();
 		loadBlackList(function(){
-			loadGravatar();
+			loadGravatars();
 		})
 	})
 
@@ -229,17 +228,24 @@ function initSocketIO(success_cb) {
 	});
 
 	socket.on('reload_gravatar', function(data) {
-		console.log('reload gra' + data);
+		console.log('reload gra:', data);
 		var k = data.ircNick;
 		var emailHash = data.emailHash;
 		var graURL = graApi + '/' + emailHash;
 		$('a[title='+k+']').addClass('gravatar-sit');
 		$('a[title='+k+']').attr('style', 'background-image: url(' + graURL + '?d=mm&s=150);');
 		console.log('change gra finished');
+		loadBlackList();
 	});
 }
 
-function loadGravatar(callback) {
+function loadGravatar(nickname, emailHash){
+	var graURL = graApi + '/' + emailHash + '?d=mm&s=150';
+	$('a[title="' + nickname + '"]').addClass('gravatar-sit');
+	$('a[title="' + nickname + '"]').css('background-image' , 'url(' + graURL + ')');
+}
+
+function loadGravatars(callback) {
 	/**********************************************
 	 *  :param callback: The success callback
 	 **********************************************/
@@ -249,12 +255,12 @@ function loadGravatar(callback) {
 			return;
 
 		var graList = data.list;
+		console.log('gra list: ', data.list)
 		for(var k in graList) {
 			var ircNick = graList[k].ircNick;
 			var emailHash = graList[k].emailHash;
 			var graURL = graApi + '/' + emailHash;
-			$("a[title='"+ircNick+"']").addClass('gravatar-sit');
-			$("a[title='"+ircNick+"']").attr('style', 'background-image: url(' + graURL + '?d=mm&s=150);');
+			loadGravatar(ircNick, emailHash)
 		}
 		if (isFunction(callback))
 			callback();
@@ -275,14 +281,14 @@ function init(){
 	 *  Init order
 	 *		*. loadSits();
 	 *			*. loadBlackList();
-	 *				*. loadGravatar();
+	 *				*. loadGravatars();
 	 *		*. initSocketIO();
 	 **********************************************/
 	room_num = $('#room').val();
 	console.log('get room : ' + room_num);
 
 	loadSits(function(){
-		loadGravatar(function(){
+		loadGravatars(function(){
 			loadBlackList();
 		})
 	})
@@ -327,5 +333,13 @@ $(document).ready(function(){
 
 	$('#help-btn').click(function(){
 		help()
+	})
+
+	$('#modify-seat-btn').click(function(){
+		modifySit()
+	})
+
+	$('#clear-seat-btn').click(function(){
+		clearSit()
 	})
 });
