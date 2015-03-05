@@ -213,10 +213,12 @@ function initSocketIO(success_cb) {
 		}
 
 		html =  "<div class='msg-bubble'>" + message + "</div>";
-		$("a[title='" + from + "']").prepend(html);
-		setTimeout(function() {
-			$("a[title='" + from + "'] .msg-bubble").remove();
-		}, 5000);
+		$(html).appendTo($("a[title='" + from + "']")).animate({
+			bottom: '40px',
+			opacity: 1,
+		}, 500).delay(5500).fadeOut(400, function(){
+			$(this).remove()
+		})
 	});
 
 	socket.on('conf_msg', function(data) {
