@@ -8,6 +8,7 @@ var http = require('http');
 var irc = require('irc');
 var config = require('./config/config.js');
 var winston = require('winston');
+var escape = require('escape-html');
 var redis = require('socket.io/lib/stores/redis');
 var redisConf = {
 	host: config.redis.host,
