@@ -9,65 +9,52 @@ function modifySit () {
 	var sn = $('#sitno').val();
 	var nick = $('#nickname').val();
 	if(nick === '') {
-		$('.selected').removeClass('selected');
-		$('.selected').removeClass('black-sit');
+		clearSit();
 		return;
 	}
 
-	if(sn === '') {
+	if(sn === '')
 		return;
-	}
 
 	$.post('/modify', {
-			sitno: sn,
-			nickname: nick,
-			room: room_num,
-		},
-		function(data){
-			if(data.msg !== 'success')
-				return;
-			var $sit = $('#' + sn);
-			$sit.removeClass();
-			$sit.addClass('sit');
-			$sit.addClass('sitted');
-			$sit.attr('title', nick);
-		},
-		'json');
+		sitno: sn,
+		nickname: nick,
+		room: room_num,
+	},
+	function(data){
+		if(data.msg !== 'success')
+			return;
+	},
+	'json');
 }
 
 function clearSitWithSitno(sn){
-	$.post('/modify',
-		{sitno:sn, nickname:'', room:room_num},
-		function(data){
-			if(data.msg === 'success') {
-				$("#"+sn).attr('style', null);
-			}
-		},
-		'json');
+	$.post('/modify', {
+		sitno: sn,
+		nickname: '',
+		room: room_num,
+	}, function(data){
+		if(data.msg !== 'success')
+			return;
+		// $('#' + sn).attr('style', null);
+	},
+	'json');
 }
 
 function clearSit() {
-	var sn = $("#sitno").val();
-	if(sn === '') {
+	var sn = $('#sitno').val();
+	if(sn === '')
 		return;
-	}
 
-	$.post('/modify',
-		{
-			sitno: sn,
-			nickname: '',
-			room: room_num
-		},
-		function(data){
-			if(data.msg !== 'success')
-				return
-
-			$('#' + sn).attr('style', null);
-			$('#' + sn).removeClass();
-			$('#' + sn).addClass('sit');
-			$('#' + sn).attr('title', '空');
-		},
-		'json');
+	$.post('/modify', {
+		sitno: sn,
+		nickname: '',
+		room: room_num
+	}, function(data){
+		if(data.msg !== 'success')
+			return
+	},
+	'json');
 }
 
 function loadSits(callback) {
@@ -81,8 +68,7 @@ function loadSits(callback) {
 
 		for(var k in data.seats) {
 			var seat = data.seats[k];
-			$('#' + seat.no).attr('title', seat.name);
-			$('#' + seat.no).addClass('sitted');
+			$('#' + seat.no).attr('title', seat.name).addClass('sitted');
 		}
 		if (isFunction(callback))
 			callback();
@@ -99,9 +85,8 @@ function loadBlackList(callback) {
 			return;
 
 		var list = data.list;
-		console.log('black list: ', list);
 		for(k in list) {
-			$("a[title='"+list[k].name+"']").addClass('black-sit');
+			$("a[title='" + list[k].name + "']").addClass('black-sit');
 		}
 		if (isFunction(callback))
 			callback();
@@ -112,8 +97,6 @@ function initSocketIO(success_cb) {
 	/*************************************************************************
 	 *  :param success_cb: The callback after connect/reconnect successfully.
 	 *************************************************************************/
-
-	console.log('init socket.io');
 
 	socket = io.connect('//' + location.hostname + ':' + location.port);
 
@@ -139,31 +122,24 @@ function initSocketIO(success_cb) {
 	})
 
 	socket.on('sit_md', function (data) {
-		if(data.room === room_num) {
-			var sn = data.sitno;
-			var nick = data.nickname;
-			var oldSeat = data.oldSeat;
-			console.log('old ' + oldSeat);
+		if(data.room !== room_num)
+			return
+		var sn = data.sitno;
+		var nick = data.nickname;
+		var oldSeat = data.oldSeat;
 
-			if(oldSeat != undefined) {
-				clearSitWithSitno(oldSeat);
-			}
-
-			console.log(data);
-			$("#"+sn).removeClass("selected");
-			$("#"+sn).addClass("sitted");
-			$("#"+sn).attr("title", nick);
+		if(oldSeat != undefined) {
+			clearSitWithSitno(oldSeat);
 		}
+
+		$('#' + sn).prop('class', 'sit sitted').attr('title', nick);
 	});
 
 	socket.on('sit_clr', function (data) {
-		if(data.room === room_num) {
-			var sn = data.sitno;
-			$("#"+sn).attr('style', '');
-			$("#"+sn).removeClass();
-			$("#"+sn).addClass('sit');
-			$("#"+sn).attr('title', '空');
-		}
+		if(data.room !== room_num)
+			return
+		var sn = data.sitno;
+		$('#' + sn).attr('style', null).prop('class', 'sit').attr('title', '空');
 	});
 
 	socket.on('irc_msg', function (data) {
@@ -180,7 +156,9 @@ function initSocketIO(success_cb) {
 
 		console.log("IRC Message : " + from + " -> " + to + " : " + message);
 
-		if(to !== '' && $("a[title='" + to + "']").length != 0) {
+		if(to !== ''
+			&& $("a[title='" + to + "']").length != 0
+			&& $("a[title='" + from + "']").length != 0) {
 			var locFrom = $("a[title='" + from + "']").position();
 			var locTo = $("a[title='" + to + "']").position();
 			var rnd = Math.random();
@@ -191,34 +169,39 @@ function initSocketIO(success_cb) {
 				bulletId = hex_md5(rnd);
 			}
 
-			var bcvs = '<div id="' + bulletId + '" class="irc-bullet" style="top:' + (locFrom.top) + 'px; left:' + (locFrom.left)+ 'px;"></div>'
+			var bcvs = '<div id="' + bulletId + '" class="irc-bullet" style="top:' + (locFrom.top) + 'px; left:' + (locFrom.left)+ 'px;background-color: yellow;"></div>'
 			var bullet = {
 				from: from,
 				to: to,
 				locFrom: locFrom,
-				locTo: locTo
+				locTo: locTo,
 			};
 
 			bullets[bulletId] = bullet;
 			$('body').append(bcvs);
 
+			var magic = 4.34375
 			$('#' + bulletId).animate({
-					left:locTo.left + 'px',
-					top:locTo.top + "px"
+					left: locTo.left + magic + 'px',
+					top: locTo.top + magic + 'px',
 				},
-				400
+				2000
 			 );
+			 setTimeout(function(){
+				 $('#' + bulletId).remove()
+			 }, 2000)
 		}
 
-		html =  "<div class='msg-bubble'>" + message + "</div>";
-		$("a[title='" + from + "']").prepend(html);
-		setTimeout(function() {
-			$("a[title='" + from + "'] .msg-bubble").remove();
-		}, 3000);
+		html =  "<div class='msg-bubble'><p>" +  message + "</p></div>";
+		$(html).appendTo($("a[title='" + from + "']")).animate({
+			bottom: '40px',
+			opacity: 1,
+		}, 500).delay(5500).fadeOut(400, function(){
+			$(this).remove()
+		})
 	});
 
 	socket.on('conf_msg', function(data) {
-		console.log('Conference Message : ' + data.msg);
 		html = '<div class="conf-msg" id="conf-msg">' + data.msg + '</div>';
 		$('body').prepend(html);
 
@@ -228,13 +211,9 @@ function initSocketIO(success_cb) {
 	});
 
 	socket.on('reload_gravatar', function(data) {
-		console.log('reload gra:', data);
-		var k = data.ircNick;
+		var nickname = data.ircNick;
 		var emailHash = data.emailHash;
-		var graURL = graApi + '/' + emailHash;
-		$('a[title='+k+']').addClass('gravatar-sit');
-		$('a[title='+k+']').attr('style', 'background-image: url(' + graURL + '?d=mm&s=150);');
-		console.log('change gra finished');
+		loadGravatar(nickname, emailHash);
 		loadBlackList();
 	});
 }
@@ -255,12 +234,11 @@ function loadGravatars(callback) {
 			return;
 
 		var graList = data.list;
-		console.log('gra list: ', data.list)
 		for(var k in graList) {
-			var ircNick = graList[k].ircNick;
+			var nickname = graList[k].ircNick;
 			var emailHash = graList[k].emailHash;
 			var graURL = graApi + '/' + emailHash;
-			loadGravatar(ircNick, emailHash)
+			loadGravatar(nickname, emailHash);
 		}
 		if (isFunction(callback))
 			callback();
@@ -285,7 +263,6 @@ function init(){
 	 *		*. initSocketIO();
 	 **********************************************/
 	room_num = $('#room').val();
-	console.log('get room : ' + room_num);
 
 	loadSits(function(){
 		loadGravatars(function(){
@@ -305,18 +282,18 @@ $(document).ready(function(){
 	init();
 
 	$('.sit').click(function(){
-		if(this.className.indexOf('selected') != -1){
-			$(".selected").removeClass("selected");
-			$("#sitno").val('');
-			$("#nickname").val('');
+		if($(this).hasClass('selected')){
+			$(this).removeClass("selected");
+			$('#sitno').val(null);
+			$('#nickname').val(null);
 		} else {
-			$(".selected").removeClass("selected");
-			this.className = "selected " + this.className;
-			$("#sitno").val(this.id);
+			$('.sit').removeClass('selected'); // remove other selection
+			$(this).addClass('selected');
+			$('#sitno').val(this.id);
 			if(this.title === '空') {
-				$("#nickname").val('');
+				$('#nickname').val(null);
 			} else {
-				$("#nickname").val(this.title);
+				$('#nickname').val(this.title);
 			}
 		}
 	});

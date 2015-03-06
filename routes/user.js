@@ -69,6 +69,12 @@ exports.modify = function(req, res) {
 	winston.info('nickName : ' + nickname);
 	winston.info('room : ' + room);
 	
+
+	if (seatNo === undefined || nickname === undefined || root === undefined) {
+		res.send({'msg':'fail'});
+		res.end();
+	}
+
 	if(nickname !== '' && seatNo !== '' && room !== '') {
 
 		Seat.findOne({room:room, name:nickname}, function(err, data) {
@@ -79,6 +85,8 @@ exports.modify = function(req, res) {
 				var s = new Seat({room:room, name:nickname, no:seatNo});
 				s.save(function(err){});
 			} else {
+				if(data.no === seatNo)
+					return;
 				oldSeat = data.no;
 				data.no = seatNo;
 				data.save(function(err){});
@@ -107,19 +115,19 @@ exports.modify = function(req, res) {
 	} else if(nickname === '' && seatNo !== '' && room !== '') { 
 		winston.info('[/modify] delete seat, room : ' + room + ', seatNo : ' + seatNo);
 
-		Seat.remove({room:room, no:seatNo}, function(err, data) {
+		Seat.remove({room: room, no: seatNo}, function(err, data) {
 			if (err) {
-				res.send({'msg':'fail'});
+				res.send({'msg': 'fail'});
 			} else {
-				res.send({'msg':'success'});
-				sockets.emit('sit_clr', {sitno:seatNo, room:room});
+				res.send({'msg': 'success'});
+				sockets.emit('sit_clr', {sitno: seatNo, room: room});
 			}
 			res.end();
 		});
-		res.send({'msg':'success'});
+		res.send({'msg': 'success'});
 		res.end();
 	} else {
-		res.send({'msg':'fail'});
+		res.send({'msg': 'fail'});
 		res.end();
 	}
 	
@@ -209,8 +217,6 @@ exports._addGra = function(ircNick, email) {
 				sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
 			}
 		});
-
-		
 	} 
 }
 
@@ -246,8 +252,6 @@ exports.addGra = function(req, res) {
 				res.end();
 			}
 		});
-
-		
 	} else {
 		res.send({'res':'error'});
 		res.end();
@@ -266,4 +270,3 @@ exports.getGra = function(req, res) {
 		}
 	});
 }
-

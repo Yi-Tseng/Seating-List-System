@@ -5,7 +5,8 @@ Install
 ----------
  1. Install MongoDB : [https://www.mongodb.org/][1]
  2. Install Node.js : [http://nodejs.org/][2]
- 3. git
+ 3. Install Redis : [http://redis.io/][3]
+ 4. PM2 : `npm install pm2 -g` [https://github.com/Unitech/pm2][4]
 
 Usage
 ----------
@@ -22,14 +23,16 @@ Usage
 	cp config/config.js.sample config/config.js
 	vim config/config.js # change it!
 
-4.Start mongo db server
+4.Start mongodb server
 
-	./mongod
+5.Start redis server
     
-5.Start server
+6.Start server
 
-	node app.js
+	pm2 start app.js
     
 
   [1]: https://www.mongodb.org/
   [2]: http://nodejs.org/
+  [3]: http://redis.io/
+  [4]: https://github.com/Unitech/pm2

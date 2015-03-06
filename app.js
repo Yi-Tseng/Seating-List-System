@@ -16,6 +16,11 @@ var escape = require('escape-html');
 var app = express();
 var config = require('./config/config.js');
 var winston = require('winston');
+var redis = require('socket.io/lib/stores/redis');
+var redisConf = {
+	host: config.redis.host,
+	port: config.redis.port,
+}
 
 // all environments
 app.set('port', process.env.PORT || config.server.port || 80);
@@ -36,13 +41,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
 }
-winston.add(winston.transports.File, { filename: 'log.log' });
+// winston.add(winston.transports.File, { filename: 'log.log' });
 
 var server = http.createServer(app).listen(app.get('port'), function(){
-  winston.info('[Express] Express server listening on port ' + app.get('port'));
+	winston.info('[Express] Express server listening on port ' + app.get('port'));
 });
 
 io = require('socket.io').listen(server);
+
+io.set('store', new redis({
+	redisPub: redisConf,
+	redisSub: redisConf,
+	redisClient: redisConf,
+}));
 
 io.sockets.on('connection', function (socket) {
 	winston.info('[Socket] Socket connected!');

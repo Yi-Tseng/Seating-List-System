@@ -483,6 +483,23 @@ body {
 }
 
 /**********************************************
+ *  message box
+ **********************************************/
+.msg-bubble {
+	position:absolute;
+	left: 0%;
+	width: 80px;
+	z-index: 30;
+	color: #FFF;
+	background-color: #000;
+	border-radius: 7px;
+	padding: 5px;
+	overflow: hidden;
+	opacity: 0;
+	font-size: 0.8em;
+}
+
+/**********************************************
  *  Other Responsive rules
  **********************************************/
 @media screen and (max-width: 697px) {
