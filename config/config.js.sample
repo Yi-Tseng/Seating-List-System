@@ -8,6 +8,7 @@
             this.channel = '#channel';
             this.bot_nick = 'ROBOT_NAME';
             this.bot_pwd = 'ROBOT_PWD';
+			this.ws_port = 3001;
         };
 		var conference = function(){
 			this.name = 'conf name'; // e.g. SITCON

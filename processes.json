@@ -1,0 +1,13 @@
+{
+	"apps": [{
+		"name": "web",
+		"script": "app.js",
+		"instances": 8,
+		"exec_mode"  : "cluster_mode"
+	},
+	{
+		"name": "irc",
+		"script": "irc_bot.js",
+		"instances": 1
+	}]
+}

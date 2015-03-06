@@ -29,7 +29,7 @@ Usage
     
 6.Start server
 
-	pm2 start app.js
+	pm2 start processes.json
     
 
   [1]: https://www.mongodb.org/

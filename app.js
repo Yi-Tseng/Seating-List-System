@@ -47,7 +47,7 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 	winston.info('[Express] Express server listening on port ' + app.get('port'));
 });
 
-io = require('socket.io').listen(server);
+var io = require('socket.io').listen(server);
 
 io.set('store', new redis({
 	redisPub: redisConf,
@@ -55,44 +55,8 @@ io.set('store', new redis({
 	redisClient: redisConf,
 }));
 
-io.sockets.on('connection', function (socket) {
+io.on('connection', function (socket) {
 	winston.info('[Socket] Socket connected!');
-});
-
-var client = new irc.Client(
-	config.irc.server, 
-	config.irc.bot_nick, 
-	{
-    	channels: [config.irc.channel], 
-    	debug:true
-	}
-);
-
-client.addListener('error', function(message) {
-    winston.info('[IRC] error: ', message);
-});
-
-client.join(config.irc.channel + ' ' + config.irc.bot_pwd)
-
-client.addListener('message', function (from, to, message) {
-	winston.info("[IRC] channel : " + config.irc.channel + " from : " + from + ', to : ' + to + ', message : ' + message);
-	
-	if(!to.match(new RegExp(config.irc.bot_nick + '[0-9_]*'))) {
-		message = escape(message);
-		io.sockets.emit('irc_msg', {'from':from, 'to': to, 'msg':message});
-	}
-});
-
-client.addListener('pm', function(from, message) {
-	winston.info('[IRC-PM] get message : ' + message);
-	var splitArr = message.split(' ');
-	var command = splitArr[0];
-	winston.info('[IRC-PM] command : ' + command);
-
-	if(command === 'setGravatar') {
-		var email = splitArr[1];
-		user._addGra(from, email);
-	}
 });
 
 // path
