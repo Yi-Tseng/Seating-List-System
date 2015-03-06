@@ -35,7 +35,7 @@ client.addListener('error', function(message) {
     winston.info('[IRC] error: ', message);
 });
 
-client.join(config.irc.channel + ' ' + config.irc.bot_pwd)
+client.join(config.irc.channel + ' ' + config.irc.bot_pwd);
 
 client.addListener('message', function (from, to, message) {
 	winston.info("[IRC] channel : " + config.irc.channel + " from : " + from + ', to : ' + to + ', message : ' + message);

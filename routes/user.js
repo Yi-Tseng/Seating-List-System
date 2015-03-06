@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var md5 = require('MD5');
 mongoose.connect('mongodb://localhost/SeatingTable');
 var Schema = mongoose.Schema;
+var escape = require('querystring').escape;
 
 var SeatSchema = new Schema({
 	room : String,
@@ -40,10 +41,10 @@ exports.setSockets = function(s) {
 
 exports.list = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	var room = req.query.room;
+	var room = escape(req.query.room);
 	var sitList;
-	winston.info('[/list] access from ' + ip);
-	winston.info('[/list] room number ' + room);
+	winston.info('[/list] access from ', ip);
+	winston.info('[/list] room number ', room);
 
 	Seat.find({room:room}, function(err, data) {
 		if(err) {
@@ -61,9 +62,9 @@ exports.modify = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	winston.info('[/modify] access from ' + ip);
 
-	var seatNo = req.body.sitno;
-	var nickname = req.body.nickname;
-	var room = req.body.room;
+	var seatNo = escape(req.body.sitno);
+	var nickname = escape(req.body.nickname);
+	var room = escape(req.body.room);
 
 	winston.info('SeatNo : ' + seatNo);
 	winston.info('nickName : ' + nickname);
@@ -150,7 +151,7 @@ exports.blackList = function(req, res) {
 exports.addBlack = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	winston.info('[/blackList] access from ' + ip);
-	var name = req.body.name;
+	var name = escape(req.body.name);
 	winston.info('[/blackList] add ' + name + ' to black list');
 
 	if(name !== ''){
@@ -179,7 +180,7 @@ exports.addBlack = function(req, res) {
 exports.delBlack = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	winston.info('[/blackList] access from ' + ip);
-	var name = req.body.name;
+	var name = escape(req.body.name);
 	winston.info('[/blackList] delete ' + name + ' to black list');
 
 	BlackList.remove({'name':name}, function(err, data) {
@@ -222,8 +223,8 @@ exports._addGra = function(ircNick, email) {
 
 exports.addGra = function(req, res) {
 
-	var ircNick = req.body.ircNick;
-	var emailHash = req.body.emailHash;
+	var ircNick = escape(req.body.ircNick);
+	var emailHash = escape(req.body.emailHash);
 	winston.info("[addGra] Nick : " + ircNick);
 	winston.info("[addGra] Hash : " + emailHash);
 
