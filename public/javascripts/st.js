@@ -68,7 +68,10 @@ function loadSits(callback) {
 
 		for(var k in data.seats) {
 			var seat = data.seats[k];
-			$('#' + seat.no).attr('title', seat.name).addClass('sitted');
+			try {
+				$('#' + seat.no).attr('title', seat.name).addClass('sitted');
+			} catch (e) {
+			}
 		}
 		if (isFunction(callback))
 			callback();
