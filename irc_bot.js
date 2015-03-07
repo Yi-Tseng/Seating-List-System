@@ -59,3 +59,4 @@ client.addListener('pm', function(from, message) {
 	}
 });
 
+user.setSockets(io.sockets);
