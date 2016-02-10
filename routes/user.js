@@ -174,33 +174,6 @@ exports.delBlack = function(req, res) {
 	});
 }
 
-exports._addGra = function(ircNick, email) {
-	var emailHash = md5(email);
-
-	winston.info('[_addGra] ircNick : ' + ircNick + ', email : ' + emailHash);
-	if(ircNick !== '' && emailHash !== '') {
-		Gravatar.findOne({ircNick:ircNick}, function(err, data) {
-			if( data == null) {
-				var gra = new Gravatar({ircNick:ircNick, emailHash:emailHash});
-				gra.save(function(err){
-					if(err) {
-						console.log(err);
-					} else {
-
-						ircNick = escape(ircNick);
-						emailHash = escape(emailHash);
-						sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
-					}
-				});
-			} else {
-				data.emailHash = emailHash;
-				data.save();
-				sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
-			}
-		});
-	}
-}
-
 exports.addGra = function(req, res) {
   var winston = req.app.get('winston');
 	var ircNick = escape(req.body.ircNick);

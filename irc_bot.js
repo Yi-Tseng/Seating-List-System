@@ -10,6 +10,10 @@ var config = require('./config/config.js');
 var winston = require('winston');
 var escape = require('escape-html');
 var redis = require('socket.io-redis');
+var md5 = require('MD5');
+var userModels = require('./models/user');
+var Gravatar = userModels.Gravatar;
+
 var redisConf = {
 	host: config.redis.host,
 	port: config.redis.port,
@@ -58,8 +62,33 @@ client.addListener('pm', function(from, message) {
 
 	if(command === 'setGravatar') {
 		var email = splitArr[1];
-		user._addGra(from, email);
+		addGra(from, email);
 	}
 });
 
-user.setSockets(io.sockets);
+function addGra(ircNick, email) {
+	var emailHash = md5(email);
+
+	winston.info('[addGra] ircNick : ' + ircNick + ', email : ' + emailHash);
+	if(ircNick !== '' && emailHash !== '') {
+		Gravatar.findOne({ircNick:ircNick}, function(err, data) {
+			if( data == null) {
+				var gra = new Gravatar({ircNick:ircNick, emailHash:emailHash});
+				gra.save(function(err){
+					if(err) {
+						console.log(err);
+					} else {
+
+						ircNick = escape(ircNick);
+						emailHash = escape(emailHash);
+						io.sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
+					}
+				});
+			} else {
+				data.emailHash = emailHash;
+				data.save();
+				io.sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
+			}
+		});
+	}
+}
