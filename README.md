@@ -1,8 +1,8 @@
 Seating List System
 =====================
- Seating list system for every conference in Academia Sinica International Conference Hall. 
- 
- 
+ Seating list system for every conference in Academia Sinica International Conference Hall.
+
+
 Install
 ----------
  1. Install MongoDB : [https://www.mongodb.org/][1]
@@ -28,11 +28,11 @@ Usage
 4.Start mongodb server
 
 5.Start redis server
-    
+
 6.Start server
 
 	pm2 start processes.json
-    
+
 
   [1]: https://www.mongodb.org/
   [2]: http://nodejs.org/
