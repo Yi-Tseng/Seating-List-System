@@ -1,5 +1,6 @@
 var winston = require('winston');
 var config = require('../config/config.js');
+var md5 = require('MD5');
 
 exports.index = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;

@@ -17,7 +17,7 @@ var errorHandler = require('errorhandler');
 var routes = require('./routes');
 var user = require('./routes/user');
 var admin = require('./routes/admin');
-var md5 = require('MD5');
+
 var http = require('http');
 var path = require('path');
 var xss = require('xss');
