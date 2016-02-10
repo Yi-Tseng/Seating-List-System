@@ -51,10 +51,13 @@ if ('development' == app.get('env')) {
 // setup winston
 winston.add(winston.transports.File, { filename: 'log.log' });
 app.set('winston', winston);
+
+// create http server
 var server = http.createServer(app).listen(app.get('port'), function(){
 	winston.info('[Express] Express server listening on port ' + app.get('port'));
 });
 
+// setup socket.io
 var io = require('socket.io').listen(server);
 
 io.adapter(new redis({
