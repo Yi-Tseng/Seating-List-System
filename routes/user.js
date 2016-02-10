@@ -39,6 +39,7 @@ exports.list = function(req, res) {
 exports.modify = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   var winston = req.app.get('winston');
+  var sockets = req.app.get('sockets');
 	winston.info('[/modify] access from ' + ip);
 
 	var seatNo = escape(req.body.sitno);
@@ -207,6 +208,7 @@ exports.addGra = function(req, res) {
   var winston = req.app.get('winston');
 	var ircNick = escape(req.body.ircNick);
 	var emailHash = escape(req.body.emailHash);
+  var sockets = req.app.get('sockets');
 	winston.info("[addGra] Nick : " + ircNick);
 	winston.info("[addGra] Hash : " + emailHash);
 

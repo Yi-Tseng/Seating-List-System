@@ -70,10 +70,11 @@ io.on('connection', function (socket) {
 	winston.info('[Socket] Socket connected!');
 });
 
+app.set('sockets', io.sockets);
+
 // path
 app.get('/admin', admin.index);
 app.post('/admin', admin.postMsg);
-user.setSockets(io.sockets);
 app.get('/list', user.list);
 app.post('/modify', user.modify);
 app.get('/list-gra', user.getGra);
