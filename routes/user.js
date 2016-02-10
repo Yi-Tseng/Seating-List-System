@@ -7,7 +7,6 @@ var xss = require('xss');
 var escape = require('escape-html');
 var mongoose = require('mongoose');
 var md5 = require('MD5');
-mongoose.connect('mongodb://localhost/SeatingTable');
 var Schema = mongoose.Schema;
 var escape = require('querystring').escape;
 var userModels = require('../models/user');
