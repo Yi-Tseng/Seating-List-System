@@ -104,8 +104,6 @@ exports.modify = function(req, res) {
 			}
 			res.end();
 		});
-		res.send({'msg': 'success'});
-		res.end();
 	} else {
 		res.send({'msg': 'fail'});
 		res.end();
