@@ -1,18 +1,20 @@
+@import "config";
+
 h1 {
-	color: #FFF;
+	color: @admin-text-color;
 	font-size: 2em;
 }
 
 .admin-bg {
-	background-color: #000;
-	background-image: url('/images/admin_bg.png');
+	background-color: @admin-bg-color;
+	background-image: url(@admin-bg-img);
 	background-position: 50% 40%;
 }
 
 .admin-bar {
 	margin-top: 210px;
 	margin-bottom: 170px;
-        background-image: url('/images/admin_bg_reverse.png');
-        background-position: 50% 52%;
+  background-image: url(@admin-bg-img-rev);
+  background-position: 50% 52%;
 	color: #000;
 }
