@@ -50,6 +50,9 @@ client.addListener('message', function (from, to, message) {
 client.addListener('pm', function(from, message) {
 	winston.info('[IRC-PM] get message : ' + message);
 	var splitArr = message.split(' ');
+  if(splitArr.length < 2) {
+    return;
+  }
 	var command = splitArr[0];
 	winston.info('[IRC-PM] command : ' + command);
 
