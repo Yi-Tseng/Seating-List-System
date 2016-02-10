@@ -9,7 +9,7 @@ var irc = require('irc');
 var config = require('./config/config.js');
 var winston = require('winston');
 var escape = require('escape-html');
-var redis = require('socket.io/lib/stores/redis');
+var redis = require('socket.io-redis');
 var redisConf = {
 	host: config.redis.host,
 	port: config.redis.port,
@@ -26,7 +26,7 @@ var client = new irc.Client(
 
 var io = require('socket.io').listen(process.env.PORT || config.irc.ws_port || 3001);
 
-io.set('store', new redis({
+io.adapter(new redis({
 	redisPub: redisConf,
 	redisSub: redisConf,
 	redisClient: redisConf,
