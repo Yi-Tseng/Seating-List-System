@@ -31,7 +31,7 @@ exports.list = function(req, res) {
 		}
 		res.end();
 	});
-	
+
 };
 
 
@@ -48,7 +48,7 @@ exports.modify = function(req, res) {
 	winston.info('SeatNo : ' + seatNo);
 	winston.info('nickName : ' + nickname);
 	winston.info('room : ' + room);
-	
+
 
 	if (seatNo === undefined || nickname === undefined || root === undefined) {
 		res.send({'msg':'fail'});
@@ -92,7 +92,7 @@ exports.modify = function(req, res) {
 			res.end();
 		});
 
-	} else if(nickname === '' && seatNo !== '' && room !== '') { 
+	} else if(nickname === '' && seatNo !== '' && room !== '') {
 		winston.info('[/modify] delete seat, room : ' + room + ', seatNo : ' + seatNo);
 
 		Seat.remove({room: room, no: seatNo}, function(err, data) {
@@ -110,7 +110,7 @@ exports.modify = function(req, res) {
 		res.send({'msg': 'fail'});
 		res.end();
 	}
-	
+
 };
 
 exports.blackList = function(req, res) {
@@ -139,7 +139,7 @@ exports.addBlack = function(req, res) {
 
 		// remove first.
 		BlackList.remove({'name':name}, function(err, data) {});
-		
+
 		var bl = new BlackList({'name':name});
 		bl.save(function(err, data){
 			if(err) {
@@ -151,7 +151,7 @@ exports.addBlack = function(req, res) {
 				res.end();
 			}
 		});
-		
+
 	} else {
 		res.send({'msg':'empty name'});
 		res.end();
@@ -188,7 +188,7 @@ exports._addGra = function(ircNick, email) {
 					if(err) {
 						console.log(err);
 					} else {
-						
+
 						ircNick = escape(ircNick);
 						emailHash = escape(emailHash);
 						sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
@@ -200,7 +200,7 @@ exports._addGra = function(ircNick, email) {
 				sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});
 			}
 		});
-	} 
+	}
 }
 
 exports.addGra = function(req, res) {
@@ -222,7 +222,7 @@ exports.addGra = function(req, res) {
 					if(err) {
 						res.send({'res':'error'});
 					} else {
-						res.send({'res':'success'});		
+						res.send({'res':'success'});
 						ircNick = escape(ircNick);
 						emailHash = escape(emailHash);
 						sockets.emit('reload_gravatar', {ircNick:ircNick, emailHash:emailHash});

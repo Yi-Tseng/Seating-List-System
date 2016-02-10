@@ -15,7 +15,7 @@ exports.index = function(req, res){
 			return;
 		}
 	}
-	
+
 	var need_help = !('help' in req.session);
 	req.session['help'] = false;
 
