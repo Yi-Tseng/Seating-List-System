@@ -55,7 +55,7 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 
 var io = require('socket.io').listen(server);
 
-io.set('store', new redis({
+io.adapter(new redis({
 	redisPub: redisConf,
 	redisSub: redisConf,
 	redisClient: redisConf,
