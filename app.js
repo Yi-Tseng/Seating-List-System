@@ -14,7 +14,7 @@ var xss = require('xss');
 var app = express();
 var config = require('./config/config.js');
 var winston = require('winston');
-var redis = require('socket.io/lib/stores/redis');
+var redis = require('socket.io-redis');
 var redisConf = {
 	host: config.redis.host,
 	port: config.redis.port,
