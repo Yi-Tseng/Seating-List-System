@@ -42,7 +42,7 @@ Contributing
 
 Feel free to send a pull request or issue to us.
 
-Or send email to yi [at] takeshi.tw if ypu have any question.
+Or send email to yi [at] takeshi.tw if you have any question.
 
   [1]: https://www.mongodb.org/
   [2]: http://nodejs.org/
