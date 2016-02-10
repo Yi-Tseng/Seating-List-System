@@ -13,6 +13,7 @@ var methodOverride = require('method-override');
 var cookieSession = require('cookie-session');
 var serveStatic = require('serve-static');
 var errorHandler = require('errorhandler');
+var lessStyle = require('less-middleware');
 
 var routes = require('./routes');
 var user = require('./routes/user');
@@ -41,6 +42,7 @@ app.use(methodOverride());
 app.use(cookieParser(config.cookieSecret));
 app.use(cookieSession({keys:[config.cookieSecret]}));
 app.use(serveStatic(path.join(__dirname, 'public')));
+app.use(lessStyle(path.join(__dirname, 'public')));
 
 
 // development only
