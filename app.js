@@ -4,6 +4,16 @@
  */
 
 var express = require('express');
+
+// middlewares for express
+var favicon = require('serve-favicon');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var cookieSession = require('cookie-session');
+var serveStatic = require('serve-static');
+var errorHandler = require('errorhandler');
+
 var routes = require('./routes');
 var user = require('./routes/user');
 var admin = require('./routes/admin');
@@ -24,20 +34,18 @@ var redisConf = {
 app.set('port', process.env.PORT || config.server.port || 80);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(express.methodOverride());
-app.use(express.cookieParser(config.cookieSecret));
-app.use(express.cookieSession());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(methodOverride());
+app.use(cookieParser(config.cookieSecret));
+app.use(cookieSession({keys:[config.cookieSecret]}));
+app.use(serveStatic(path.join(__dirname, 'public')));
 
 
 // development only
 if ('development' == app.get('env')) {
-	app.use(express.errorHandler());
+	app.use(errorHandler());
 }
 // winston.add(winston.transports.File, { filename: 'log.log' });
 
