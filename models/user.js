@@ -1,6 +1,7 @@
+var config = require('../config/config.js');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-mongoose.connect('mongodb://localhost/SeatingTable');
+mongoose.connect(config.mongodb.uri);
 
 var SeatSchema = new Schema({
 	room : String,

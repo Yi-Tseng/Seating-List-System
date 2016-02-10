@@ -1,33 +1,45 @@
 (function(){
-    var config = function(){
-        var server_conf = function(){
-            this.port = 80;
-        };
-        var irc_conf = function(){
-            this.server = 'irc.freenode.net';
-            this.channel = '#channel';
-            this.bot_nick = 'ROBOT_NAME';
-            this.bot_pwd = 'ROBOT_PWD';
-			this.ws_port = 3001;
-        };
-		var conference = function(){
-			this.name = 'conf name'; // e.g. SITCON
-			this.subtitle = ''; // e.g. The True Hackers
-			this.title = this.name + ' ' + this.subtitle;
-		};
-		var redis_conf = function(){
-			this.host = '127.0.0.1';
-			this.port = 6379;
-		};
-
-		this.admin_pwd = 'admin_password'; // 128 times md5 hash
-        this.server = new server_conf();
-        this.irc = new irc_conf();
-		this.conference = new conference();
-		this.cookieSecret = 'S3CR3T';
-        this.gaid = '';
-		this.redis = new redis_conf();
+  var config = function(){
+    var server_conf = function(){
+      this.port = 80;
+    };
+    var irc_conf = function(){
+      this.server = 'irc.freenode.net';
+      this.channel = '#channel';
+      this.bot_nick = 'ROBOT_NAME';
+      this.bot_pwd = 'ROBOT_PWD';
+      this.ws_port = 3001;
+    };
+    var conference = function(){
+      this.name = 'conf name'; // e.g. SITCON
+      this.subtitle = ''; // e.g. The True Hackers
+      this.title = this.name + ' ' + this.subtitle;
+    };
+    var redis_conf = function(){
+      this.host = '127.0.0.1';
+      this.port = 6379;
+    };
+    var mongodb_conf = function() {
+      this.uri = 'mongodb://localhost/SeatingTable';
     };
 
-    module.exports = new config();
+    this.admin_pwd = 'admin_password'; // 128 times md5 hash
+    this.server = new server_conf();
+    this.irc = new irc_conf();
+    this.conference = new conference();
+    this.cookieSecret = 'S3CR3T';
+    this.gaid = '';
+    this.redis = new redis_conf();
+    this.admin_pwd = 'admin_password'; // 128 times md5 hash
+    this.server = new server_conf();
+    this.irc = new irc_conf();
+    this.conference = new conference();
+    this.cookieSecret = 'S3CR3T';
+    this.gaid = '';
+    this.redis = new redis_conf();
+    this.mongodb = new mongodb_conf();
+
+  };
+
+  module.exports = new config();
 })();
