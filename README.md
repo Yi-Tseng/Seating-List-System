@@ -20,7 +20,7 @@ Usage
 
 	npm install
 
-3.Checkout the config and modify it.
+3.Checkout the config and modify it. [Configuration document](https://github.com/TakeshiTseng/SitconSeatingChart/wiki/Configuration)
 
 	cp config/config.js.sample config/config.js
 	vim config/config.js # change it!
