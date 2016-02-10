@@ -71,7 +71,8 @@ app.post('/admin', function(req, res) {
 	}
 
 	if(tmp !== config.admin_pwd) {
-		winston.info('[/admin] Password error!');
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    winston.info('[/admin] Password error from ip ' + ip);
 		res.send({res:'err'});
 		res.end();
 	} else {
