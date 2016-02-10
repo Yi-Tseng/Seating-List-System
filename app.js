@@ -47,8 +47,10 @@ app.use(serveStatic(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
 	app.use(errorHandler());
 }
-// winston.add(winston.transports.File, { filename: 'log.log' });
 
+// setup winston
+winston.add(winston.transports.File, { filename: 'log.log' });
+app.set('winston', winston);
 var server = http.createServer(app).listen(app.get('port'), function(){
 	winston.info('[Express] Express server listening on port ' + app.get('port'));
 });

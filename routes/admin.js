@@ -1,8 +1,8 @@
-var winston = require('winston');
 var config = require('../config/config.js');
 var md5 = require('MD5');
 
 exports.index = function(req, res) {
+  var winston = req.app.get('winston');
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	winston.info('[/admin] access from ' + ip);
 	res.render('admin', {
@@ -13,6 +13,7 @@ exports.index = function(req, res) {
 }
 
 exports.postMsg = function(req, res) {
+    var winston = req.app.get('winston');
   	var tmp = req.body.pwd;
   	if(typeof tmp === 'undefined'){
   		return;

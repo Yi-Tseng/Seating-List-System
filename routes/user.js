@@ -3,7 +3,6 @@
  * GET users listing.
  */
 
-var winston = require('winston');
 var xss = require('xss');
 var escape = require('escape-html');
 var mongoose = require('mongoose');
@@ -21,6 +20,7 @@ exports.list = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	var room = escape(req.query.room);
 	var sitList;
+  var winston = req.app.get('winston');
 	winston.info('[/list] access from ', ip);
 	winston.info('[/list] room number ', room);
 
@@ -38,6 +38,7 @@ exports.list = function(req, res) {
 
 exports.modify = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  var winston = req.app.get('winston');
 	winston.info('[/modify] access from ' + ip);
 
 	var seatNo = escape(req.body.sitno);
@@ -114,6 +115,7 @@ exports.modify = function(req, res) {
 
 exports.blackList = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  var winston = req.app.get('winston');
 	winston.info('[/blackList] access from ' + ip);
 
 	BlackList.find({}, function(err, data) {
@@ -128,6 +130,7 @@ exports.blackList = function(req, res) {
 
 exports.addBlack = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  var winston = req.app.get('winston');
 	winston.info('[/blackList] access from ' + ip);
 	var name = escape(req.body.name);
 	winston.info('[/blackList] add ' + name + ' to black list');
@@ -157,6 +160,7 @@ exports.addBlack = function(req, res) {
 
 exports.delBlack = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  var winston = req.app.get('winston');
 	winston.info('[/blackList] access from ' + ip);
 	var name = escape(req.body.name);
 	winston.info('[/blackList] delete ' + name + ' to black list');
@@ -200,7 +204,7 @@ exports._addGra = function(ircNick, email) {
 }
 
 exports.addGra = function(req, res) {
-
+  var winston = req.app.get('winston');
 	var ircNick = escape(req.body.ircNick);
 	var emailHash = escape(req.body.emailHash);
 	winston.info("[addGra] Nick : " + ircNick);
@@ -238,6 +242,7 @@ exports.addGra = function(req, res) {
 }
 
 exports.getGra = function(req, res) {
+  var winston = req.app.get('winston');
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	winston.info('[/list-gra] access from ' + ip);
 

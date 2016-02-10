@@ -1,7 +1,7 @@
-var winston = require('winston');
 var config = require('../config/config.js');
 
 exports.index = function(req, res){
+  var winston = req.app.get('winston');
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	var room = req.params.room;
 
