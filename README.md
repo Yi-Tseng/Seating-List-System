@@ -20,7 +20,7 @@ Usage
 
 	npm install
 
-3.Checkout the config and modify it. [Configuration document](https://github.com/TakeshiTseng/SitconSeatingChart/wiki/Configuration)
+3.Checkout the config and modify it. [Configuration document][5]
 
 	cp config/config.js.sample config/config.js
 	vim config/config.js # change it!
@@ -33,8 +33,14 @@ Usage
 
 	pm2 start processes.json
 
+Custom my conference seating list system
+----------------------------------------
+See [styling page][6]
+
 
   [1]: https://www.mongodb.org/
   [2]: http://nodejs.org/
   [3]: http://redis.io/
   [4]: https://github.com/Unitech/pm2
+  [5]: https://github.com/TakeshiTseng/SitconSeatingChart/wiki/Configuration
+  [6]: https://github.com/TakeshiTseng/SitconSeatingChart/wiki/Styling
