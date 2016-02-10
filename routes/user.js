@@ -11,33 +11,11 @@ var md5 = require('MD5');
 mongoose.connect('mongodb://localhost/SeatingTable');
 var Schema = mongoose.Schema;
 var escape = require('querystring').escape;
+var userModels = require('../models/user');
 
-var SeatSchema = new Schema({
-	room : String,
-	no : String,
-	name : String
-});
-
-var Seat = mongoose.model('Seat', SeatSchema);
-
-var BlackListSchema = new Schema({
-	name : String
-});
-
-var BlackList = mongoose.model('BlackList', BlackListSchema);
-
-var GravatarSchema = new Schema({
-	ircNick:String, 
-	emailHash:String
-});
-
-var Gravatar = mongoose.model('Gravatar', GravatarSchema);
-
-var sockets;
-
-exports.setSockets = function(s) {
-	sockets = s;
-}
+var Seat = userModels.Seat;
+var BlackList = userModels.BlackList;
+var Gravatar = userModels.Gravatar;
 
 exports.list = function(req, res) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
