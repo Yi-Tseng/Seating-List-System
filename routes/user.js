@@ -40,6 +40,12 @@ exports.modify = function(req, res) {
   var winston = req.app.get('winston');
   var sockets = req.app.get('sockets');
 	winston.info('[/modify] access from ' + ip);
+  if(!('help' in req.session)) {
+    // basic robot blocking
+    winston.info('[/modify] Block robot');
+    res.send({'msg':'fail'});
+    res.end();
+  }
 
 	var seatNo = escape(req.body.sitno);
 	var nickname = escape(req.body.nickname);
