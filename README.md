@@ -9,6 +9,7 @@ Install
  2. Install Node.js : [http://nodejs.org/][2]
  3. Install Redis : [http://redis.io/][3]
  4. PM2 : `npm install pm2 -g` [https://github.com/Unitech/pm2][4]
+ 5. Nginx : [http://nginx.org/][7]
 
 Usage
 ----------
@@ -33,6 +34,8 @@ Usage
 
 	pm2 start processes.json
 
+7.Copy Nginx settings to nginx config directory and start Nginx
+
 Custom my conference seating list system
 ----------------------------------------
 See [styling page][6]
@@ -50,3 +53,4 @@ Or send email to yi [at] takeshi.tw if you have any question.
   [4]: https://github.com/Unitech/pm2
   [5]: https://github.com/TakeshiTseng/SitconSeatingChart/wiki/Configuration
   [6]: https://github.com/TakeshiTseng/SitconSeatingChart/wiki/Styling
+  [7]: http://nginx.org/
