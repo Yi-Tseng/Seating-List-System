@@ -2,35 +2,35 @@
 	var sits;
 	if(room === 'r0') {
 		sits = new Array(
-		new Array(6, 8, 6), 
-		new Array(6, 8, 6), 
-		new Array(6, 8, 6), 
-		new Array(7, 9, 7), 
-		new Array(7, 9, 7), 
-		new Array(7, 9, 7), 
-		new Array(7, 9, 7), 
-		new Array(8, 10, 8), 
-		new Array(8, 10, 8), 
-		new Array(8, 11, 8), 
-		new Array(9, 11, 9), 
-		new Array(9, 11, 9), 
-		new Array(9, 11, 9), 
+		new Array(6, 8, 6),
+		new Array(6, 8, 6),
+		new Array(6, 8, 6),
+		new Array(7, 9, 7),
+		new Array(7, 9, 7),
+		new Array(7, 9, 7),
+		new Array(7, 9, 7),
+		new Array(8, 10, 8),
+		new Array(8, 10, 8),
+		new Array(8, 11, 8),
+		new Array(9, 11, 9),
+		new Array(9, 11, 9),
+		new Array(9, 11, 9),
 		new Array(6, 3, 6)
 		);
 	} else if(room !== 'r3'){
 		sits = new Array(
-		new Array(7, 5, 7), 
-		new Array(7, 5, 7), 
-		new Array(7, 6, 7), 
-		new Array(7, 7, 7), 
-		new Array(7, 7, 7), 
+		new Array(7, 5, 7),
+		new Array(7, 5, 7),
+		new Array(7, 6, 7),
+		new Array(7, 7, 7),
+		new Array(7, 7, 7),
 		new Array(4, 8, 4)
 		);
 	} else {
 		sits = new Array(
-		new Array(0, 9, 0), 
-		new Array(0, 9, 0), 
-		new Array(0, 9, 0), 
+		new Array(0, 9, 0),
+		new Array(0, 9, 0),
+		new Array(0, 9, 0),
 		new Array(0, 9, 0)
 		);
 	}
@@ -94,32 +94,32 @@
 
 					<% for(j=0; j<sits[i][0]; j++) { %>
 						<a class="sit" title="空" id="<%= counter %>"></a>
-					<% 
+					<%
 						counter++;
 					} %>
 
 				</div>
 				<% } %>
-				
+
 				<div class="block-area center-block">
-					
+
 					<% for(j=0; j<sits[i][1]; j++) { %>
 						<a class="sit" title="空" id="<%= counter %>"></a>
-					<% 
+					<%
 						counter++;
 					} %>
-					
+
 				</div>
-				
+
 				<% if(room !== 'r3') {%>
 				<div class="block-area right-block">
-					
+
 					<% for(j=0; j<sits[i][2]; j++) { %>
 						<a class="sit" title="空" id="<%= counter %>"></a>
-					<% 
+					<%
 						counter++;
 					} %>
-					
+
 				</div>
 				<% } %>
 			</div><!-- row -->
@@ -127,7 +127,7 @@
 			<% } %>
 
 		</div><!-- meeting room -->
-		
+
 		<% for(var c = 0; c<4; c++) { %>
 			<% if('r'+c === room){ %>
 				<a class="change-room-btn change-room-btn-selected menu-btn" href='#' style="top: <%= (40+c*10) %>%;">R<%= c %></a>
@@ -157,7 +157,7 @@
 		<% if(need_help){ %>
 			<script type="text/javascript">help()</script>
 		<% } %>
-		
+
 		<% if(gaid !== '') { %>
 		<script>
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
