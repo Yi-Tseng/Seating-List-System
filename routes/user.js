@@ -45,6 +45,7 @@ exports.modify = function(req, res) {
     winston.info('[/modify] Block robot');
     res.send({'msg':'fail'});
     res.end();
+    return;
   }
 
 	var seatNo = escape(req.body.sitno);
@@ -105,10 +106,10 @@ exports.modify = function(req, res) {
 			if (err) {
 				res.send({'msg': 'fail'});
 			} else {
+        sockets.emit('sit_clr', {sitno: seatNo, room: room});
 				res.send({'msg': 'success'});
-				sockets.emit('sit_clr', {sitno: seatNo, room: room});
 			}
-			res.end();
+      res.end();
 		});
 	} else {
 		res.send({'msg': 'fail'});
