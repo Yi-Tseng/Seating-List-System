@@ -250,8 +250,21 @@ function loadGravatars(callback) {
 
 function help() {
 	window.scrollTo(0, 0);
-	var helpImageHtml = '<img class="help" src="/images/help.png"></img>';
-	$('html').append(helpImageHtml);
+  var helpText = [
+    "點選座位即可標記",
+    "座位標記後，可在下方輸入名稱，然後按下「修改」即可將自己的名稱填寫到座位上",
+    "若需要新增頭像，請先至 Gravatar 申請帳號，並設定頭像，隨後於 IRC 中輸入 /msg SITCON_BOT setGravatar <你的 Email> 即可",
+    "若需清除該座位，標記座位後按下清除鍵即可",
+    "滑鼠移到座位上即可顯示人名",
+    "在 IRC 中輸入 <對方名稱>: <訊息>，若該使用者有在座位表上，會有特殊效果",
+    "點選網頁上的「IRC Channel」可前往網頁版 IRC 聊天室",
+    "若要切換座位表地點，可於右方選單選擇"
+  ];
+	var helpDOM = `<div class='help'><h1 class='help-text'>使用說明：</h1></br>`;
+  for(var i=0; i<helpText.length; i++) {
+    helpDOM += `<p class='help-text'>${helpText[i]}</p>`;
+  }
+	$('html').append(helpDOM);
 	$('.help').click(function() {
 		$('.help').remove();
 	});

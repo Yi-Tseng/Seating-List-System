@@ -1,13 +1,28 @@
 {
-	"apps": [{
-		"name": "web",
-		"script": "app.js",
-		"instances": 8,
-		"exec_mode"  : "cluster_mode"
-	},
-	{
-		"name": "irc",
-		"script": "irc_bot.js",
-		"instances": 1
-	}]
+  "apps": [
+  {
+    "name": "web-1",
+      "script": "app.js",
+      "env": {PORT: "6001"}
+  },
+  {
+    "name": "web-2",
+    "script": "app.js",
+    "env": {PORT: "6002"}
+  },
+  {
+    "name": "web-3",
+    "script": "app.js",
+    "env": {PORT: "6003"}
+  },
+  {
+    "name": "web-4",
+    "script": "app.js",
+    "env": {PORT: "6004"}
+  },
+  {
+    "name": "irc",
+    "script": "irc_bot.js",
+    "instances": 1
+  }]
 }
