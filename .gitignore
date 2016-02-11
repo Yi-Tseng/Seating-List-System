@@ -20,3 +20,4 @@ node_modules
 
 config.js
 log.log*
+dump.rdb
