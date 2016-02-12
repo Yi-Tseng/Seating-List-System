@@ -311,6 +311,7 @@ $(document).ready(function(){
 			} else {
 				$('#nickname').val(this.title);
 			}
+      $('#nickname').focus();
 		}
 	});
 
