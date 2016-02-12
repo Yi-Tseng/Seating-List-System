@@ -65,20 +65,12 @@
 		</div>
 
 		<!-- header -->
-		<div class="row">
-			<div class="header" align='center'>
-				<h1 class='header-text'><%= conference.name %></h1>
-				<% for(var i in conference.subtitle.split(' ')){ %>
-					<h1 class='header-text'><%= conference.subtitle.split(' ')[i] %></h1>
-				<% } %>
-				<h1 class='header-text'>座位表</h1>
-			</div>
-		</div>
-
 		<div class="meeting-room" align="center">
 			<div class="row">
 				<div class="stage">
-					<p class='stage-text'>講台</p>
+          <h1 class='header-text'><%= conference.name %></h1>
+          </br>
+          <h3 class='sub-header-text'><%= conference.subtitle %></h3>
 					<p>
 						<a class="irc-link no-under-line-link" target="_blank" href="http://webchat.freenode.net/?channels=<%= channel %>">IRC Channel</a>
 					</p>
