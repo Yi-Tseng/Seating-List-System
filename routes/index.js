@@ -1,4 +1,5 @@
 var config = require('../config/config.js');
+var seats = require('../config/seat');
 
 exports.index = function(req, res){
   var winston = req.app.get('winston');
@@ -7,7 +8,7 @@ exports.index = function(req, res){
 
 	winston.info('[/' + room + '] access from ' + ip);
 
-	if(room !== 'r0' && room !== 'r1' && room !== 'r2' && room !== 'r3') {
+	if(!(room in seats)) {
 		res.status(404);
 
 		if (req.accepts('html')) {
@@ -16,14 +17,21 @@ exports.index = function(req, res){
 		}
 	}
 
+  var roomList = [];
+  for(r in seats) {
+    roomList.push(r);
+  }
+
 	var need_help = !('help' in req.session);
 	req.session['help'] = false;
 
 	res.render('index', {
+    sits: seats[room],
 		conference: config.conference,
 		channel: config.irc.channel.replace('#', ''),
 		room: room,
 		need_help: need_help,
+    room_list: roomList,
 		gaid: config.gaid,
 	});
 };
