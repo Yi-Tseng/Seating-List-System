@@ -15,7 +15,7 @@ Usage
 ----------
 1.Download the code
 
-	git clone https://github.com/TakeshiTseng/SitconSeatingChart.git
+	git clone https://github.com/TakeshiTseng/Seating-List-System.git
 
 2.Install required packages
 
